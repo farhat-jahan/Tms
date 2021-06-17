@@ -12,6 +12,8 @@ Flask-SQLAlchemy==2.4.0
 # pip3 install Flask-MySQLdb
 Flask-MySQLdb-0.2.0
 
+#pip3 install sqlalchemy-utils
+
 
 
 

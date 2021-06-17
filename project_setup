@@ -6,6 +6,9 @@ open the project on IDE
 install dependencies from  "requirement.txt" file.
 
 Step-1:
+
+Create database = "tms" in your database;
+
 Add database tables in "models.py"
 
 go to python terminal then follow this to create table in database:

@@ -1,6 +1,3 @@
-"""
-This files is for business logic
-"""
 import os
 import sys
 
@@ -13,8 +10,19 @@ from flask import request, jsonify, session
 from models import app
 from query import UserQuery
 from TMSExceptions import *
-from services.tms_user import *
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+
+@app.route('/api/v1/register', methods=["POST"])
+def register_user():
+    user_json = request.json
+    try:
+        db_user = UserQuery.create_user(user_json)
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 500
+
+    return {"id": db_user.id}, 200

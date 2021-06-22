@@ -11,7 +11,9 @@ if not os.getenv("DATABASE_URL", None):
     raise Exception("DATABASE_URL not set in environment (mysql://username:password@localhost/tms")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", None)
+print("dn runs on port-------",app.config['SQLALCHEMY_DATABASE_URI'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['DEBUG'] = True
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -153,7 +155,9 @@ class User(Base, UserMixin):
     role = db.Column(db.Enum(Role))
     user_type = db.Column(db.Enum(UserType))
     itu_id = db.Column(db.Integer, nullable=False)
+    #this should be employee_id
     is_active = db.Column(db.Boolean, default=True)
+    #Need to add student_id, there may be possibility that itu_id and student id are diffeerent
 
     def __repr__(self):
         return '<User(Firstname=%s, Email=%s)>' % (self.first_name, self.email)
@@ -166,7 +170,9 @@ class EmployeeDepartmentMapping(Base):
     __tablename__ = 'employee_department_mapping'
 
     dept_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
-    emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)#This should rename user_id
+    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
     db.UniqueConstraint(dept_id, emp_id)
 
     def __repr__(self):
@@ -221,6 +227,7 @@ class ScreenerInfo(Base):
 
     dept_id = db.Column(db.Integer, db.ForeignKey('department.id'), unique=True, nullable=False)
     emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    #Rename to user_id
 
     def __repr__(self):
         return '<ScreenerInfo(DeptId=%d, EmpId=%d)>' % (self.dept_id, self.emp_id)

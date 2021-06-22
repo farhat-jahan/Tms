@@ -15,19 +15,19 @@ from TMSExceptions import *
 
 bcrypt = Bcrypt(app)
 
+
 def _validate_user(user):
     # TODO
     pass
 
 
 def find_user_by_credentials(email, password):
-    '''
-      returns the user by email and password.
+    """returns the user by email and password.
       @params: email and password
       @returns: user with matching email and password.
       @raise: InvalidInputException, TimeoutException, QueryException, ItemNotFoundException
-    '''
-    if (email is None or password is None):
+    """
+    if email is None or password is None:
         raise InvalidInputException("None email or password provided.")
 
     db_user = None
@@ -38,19 +38,18 @@ def find_user_by_credentials(email, password):
     except Exception as e:
         raise QueryException("Failed to find user by email and password {}. Error {}".format(id, e))
 
-    if (db_user and bcrypt.check_password_hash(db_user.password, password) and db_user.is_active):
+    if db_user and bcrypt.check_password_hash(db_user.password, password) and db_user.is_active:
         return db_user
 
     raise ItemNotFoundException("User not found.")
 
 
 def create_user(user):
-    '''
-     create a new user in database.
+    """create a new user in database.
      @params: user dictionary
      @returns new database user created.
      raise: DuplicateEntryException, CreateNewItemException
-    '''
+    """
     # prechecks
     _validate_user(user)
     print(user)
@@ -58,7 +57,7 @@ def create_user(user):
     try:
         checkUser = find_user_by_credentials(user['email'], user['password'])
         if checkUser:
-            raise  DuplicateEntryException("user with email is already registered")
+            raise DuplicateEntryException("user with email is already registered")
     except ItemNotFoundException as e:
         """
           it means new user.
@@ -67,11 +66,11 @@ def create_user(user):
         print(UserType.from_str(user['user_type'].upper()))
         try:
             password_hash = bcrypt.generate_password_hash(user['password'])
-            new_user = User(first_name = user['first_name'], last_name = user['last_name'],
-                            email = user['email'], password = password_hash,
-                            role = Role.from_str(user['role'].upper()),
-                            user_type = UserType.from_str(user['user_type'].upper()),
-                            itu_id = user['itu_id'])
+            new_user = User(first_name=user['first_name'], last_name=user['last_name'],
+                            email=user['email'], password=password_hash,
+                            role=Role.from_str(user['role'].upper()),
+                            user_type=UserType.from_str(user['user_type'].upper()),
+                            itu_id=user['itu_id'])
 
             db.session.add(new_user)
             db.session.commit()
@@ -81,12 +80,11 @@ def create_user(user):
 
 
 def find_user_by_id(id):
-    '''
-    find user by id.
+    """find user by id.
     @params id: user_id
     @returns db_user if found else None
     raise: InvalidInputException, TimeoutException, QueryException
-    '''
+    """
     if id is None:
         raise InvalidInputException(" None id is provided ")
 
@@ -99,3 +97,30 @@ def find_user_by_id(id):
         raise QueryException("Failed to find user by id. Error {}".format(e))
 
     return db_user
+
+
+def check_user_role(user):
+    if user and user.role is 'ADMIN':
+        return True
+    return False
+
+
+def find_user_by_email(user_email):
+    """This function will check user by email and also checks if user is still active or not.
+    :param user_email:
+    :return: db_user object if user is active
+    """
+    if user_email is None:
+        raise InvalidInputException(" None Email is provided ")
+
+    db_user = None
+    try:
+        db_user = User.query.filter_by(email=user_email).first()
+    except TimeoutException as e:
+        raise TimeoutException("Timeout error. Failed to get user by id. Error {}".format(e))
+    except Exception as e:
+        raise QueryException("Failed to find user by id. Error {}".format(e))
+    if db_user and db_user.is_active is True:
+        return db_user
+
+    raise UserInactiveException("User is not active .")

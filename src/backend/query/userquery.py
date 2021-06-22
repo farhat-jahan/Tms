@@ -91,6 +91,7 @@ def find_user_by_id(id):
     db_user = None
     try:
         db_user = User.query.get(id)
+        # TODO this will return None when user not found, so it will never go in Exception class.
     except TimeoutException as e:
         raise TimeoutException("Timeout error. Failed to get user by id. Error {}".format(e))
     except Exception as e:
@@ -105,22 +106,47 @@ def check_user_role(user):
     return False
 
 
+### This function can be used as '_validate_user'
 def find_user_by_email(user_email):
     """This function will check user by email and also checks if user is still active or not.
     :param user_email:
-    :return: db_user object if user is active
+    :return: db_user (user object if user is active) else False
     """
     if user_email is None:
         raise InvalidInputException(" None Email is provided ")
 
     db_user = None
     try:
-        db_user = User.query.filter_by(email=user_email).first()
+        db_user = User.query.filter_by(email=user_email).one()
     except TimeoutException as e:
-        raise TimeoutException("Timeout error. Failed to get user by id. Error {}".format(e))
+        raise TimeoutException("Timeout error. Failed to get user by email-{}. Error {}".format(user_email,e))
     except Exception as e:
-        raise QueryException("Failed to find user by id. Error {}".format(e))
+        raise QueryException("Failed to get user by email-{}. Error {}".format(user_email,e))
+
     if db_user and db_user.is_active is True:
         return db_user
 
-    raise UserInactiveException("User is not active .")
+    return False
+
+
+def update_validated_user(validated_user, users_new_details):
+    """This function updated the user in the DB
+    :param validated_user: existing user object
+    :param users_new_details: new user data to update the existing user
+    :return:user id
+    """
+    try:
+        validated_user.email = users_new_details['email']
+        validated_user.role = Role.from_str(users_new_details['role'].upper())
+        validated_user.user_type = UserType.from_str(users_new_details['user_type'].upper())
+        validated_user.itu_id = users_new_details['itu_id'],
+        validated_user.is_active = users_new_details['is_active']
+        db.session.commit()
+
+    except TimeoutError as e:
+        raise TimeoutException("Timeout error. Failed to update user by email {}. Error {}".
+                               format(users_new_details['email'], e))
+    except Exception as e:
+        raise UpdateException("Failed to update user , error-{}".format(e))
+
+    return validated_user.id

@@ -157,7 +157,7 @@ class User(Base, UserMixin):
     itu_id = db.Column(db.Integer, nullable=False)
     #this should be employee_id
     is_active = db.Column(db.Boolean, default=True)
-    #Need to add student_id, there may be possibility that itu_id and student id are diffeerent
+    #Need to add student_id, there may be possibility that itu_id and student id are different
 
     def __repr__(self):
         return '<User(Firstname=%s, Email=%s)>' % (self.first_name, self.email)

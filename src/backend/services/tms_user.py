@@ -85,22 +85,46 @@ def auth_check():
 @app.route('/api/v1/delete', methods=["POST"])
 @login_required
 def delete_user():
-    """This function will make provided user inactive
+    """This function will make make existing user inactive
     :param: email id
-    :return: Success message after making flag 'is_active=false'
+    :return: json message after making flag 'is_active=false'
     """
     user_email = request.json
-    session_current = session['id']
+    session_user = current_user
+    session_current_role = userquery.check_user_role(session_user)
+    if session_current_role is False:
+        return jsonify({"Unauthorized": "User is unauthorized to delete other user"}), 200
+
+    validated_user = userquery.find_user_by_email(user_email['email'])
+    if validated_user is False:
+        return jsonify({"User Inactive": "User has been deleted before"})
+    validated_user.is_active = False
+    db.session.commit()
+    return jsonify({"Success": "User deleted"}), 200
+
+
+
+@app.route('/api/v1/update', methods=["POST"])
+@login_required
+def update_user():
+    """This function updated the existing user
+    :param:id, email, role, user_type, itu_id, is_active
+    :return: json message
+    """
+    user_details = request.json
+    session_user = current_user  # This may change
+
+    session_current_role = userquery.check_user_role(session_user)
+    if session_current_role is False:
+        return jsonify({"Unauthorized": "User is unauthorized to delete other user"}), 200
+
+    validated_user = userquery.find_user_by_id(user_details['id'])
+    if validated_user is None:
+        return jsonify({"Error": "Failed to find user by id"})
+
     try:
-        session_current_role = userquery.check_user_role(session_current)
-    except UnauthorizedUserException as e:
-        return jsonify({"error": str(e)}), 401
-    try:
-        validate_user = userquery.find_user_by_email(user_email['email'])
+        user_updated = userquery.update_validated_user(validated_user, user_details)
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
-    validate_user.is_active = False
-    db.session.commit()
-
-    return jsonify({"Success": "User deleted"}), 200
+    return {"id": user_updated}, 200

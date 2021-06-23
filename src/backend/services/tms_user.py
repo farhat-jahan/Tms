@@ -1,5 +1,6 @@
 import os
 import sys
+from functools import wraps
 
 _CURRDIR = os.path.dirname(__file__)
 _APPDIR = os.path.join(_CURRDIR, "..")
@@ -25,7 +26,7 @@ def load_user(id):
     convert it.
     """
     try:
-        user = userquery.find_user_by_id(int(id))
+        user = userquery.find_active_user_by_id(int(id))
         return user
     except Exception as e:
         return None
@@ -46,6 +47,17 @@ def _login_user(user):
 def _logout_user():
     logout_user()
     return 200
+
+
+def requires_admin_auth(func):
+    @wraps(func)
+    def admin_check(*args, **kwargs):
+        session_current_role = userquery.check_user_role(current_user)
+        if session_current_role is False:
+            return jsonify({"Unauthorized": "Admin authorization is required"}), 401
+        return func(*args, **kwargs)
+
+    return admin_check
 
 
 @app.route('/api/v1/register', methods=["POST"])
@@ -78,33 +90,29 @@ def logout():
 
 @app.route("/api/v1/auth_check", methods=["GET"])
 @login_required
+@requires_admin_auth
 def auth_check():
     return jsonify({"status": "ok"}), 200
 
-
-@app.route('/api/v1/delete', methods=["POST"])
+@app.route('/api/v1/delete', methods=["DELETE"])
 @login_required
-def delete_user():
+@requires_admin_auth
+def delete_user_by_id():
     """This function will make make existing user inactive
     :param: email id
     :return: json message after making flag 'is_active=false'
     """
-    user_email = request.json
-    session_user = current_user
-    session_current_role = userquery.check_user_role(session_user)
-    if session_current_role is False:
-        return jsonify({"Unauthorized": "User is unauthorized to delete other user"}), 200
+    user_id = request.json["id"]
+    try:
+        userquery.delete_user_by_id(user_id)
+    except Exception as exc:
+        return jsonify({"error": "Internal server error. {}".format(exc)}), 500
 
-    validated_user = userquery.find_user_by_email(user_email['email'])
-    if validated_user is False:
-        return jsonify({"User Inactive": "User has been deleted before"})
-    validated_user.is_active = False
-    db.session.commit()
-    return jsonify({"Success": "User deleted"}), 200
+    return jsonify({"success": "User deleted"}), 200
 
 
 
-@app.route('/api/v1/update', methods=["POST"])
+@app.route('/api/v1/update', methods=["PUT"])
 @login_required
 def update_user():
     """This function updated the existing user
@@ -112,14 +120,9 @@ def update_user():
     :return: json message
     """
     user_details = request.json
-    session_user = current_user  # This may change
-
-    session_current_role = userquery.check_user_role(session_user)
-    if session_current_role is False:
-        return jsonify({"Unauthorized": "User is unauthorized to delete other user"}), 200
 
     validated_user = userquery.find_user_by_id(user_details['id'])
-    if validated_user is None:
+    if validated_user == None:
         return jsonify({"Error": "Failed to find user by id"})
 
     try:

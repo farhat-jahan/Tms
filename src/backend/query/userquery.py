@@ -91,7 +91,10 @@ def find_user_by_id(id):
     db_user = None
     try:
         db_user = User.query.get(id)
-        # TODO this will return None when user not found, so it will never go in Exception class.
+        if not db_user:
+            raise InvalidInputException("user with id {} not found.".format(id))
+    except InvalidInputException as e:
+        raise e
     except TimeoutException as e:
         raise TimeoutException("Timeout error. Failed to get user by id. Error {}".format(e))
     except Exception as e:
@@ -99,9 +102,22 @@ def find_user_by_id(id):
 
     return db_user
 
+def find_active_user_by_id(id):
+    """find active user by id.
+    @params id: user_id
+    @returns db_user if found else Raise ItemNotFoundException
+    raise: InvalidInputException, TimeoutException, QueryException
+    """
+    user = find_user_by_id(id)
+    if not user.is_active:
+        raise ItemNotFoundException("User with id {} not found".format(id))
+
+    return user
+
 
 def check_user_role(user):
-    if user and user.role is 'ADMIN':
+    print(user.role)
+    if user and user.role == Role.ADMIN:
         return True
     return False
 
@@ -150,3 +166,24 @@ def update_validated_user(validated_user, users_new_details):
         raise UpdateException("Failed to update user , error-{}".format(e))
 
     return validated_user.id
+
+
+def delete_user_by_id(id):
+    """
+        This funtion deletes the user by id.
+        @params id: id
+        raise: ItemNotFoundException, DeleteException, TimeoutException
+    """
+    try:
+        user = find_user_by_id(id)
+        if not user:
+            raise ItemNotFoundException("User with id {} not found".format(id))
+        user.is_active = False
+        db.session.commit()
+    except ItemNotFoundException as e:
+        raise e
+    except TimeoutError as e:
+        raise TimeoutException("Timeout error. Failed to delete user by id {}. Error {}".
+                               format(id, e))
+    except Exception as e:
+        raise DeleteException("Failed to delete user , error-{}".format(e))

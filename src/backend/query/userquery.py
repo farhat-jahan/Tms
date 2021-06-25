@@ -1,8 +1,11 @@
 """
 Database queries relating to user operations.
 """
+import json
 import os
 import sys
+
+from flask import jsonify
 from sqlalchemy.exc import *
 from flask_bcrypt import Bcrypt
 
@@ -12,6 +15,7 @@ sys.path.append(_APPDIR)
 
 from models import *
 from TMSExceptions import *
+from query import serializers
 
 bcrypt = Bcrypt(app)
 
@@ -200,3 +204,22 @@ def delete_user_by_id(user_id):
         raise DeleteException("Failed to delete user , error-{}".format(e))
 
     return user
+
+
+def get_department_details():
+    """This function will return Departments details
+    :param:
+    :return: serialized department data
+    """
+
+    try:
+        db_department = Department.query.all()
+        if not db_department:
+            raise QueryException("Failed to find departments")
+
+    except TimeoutError as e:
+        raise TimeoutException("Timeout error. Failed to delete user by id {}. Error {}".format(id, e))
+
+    serialized_department_data = serializers.department_schema.dump(db_department)
+
+    return serialized_department_data

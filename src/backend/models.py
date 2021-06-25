@@ -11,7 +11,7 @@ if not os.getenv("DATABASE_URL", None):
     raise Exception("DATABASE_URL not set in environment (mysql://username:password@localhost/tms")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", None)
-print("dn runs on port-------",app.config['SQLALCHEMY_DATABASE_URI'])
+print("dn runs on port-------", app.config['SQLALCHEMY_DATABASE_URI'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG'] = True
 db = SQLAlchemy(app)
@@ -28,6 +28,7 @@ class Base(db.Model):
 class Department(Base):
     """ Model for Departments list """
     __tablename__ = 'department'
+
     department_name = db.Column(db.String(80), unique=True, nullable=False)
     department_email = db.Column(db.String(200), unique=True, nullable=False)
 
@@ -106,6 +107,7 @@ class TaskState(enum.Enum):
         if not val:
             raise Exception("Task State {} is not implemented".format(string_val))
 
+
 class Role(enum.Enum):
     """ Model for staff Role """
 
@@ -115,8 +117,8 @@ class Role(enum.Enum):
     @staticmethod
     def from_str(string_val):
         mapping = {
-            "ADMIN": Role.ADMIN, # full access.
-            "REGULAR": Role.REGULAR # only read write access.
+            "ADMIN": Role.ADMIN,  # full access.
+            "REGULAR": Role.REGULAR  # only read write access.
         }
 
         val = mapping.get(string_val)
@@ -154,15 +156,12 @@ class User(Base, UserMixin):
     password = db.Column(db.Text, nullable=False)
     role = db.Column(db.Enum(Role))
     user_type = db.Column(db.Enum(UserType))
-    itu_id = db.Column(db.Integer, nullable=False)
-    #this should be employee_id
-    # Need to add student_id, there may be possibility that itu_id and student id are different
+    employee_id = db.Column(db.Integer, nullable=False)
+    student_id = db.Column(db.Integer, nullable=True)
     is_active = db.Column(db.Boolean, default=True)
-
 
     def __repr__(self):
         return '<User(Firstname=%s, Email=%s)>' % (self.first_name, self.email)
-
 
 
 class EmployeeDepartmentMapping(Base):
@@ -172,7 +171,7 @@ class EmployeeDepartmentMapping(Base):
 
     dept_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
     emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    #Need to rename emp_id to user_id
+    # Need to rename emp_id to user_id
 
     db.UniqueConstraint(dept_id, emp_id)
 
@@ -227,8 +226,9 @@ class ScreenerInfo(Base):
     __tablename__ = 'screener_info'
 
     dept_id = db.Column(db.Integer, db.ForeignKey('department.id'), unique=True, nullable=False)
-    emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
-    #Need to rename emp_id to user_id
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+
 
     def __repr__(self):
         return '<ScreenerInfo(DeptId=%d, EmpId=%d)>' % (self.dept_id, self.emp_id)
+

@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 from functools import wraps
@@ -135,3 +136,18 @@ def update_user():
         return jsonify({"error": str(exc)})
 
     return jsonify({"success": "User id {} updated".format(user.id)}), 200
+
+
+@app.route('/api/v1/dprtlist', methods=["GET"])
+@login_required
+def department_details():
+    """
+    :return: department id, name and email
+    """
+    try:
+        db_department = userquery.get_department_details()
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+   # return jsonify({"success": db_department}), 200
+    return jsonify(db_department), 200

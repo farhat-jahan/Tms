@@ -102,6 +102,7 @@ def find_user_by_id(id):
 
     return db_user
 
+
 def find_active_user_by_id(id):
     """find active user by id.
     @params id: user_id
@@ -110,12 +111,16 @@ def find_active_user_by_id(id):
     """
     user = find_user_by_id(id)
     if not user.is_active:
-        raise ItemNotFoundException("User with id {} not found".format(id))
+        raise ItemNotFoundException("User, with id {} not found".format(id))
 
     return user
 
 
 def check_user_role(user):
+    """This function check the role
+    :param user:
+    :return: True is user is ADMIN else return False
+    """
     print(user.role)
     if user and user.role == Role.ADMIN:
         return True
@@ -135,9 +140,9 @@ def find_user_by_email(user_email):
     try:
         db_user = User.query.filter_by(email=user_email).one()
     except TimeoutException as e:
-        raise TimeoutException("Timeout error. Failed to get user by email-{}. Error {}".format(user_email,e))
+        raise TimeoutException("Timeout error. Failed to get user by email-{}. Error {}".format(user_email, e))
     except Exception as e:
-        raise QueryException("Failed to get user by email-{}. Error {}".format(user_email,e))
+        raise QueryException("Failed to get user by email-{}. Error {}".format(user_email, e))
 
     if db_user and db_user.is_active is True:
         return db_user
@@ -145,18 +150,21 @@ def find_user_by_email(user_email):
     return False
 
 
-def update_validated_user(validated_user, users_new_details):
+def update_user_by_id(user_new_details):
     """This function updated the user in the DB
-    :param validated_user: existing user object
     :param users_new_details: new user data to update the existing user
-    :return:user id
+    :return:user
     """
+    user_id = user_new_details['id']
+    user = find_active_user_by_id(user_id)
+    if not user:
+        raise ItemNotFoundException("User with id {} not found".format(id))
+
     try:
-        validated_user.email = users_new_details['email']
-        validated_user.role = Role.from_str(users_new_details['role'].upper())
-        validated_user.user_type = UserType.from_str(users_new_details['user_type'].upper())
-        validated_user.itu_id = users_new_details['itu_id'],
-        validated_user.is_active = users_new_details['is_active']
+        user.role = Role.from_str(user_new_details['role'].upper())
+        user.user_type = UserType.from_str(user_new_details['user_type'].upper())
+        user.itu_id = user_new_details['itu_id'],
+        user.is_active = user_new_details['is_active']
         db.session.commit()
 
     except TimeoutError as e:
@@ -165,17 +173,20 @@ def update_validated_user(validated_user, users_new_details):
     except Exception as e:
         raise UpdateException("Failed to update user , error-{}".format(e))
 
-    return validated_user.id
+    return user
 
 
-def delete_user_by_id(id):
+def delete_user_by_id(user_id):
     """
         This funtion deletes the user by id.
         @params id: id
         raise: ItemNotFoundException, DeleteException, TimeoutException
+        :return; user
     """
+
     try:
-        user = find_user_by_id(id)
+        # user = find_user_by_id(id)
+        user = find_active_user_by_id(user_id)
         if not user:
             raise ItemNotFoundException("User with id {} not found".format(id))
         user.is_active = False
@@ -187,3 +198,5 @@ def delete_user_by_id(id):
                                format(id, e))
     except Exception as e:
         raise DeleteException("Failed to delete user , error-{}".format(e))
+
+    return user

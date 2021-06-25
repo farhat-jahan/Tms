@@ -156,8 +156,9 @@ class User(Base, UserMixin):
     user_type = db.Column(db.Enum(UserType))
     itu_id = db.Column(db.Integer, nullable=False)
     #this should be employee_id
+    # Need to add student_id, there may be possibility that itu_id and student id are different
     is_active = db.Column(db.Boolean, default=True)
-    #Need to add student_id, there may be possibility that itu_id and student id are different
+
 
     def __repr__(self):
         return '<User(Firstname=%s, Email=%s)>' % (self.first_name, self.email)
@@ -170,8 +171,8 @@ class EmployeeDepartmentMapping(Base):
     __tablename__ = 'employee_department_mapping'
 
     dept_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
-    emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)#This should rename user_id
-    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    #Need to rename emp_id to user_id
 
     db.UniqueConstraint(dept_id, emp_id)
 
@@ -227,7 +228,7 @@ class ScreenerInfo(Base):
 
     dept_id = db.Column(db.Integer, db.ForeignKey('department.id'), unique=True, nullable=False)
     emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
-    #Rename to user_id
+    #Need to rename emp_id to user_id
 
     def __repr__(self):
         return '<ScreenerInfo(DeptId=%d, EmpId=%d)>' % (self.dept_id, self.emp_id)

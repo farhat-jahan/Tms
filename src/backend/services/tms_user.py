@@ -61,6 +61,7 @@ def requires_admin_auth(func):
 
 
 @app.route('/api/v1/register', methods=["POST"])
+# TODO:WE can add decorator "requires_admin_auth" here also.
 def register_user():
     user_json = request.json
     try:
@@ -94,40 +95,43 @@ def logout():
 def auth_check():
     return jsonify({"status": "ok"}), 200
 
+
 @app.route('/api/v1/delete', methods=["DELETE"])
 @login_required
 @requires_admin_auth
-def delete_user_by_id():
-    """This function will make make existing user inactive
-    :param: email id
+def delete_user():
+    """This function handles soft delete(will set flag(is_active=False) if is_active is True for existing user.)
+    :param: id
     :return: json message after making flag 'is_active=false'
     """
-    user_id = request.json["id"]
+    user_id = request.json['id']
+    if user_id is None or len(user_id.strip()) is 0:
+        return jsonify({"error": "id can not be empty"}), 400
+
     try:
-        userquery.delete_user_by_id(user_id)
+        user = userquery.delete_user_by_id(user_id)
     except Exception as exc:
-        return jsonify({"error": "Internal server error. {}".format(exc)}), 500
+        return jsonify({"error": "{}".format(exc)}), 404
 
-    return jsonify({"success": "User deleted"}), 200
-
+    return jsonify({"success": "User id- {} deleted".format(user.id)}), 200
 
 
 @app.route('/api/v1/update', methods=["PUT"])
 @login_required
+@requires_admin_auth
 def update_user():
-    """This function updated the existing user
-    :param:id, email, role, user_type, itu_id, is_active
+    """This function updated the existing user active user.
+    :param:id, role, user_type, itu_id, is_active
     :return: json message
     """
-    user_details = request.json
+    user_id = request.json['id']
+    if user_id is None or len(user_id.strip()) is 0:
+        return jsonify({"error": "id can not be empty"}), 400
 
-    validated_user = userquery.find_user_by_id(user_details['id'])
-    if validated_user == None:
-        return jsonify({"Error": "Failed to find user by id"})
-
+    user_new_details = request.json
     try:
-        user_updated = userquery.update_validated_user(validated_user, user_details)
+        user = userquery.update_user_by_id(user_new_details)
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
-    return {"id": user_updated}, 200
+    return jsonify({"success": "User id {} updated".format(user.id)}), 200

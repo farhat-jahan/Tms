@@ -8,6 +8,7 @@ import sys
 from flask import jsonify
 from sqlalchemy.exc import *
 from flask_bcrypt import Bcrypt
+from sqlalchemy.orm import session
 
 _CURRDIR = os.path.dirname(__file__)
 _APPDIR = os.path.join(_CURRDIR, "..")
@@ -242,3 +243,33 @@ def get_user_list():
     serialized_user_data = serializers.user_schema.dump(db_user)
 
     return serialized_user_data
+
+
+def get_employee_department_for_userid(id):
+    """This function first validates user's id in User models, then it checks Employee-department mapping in
+    EmployeeDepartmentMapping model.it returns the department details for this user's id
+    :param id:
+    :return: department object as user_department
+    """
+
+    try:
+        user = find_active_user_by_id(id)
+        if not user:
+            raise ItemNotFoundException("User with id {} not found".format(id))
+
+        dept = EmployeeDepartmentMapping.query.filter_by(user_id=user.id).one()
+
+        if not dept:
+            raise ItemNotFoundException("Employee-department mapping does not exist")
+
+        user_department = Department.query.filter_by(id=dept.dept_id).one()
+
+    except NoResultFound :
+        raise NoResultFound("Employee-department mapping does not exist")
+
+    return user_department
+
+
+
+
+

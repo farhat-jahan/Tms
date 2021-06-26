@@ -98,8 +98,8 @@ def auth_check():
 
 
 @app.route('/api/v1/delete', methods=["DELETE"])
-# @login_required
-# @requires_admin_auth
+@login_required
+@requires_admin_auth
 def delete_user():
     """This function handles soft delete(will set flag(is_active=False) if is_active is True for existing user.)
     :param: id
@@ -166,3 +166,29 @@ def users_list():
 
     # return jsonify({"success": db_department}), 200
     return jsonify(db_user), 200
+
+
+@app.route('/api/v1/empdeptmap', methods=["POST"])
+@login_required
+def employee_department():
+    """This function return Employee-department mapping details
+    :param: user's id as id
+    :return: user_id, dept_id, department_email, department_name
+    """
+    user_id = request.json['id']
+    if user_id is None or len(user_id.strip()) is 0:
+        return jsonify({"error": "id can not be empty"}), 400
+
+    try:
+        user_dept = userquery.get_employee_department_for_userid(user_id)
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+    response = {
+        "user_id": user_id,
+        "dept_id": user_dept.id,
+        "department_name": user_dept.department_name,
+        "department_email": user_dept.department_email
+    }
+
+    return jsonify(response), 200

@@ -14,6 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", None)
 print("dn runs on port-------", app.config['SQLALCHEMY_DATABASE_URI'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG'] = True
+app.config['JSON_SORT_KEYS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -170,13 +171,12 @@ class EmployeeDepartmentMapping(Base):
     __tablename__ = 'employee_department_mapping'
 
     dept_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
-    emp_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    # Need to rename emp_id to user_id
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    db.UniqueConstraint(dept_id, emp_id)
+    db.UniqueConstraint(dept_id, user_id)
 
     def __repr__(self):
-        return '<EmpDpt(DeptId=%d, EmpId=%d)>' % (self.dept_id, self.emp_id)
+        return '<EmpDpt(DeptId=%d, EmpId=%d)>' % (self.dept_id, self.user_id)
 
 
 class Task(Base):

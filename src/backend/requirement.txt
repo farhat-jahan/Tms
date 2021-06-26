@@ -15,4 +15,10 @@ SQLAlchemy==1.4.18
 SQLAlchemy-Utils==0.37.7
 sqlparse==0.4.1
 Flask-Bcrypt==0.7.1
+marshmallow==3.12.1
+marshmallow-enum==1.5.1
+marshmallow-sqlalchemy==0.26.1
+
+
+
 

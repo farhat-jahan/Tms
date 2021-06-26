@@ -98,8 +98,8 @@ def auth_check():
 
 
 @app.route('/api/v1/delete', methods=["DELETE"])
-@login_required
-@requires_admin_auth
+# @login_required
+# @requires_admin_auth
 def delete_user():
     """This function handles soft delete(will set flag(is_active=False) if is_active is True for existing user.)
     :param: id
@@ -140,14 +140,29 @@ def update_user():
 
 @app.route('/api/v1/dprtlist', methods=["GET"])
 @login_required
-def department_details():
+def department_list():
     """
     :return: department id, name and email
     """
     try:
-        db_department = userquery.get_department_details()
+        db_department = userquery.get_department_list()
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
-   # return jsonify({"success": db_department}), 200
+    # return jsonify({"success": db_department}), 200
     return jsonify(db_department), 200
+
+
+@app.route('/api/v1/userlist', methods=["GET"])
+@login_required
+def users_list():
+    """
+    :return:  id, first_name, last_name, email, user_role, user_type, employee_id, student_id, is_active
+    """
+    try:
+        db_user = userquery.get_user_list()
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+    # return jsonify({"success": db_department}), 200
+    return jsonify(db_user), 200

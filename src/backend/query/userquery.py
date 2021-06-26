@@ -206,8 +206,8 @@ def delete_user_by_id(user_id):
     return user
 
 
-def get_department_details():
-    """This function will return Departments details
+def get_department_list():
+    """This function will return all Departments list
     :param:
     :return: serialized department data
     """
@@ -218,8 +218,27 @@ def get_department_details():
             raise QueryException("Failed to find departments")
 
     except TimeoutError as e:
-        raise TimeoutException("Timeout error. Failed to delete user by id {}. Error {}".format(id, e))
+        raise TimeoutException("Timeout error. Failed to find departments. Error {}".format(e))
 
     serialized_department_data = serializers.department_schema.dump(db_department)
 
     return serialized_department_data
+
+
+def get_user_list():
+    """This function will return all user list
+    :param:
+    :return: serialized user data
+    """
+
+    try:
+        db_user = User.query.all()
+        if not db_user:
+            raise QueryException("Failed to find users")
+
+    except TimeoutError as e:
+        raise TimeoutException("Timeout error. Failed to find user.Error {}".format(e))
+
+    serialized_user_data = serializers.user_schema.dump(db_user)
+
+    return serialized_user_data

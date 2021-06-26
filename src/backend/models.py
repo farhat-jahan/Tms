@@ -156,8 +156,8 @@ class User(Base, UserMixin):
     password = db.Column(db.Text, nullable=False)
     role = db.Column(db.Enum(Role))
     user_type = db.Column(db.Enum(UserType))
-    employee_id = db.Column(db.Integer, nullable=False)
-    student_id = db.Column(db.Integer, nullable=True)
+    employee_id = db.Column(db.Integer, unique=True, nullable=False)
+    student_id = db.Column(db.Integer, unique=True, nullable=True)
     is_active = db.Column(db.Boolean, default=True)
 
     def __repr__(self):

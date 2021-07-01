@@ -1,5 +1,6 @@
 import os, sys
 
+
 _CURRDIR = os.path.dirname(__file__)
 _APPDIR = os.path.join(_CURRDIR, "..")
 sys.path.append(_APPDIR)
@@ -26,7 +27,13 @@ class UserSchema(ma.Schema):
 
     class Meta:
         model = User
+        ordered=True
         fields = ('first_name', 'last_name', 'email', 'user_role', 'user_type', 'employee_id', 'student_id', 'is_active')
 
 
 user_schema = UserSchema(many=True)
+
+
+
+
+

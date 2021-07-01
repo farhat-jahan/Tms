@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import UserMixin
 import enum
+from backend.constants import TASK_TYPE_MAPPING, ROLE_MAPPING, USER_TYPE_MAPPING, TASK_PRIORITY_MAPPING, \
+    TASK_STATE_MAPPING
 
 app = Flask(__name__)
 # Below is the set up for database where database=tms, db_password=password12, db_user=root, db_host=localhost
@@ -40,113 +42,179 @@ class Department(Base):
 class TaskType(enum.Enum):
     """ Model for Task Types """
 
-    QUESTION = "QUESTION"
-    INCIDENT = "INCIDENT"
-    PROBLEM = "PROBLEM"
-    FEATURE_REQUEST = "FEATURE_REQUEST"
-    REFUND = "REFUND"
+    QUESTION = TASK_TYPE_MAPPING['QUESTION']
+    INCIDENT = TASK_TYPE_MAPPING['INCIDENT']
+    PROBLEM = TASK_TYPE_MAPPING['PROBLEM']
+    FEATURE_REQUEST = TASK_TYPE_MAPPING['FEATURE_REQUEST']
+    REFUND = TASK_TYPE_MAPPING['REFUND']
 
-    @staticmethod
-    def from_str(string_val):
-        mapping = {
-            "QUESTION": TaskType.QUESTION,
-            "INCIDENT": TaskType.INCIDENT,
-            "PROBLEM": TaskType.PROBLEM,
-            "FEATURE_REQUEST": TaskType.FEATURE_REQUEST,
-            "REFUND": TaskType.REFUND
-        }
+    @classmethod
+    def _missing_(cls, value: object) -> "TaskType":
+        """ Overwrite from Enum to set a default return when value is not defined in  Status
+        Args:
+            value: the undefined value
+        Returns:
+            Default Status
+        """
+        return "TaskType is not implemented"
 
-        val = mapping.get(string_val)
-        if not val:
-            raise Exception("Task Type {} is not implemented".format(string_val))
-        return val
 
+# class TaskPriority(enum.Enum):
+#     """ Model for Task Priority """
+#
+#     LOW = "LOW"
+#     MEDIUM = "MEDIUM"
+#     HIGH = "HIGH"
+#     URGENT = "URGENT"
+#
+#     @staticmethod
+#     def from_str(string_val):
+#         mapping = {
+#             "LOW": TaskPriority.LOW,
+#             "MEDIUM": TaskPriority.MEDIUM,
+#             "HIGH": TaskPriority.HIGH,
+#             "URGENT": TaskPriority.URGENT
+#         }
+#
+#         val = mapping.get(string_val)
+#         if not val:
+#             raise Exception("Priority {} is not implemented".format(string_val))
+#         return val
 
 class TaskPriority(enum.Enum):
     """ Model for Task Priority """
 
-    LOW = "LOW"
-    MEDIUM = "MEDIUM"
-    HIGH = "HIGH"
-    URGENT = "URGENT"
+    LOW = TASK_PRIORITY_MAPPING["LOW"]
+    MEDIUM = TASK_PRIORITY_MAPPING["MEDIUM"]
+    HIGH = TASK_PRIORITY_MAPPING["HIGH"]
+    URGENT = TASK_PRIORITY_MAPPING["URGENT"]
 
-    @staticmethod
-    def from_str(string_val):
-        mapping = {
-            "LOW": TaskPriority.LOW,
-            "MEDIUM": TaskPriority.MEDIUM,
-            "HIGH": TaskPriority.HIGH,
-            "URGENT": TaskPriority.URGENT
-        }
+    @classmethod
+    def _missing_(cls, value: object) -> "TaskPriority":
+        """ Overwrite from Enum to set a default return when value is not defined in  Status
+        Args:
+            value: the undefined value
+        Returns:
+            Default Status
+        """
+        return "TaskPriority is not implemented"
 
-        val = mapping.get(string_val)
-        if not val:
-            raise Exception("Priority {} is not implemented".format(string_val))
-        return val
 
+# class TaskState(enum.Enum):
+#     """ Model for Task State """
+#
+#     SCREEN = "SCREEN"
+#     ASSIGNED = "ASSIGNED"
+#     RESOLVED = "RESOLVED"
+#     BLOCKED = "BLOCKED"
+#     UNBLOCKED = "UNBLOCKED"
+#
+#     @staticmethod
+#     def from_str(string_val):
+#         mapping = {
+#             "SCREEN": TaskState.SCREEN,
+#             "ASSIGNED": TaskState.ASSIGNED,
+#             "RESOLVED": TaskState.RESOLVED,
+#             "BLOCKED": TaskState.BLOCKED,
+#             "UNBLOCKED": TaskState.UNBLOCKED
+#         }
+#
+#         val = mapping.get(string_val)
+#         if not val:
+#             raise Exception("Task State {} is not implemented".format(string_val))
 
 class TaskState(enum.Enum):
     """ Model for Task State """
 
-    SCREEN = "SCREEN"
-    ASSIGNED = "ASSIGNED"
-    RESOLVED = "RESOLVED"
-    BLOCKED = "BLOCKED"
-    UNBLOCKED = "UNBLOCKED"
+    SCREEN = TASK_STATE_MAPPING["SCREEN"]
+    ASSIGNED = TASK_STATE_MAPPING["ASSIGNED"]
+    RESOLVED = TASK_STATE_MAPPING["RESOLVED"]
+    BLOCKED = TASK_STATE_MAPPING["BLOCKED"]
+    UNBLOCKED = TASK_STATE_MAPPING["UNBLOCKED"]
 
-    @staticmethod
-    def from_str(string_val):
-        mapping = {
-            "SCREEN": TaskState.SCREEN,
-            "ASSIGNED": TaskState.ASSIGNED,
-            "RESOLVED": TaskState.RESOLVED,
-            "BLOCKED": TaskState.BLOCKED,
-            "UNBLOCKED": TaskState.UNBLOCKED
-        }
+    @classmethod
+    def _missing_(cls, value: object) -> "TaskState":
+        """ Overwrite from Enum to set a default return when value is not defined in  Status
+        Args:
+            value: the undefined value
+        Returns:
+            Default Status
+        """
+        return "TaskState is not implemented"
 
-        val = mapping.get(string_val)
-        if not val:
-            raise Exception("Task State {} is not implemented".format(string_val))
 
+# class Role(enum.Enum):
+#     """ Model for staff Role """
+#
+#     ADMIN = "ADMIN"
+#     REGULAR = "REGULAR"
+#
+#     @staticmethod
+#     def from_str(string_val):
+#         mapping = {
+#             "ADMIN": Role.ADMIN,  # full access.
+#             "REGULAR": Role.REGULAR  # only read write access.
+#         }
+#
+#         val = mapping.get(string_val)
+#         if not val:
+#             raise Exception("Role {} is not implemented".format(string_val))
+#
+#         return val
 
 class Role(enum.Enum):
     """ Model for staff Role """
 
-    ADMIN = "ADMIN"
-    REGULAR = "REGULAR"
+    ADMIN = ROLE_MAPPING['ADMIN']
+    REGULAR = ROLE_MAPPING['REGULAR']
 
-    @staticmethod
-    def from_str(string_val):
-        mapping = {
-            "ADMIN": Role.ADMIN,  # full access.
-            "REGULAR": Role.REGULAR  # only read write access.
-        }
+    @classmethod
+    def _missing_(cls, value: object) -> "Role":
+        """ Overwrite from Enum to set a default return when value is not defined in  Status
+        Args:
+            value: the undefined value
+        Returns:
+            Default Status
+        """
+        # logger.warning("%s is not defined in %s, use default value: %s", value, cls.__name__, Status.UNKNOWN)
+        return "Role is not implemented"
 
-        val = mapping.get(string_val)
-        if not val:
-            raise Exception("Role {} is not implemented".format(string_val))
 
-        return val
-
+# class UserType(enum.Enum):
+#     """ Model for staff Role """
+#
+#     STUDENT = "STUDENT"
+#     EMPLOYEE = "EMPLOYEE"
+#
+#     @staticmethod
+#     def from_str(string_val):
+#         mapping = {
+#             "STUDENT": UserType.STUDENT,
+#             "EMPLOYEE": UserType.EMPLOYEE
+#         }
+#
+#         val = mapping.get(string_val)
+#         if not val:
+#             raise Exception("User Type {} is not implemented".format(string_val))
+#
+#         return val
 
 class UserType(enum.Enum):
     """ Model for staff Role """
 
-    STUDENT = "STUDENT"
-    EMPLOYEE = "EMPLOYEE"
+    STUDENT = USER_TYPE_MAPPING["STUDENT"]
+    EMPLOYEE = USER_TYPE_MAPPING["EMPLOYEE"]
 
-    @staticmethod
-    def from_str(string_val):
-        mapping = {
-            "STUDENT": UserType.STUDENT,
-            "EMPLOYEE": UserType.EMPLOYEE
-        }
-
-        val = mapping.get(string_val)
-        if not val:
-            raise Exception("User Type {} is not implemented".format(string_val))
-
-        return val
+    @classmethod
+    def _missing_(cls, value: object) -> "UserType":
+        """ Overwrite from Enum to set a default return when value is not defined in  Status
+        Args:
+            value: the undefined value
+        Returns:
+            Default Status
+        """
+        # logger.warning("%s is not defined in %s, use default value: %s", value, cls.__name__, Status.UNKNOWN)
+        return "UserType is not implemented"
 
 
 class User(Base, UserMixin):
@@ -228,7 +296,5 @@ class ScreenerInfo(Base):
     dept_id = db.Column(db.Integer, db.ForeignKey('department.id'), unique=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
 
-
     def __repr__(self):
         return '<ScreenerInfo(DeptId=%d, EmpId=%d)>' % (self.dept_id, self.emp_id)
-

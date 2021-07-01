@@ -67,15 +67,16 @@ def create_user(user):
         """
           it means new user.
         """
-        print(Role.from_str(user['role'].upper()))
-        print(UserType.from_str(user['user_type'].upper()))
+        print((user['role'].upper()))
+        print(UserType(user['user_type'].upper()))
+
         try:
             password_hash = bcrypt.generate_password_hash(user['password'])
             new_user = User(first_name=user['first_name'], last_name=user['last_name'],
                             email=user['email'], password=password_hash,
-                            role=Role.from_str(user['role'].upper()),
-                            user_type=UserType.from_str(user['user_type'].upper()),
-                            itu_id=user['itu_id'])
+                            role=Role(user['role'].upper()),
+                            user_type=UserType(user['user_type'].upper()),
+                            employee_id=user['employee_id'])
 
             db.session.add(new_user)
             db.session.commit()
@@ -86,8 +87,8 @@ def create_user(user):
 
 def find_user_by_id(id):
     """find user by id.
-    @params id: user_id
-    @returns db_user if found else None
+    @params id: user_id as id
+    @returns db_user if user exist, else None
     raise: InvalidInputException, TimeoutException, QueryException
     """
     if id is None:
@@ -111,7 +112,7 @@ def find_user_by_id(id):
 def find_active_user_by_id(id):
     """find active user by id.
     @params id: user_id
-    @returns db_user if found else Raise ItemNotFoundException
+    @returns db_user if user exist, else Raise ItemNotFoundException
     raise: InvalidInputException, TimeoutException, QueryException
     """
     user = find_user_by_id(id)
@@ -122,42 +123,40 @@ def find_active_user_by_id(id):
 
 
 def check_user_role(user):
-    """This function check the role
+    """checks the user role
     :param user:
     :return: True is user is ADMIN else return False
     """
-    print(user.role)
-    if user and user.role == Role.ADMIN:
+    if user and user.role.upper() == Role.ADMIN.name:
         return True
     return False
 
-
-### This function can be used as '_validate_user'
-def find_user_by_email(user_email):
-    """This function will check user by email and also checks if user is still active or not.
-    :param user_email:
-    :return: db_user (user object if user is active) else False
-    """
-    if user_email is None:
-        raise InvalidInputException(" None Email is provided ")
-
-    db_user = None
-    try:
-        db_user = User.query.filter_by(email=user_email).one()
-    except TimeoutException as e:
-        raise TimeoutException("Timeout error. Failed to get user by email-{}. Error {}".format(user_email, e))
-    except Exception as e:
-        raise QueryException("Failed to get user by email-{}. Error {}".format(user_email, e))
-
-    if db_user and db_user.is_active is True:
-        return db_user
-
-    return False
+# This is Unused function
+# def find_user_by_email(user_email):
+#     """This function will check user by email and also checks if user is still active or not.
+#     :param user_email:
+#     :return: db_user (user object if user is active) else False
+#     """
+#     if user_email is None:
+#         raise InvalidInputException(" None Email is provided ")
+#
+#     db_user = None
+#     try:
+#         db_user = User.query.filter_by(email=user_email).one()
+#     except TimeoutException as e:
+#         raise TimeoutException("Timeout error. Failed to get user by email-{}. Error {}".format(user_email, e))
+#     except Exception as e:
+#         raise QueryException("Failed to get user by email-{}. Error {}".format(user_email, e))
+#
+#     if db_user and db_user.is_active is True:
+#         return db_user
+#
+#     return False
 
 
 def update_user_by_id(user_new_details):
-    """This function updated the user in the DB
-    :param users_new_details: new user data to update the existing user
+    """updates the existing user in the DB
+    :param : new user data to update the existing user as 'users_new_details'
     :return:user
     """
     user_id = user_new_details['id']
@@ -166,9 +165,9 @@ def update_user_by_id(user_new_details):
         raise ItemNotFoundException("User with id {} not found".format(id))
 
     try:
-        user.role = Role.from_str(user_new_details['role'].upper())
-        user.user_type = UserType.from_str(user_new_details['user_type'].upper())
-        user.itu_id = user_new_details['itu_id'],
+        user.role = Role(user_new_details['role'].upper())
+        user.user_type = UserType(user_new_details['user_type'].upper())
+        user.employee_id = user_new_details['employee_id'],
         user.is_active = user_new_details['is_active']
         db.session.commit()
 
@@ -182,8 +181,7 @@ def update_user_by_id(user_new_details):
 
 
 def delete_user_by_id(user_id):
-    """
-        This funtion deletes the user by id.
+    """Deletes the user.
         @params id: id
         raise: ItemNotFoundException, DeleteException, TimeoutException
         :return; user
@@ -208,9 +206,9 @@ def delete_user_by_id(user_id):
 
 
 def get_department_list():
-    """This function will return all Departments list
-    :param:
-    :return: serialized department data
+    """Returns Departments list
+    :param:None
+    :return: serialized departments detail
     """
 
     try:
@@ -227,9 +225,9 @@ def get_department_list():
 
 
 def get_user_list():
-    """This function will return all user list
+    """Return users list
     :param:
-    :return: serialized user data
+    :return: serialized users details
     """
 
     try:
@@ -246,8 +244,8 @@ def get_user_list():
 
 
 def get_employee_department_for_userid(id):
-    """This function first validates user's id in User models, then it checks Employee-department mapping in
-    EmployeeDepartmentMapping model.it returns the department details for this user's id
+    """Checks Employee-department mapping in EmployeeDepartmentMapping model.
+    it returns the department details for this user's id
     :param id:
     :return: department object as user_department
     """
@@ -268,6 +266,10 @@ def get_employee_department_for_userid(id):
         raise NoResultFound("Employee-department mapping does not exist")
 
     return user_department
+
+
+
+
 
 
 

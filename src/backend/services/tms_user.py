@@ -3,6 +3,7 @@ import os
 import sys
 from functools import wraps
 
+
 _CURRDIR = os.path.dirname(__file__)
 _APPDIR = os.path.join(_CURRDIR, "..")
 sys.path.append(_APPDIR)
@@ -12,6 +13,7 @@ from flask import request, jsonify, session
 from models import app, db
 from query import userquery
 from TMSExceptions import *
+from backend.constants import TASK_TYPE_MAPPING
 
 login_manager = LoginManager(app)
 
@@ -54,6 +56,7 @@ def requires_admin_auth(func):
     @wraps(func)
     def admin_check(*args, **kwargs):
         session_current_role = userquery.check_user_role(current_user)
+       # print("session_current_role{admin decorator}->", session_current_role)
         if session_current_role is False:
             return jsonify({"Unauthorized": "Admin authorization is required"}), 401
         return func(*args, **kwargs)
@@ -62,7 +65,7 @@ def requires_admin_auth(func):
 
 
 @app.route('/api/v1/register', methods=["POST"])
-# TODO:WE can add decorator "requires_admin_auth" here also.
+@requires_admin_auth
 def register_user():
     user_json = request.json
     try:
@@ -101,7 +104,7 @@ def auth_check():
 @login_required
 @requires_admin_auth
 def delete_user():
-    """This function handles soft delete(will set flag(is_active=False) if is_active is True for existing user.)
+    """Handles soft delete(it will set flag(is_active=False), if is_active is True for existing user.)
     :param: id
     :return: json message after making flag 'is_active=false'
     """
@@ -122,7 +125,7 @@ def delete_user():
 @requires_admin_auth
 def update_user():
     """This function updated the existing user active user.
-    :param:id, role, user_type, itu_id, is_active
+    :param:id, role, user_type, employee_id, is_active
     :return: json message
     """
     user_id = request.json['id']
@@ -138,7 +141,7 @@ def update_user():
     return jsonify({"success": "User id {} updated".format(user.id)}), 200
 
 
-@app.route('/api/v1/dprtlist', methods=["GET"])
+@app.route('/api/v1/department-list', methods=["GET"])
 @login_required
 def department_list():
     """
@@ -149,11 +152,10 @@ def department_list():
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
-    # return jsonify({"success": db_department}), 200
     return jsonify(db_department), 200
 
 
-@app.route('/api/v1/userlist', methods=["GET"])
+@app.route('/api/v1/user-list', methods=["GET"])
 @login_required
 def users_list():
     """
@@ -164,8 +166,17 @@ def users_list():
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
-    # return jsonify({"success": db_department}), 200
     return jsonify(db_user), 200
+
+
+@app.route('/api/v1/task-type-list', methods=["GET"])
+@login_required
+def task_type_list():
+    try:
+        task_type = TASK_TYPE_MAPPING
+        return jsonify(task_type), 200
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
 
 
 @app.route('/api/v1/empdeptmap', methods=["POST"])

@@ -179,7 +179,7 @@ def task_type_list():
         return jsonify({"error": str(exc)})
 
 
-@app.route('/api/v1/empdeptmap', methods=["POST"])
+@app.route('/api/v1/emp-dept-mapping', methods=["POST"])
 @login_required
 def employee_department():
     """This function return Employee-department mapping details

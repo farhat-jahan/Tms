@@ -5,6 +5,7 @@ import AddNewUser from "./components/AddNewUser/AddNewUser";
 import CreateTaskStudent from "./components/CreateTask/CreateTaskStudent";
 import CreateTaskFaculty from './components/CreateTask/CreateTaskFaculty';
 import './App.css';
+import StudentDashBoard from "./components/StudentDashBoard/StudentDashBoard";
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
         < Navbar />
       </div>
       <div>
-        < CreateTaskFaculty />
+          { <div>
+        <StudentDashBoard />
+      </div> }
+        {/*< CreateTaskFaculty />*/}
         {/* < CreateTaskStudent /> */}
       </div>
       {/* <div className="Tms-page-bg">

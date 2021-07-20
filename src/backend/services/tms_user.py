@@ -13,7 +13,7 @@ from flask import request, jsonify, session
 from models import app, db
 from query import userquery
 from TMSExceptions import *
-from backend.constants import TASK_TYPE_MAPPING
+from backend.constants import TASK_TYPE_MAPPING, TASK_PRIORITY_MAPPING
 
 login_manager = LoginManager(app)
 
@@ -175,6 +175,15 @@ def task_type_list():
     try:
         task_type = TASK_TYPE_MAPPING
         return jsonify(task_type), 200
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+@app.route('/api/v1/task-priority-list', methods=["GET"])
+#@login_required
+def task_priority_list():
+    try:
+        task_priority = TASK_PRIORITY_MAPPING
+        return jsonify(task_priority), 200
     except Exception as exc:
         return jsonify({"error": str(exc)})
 

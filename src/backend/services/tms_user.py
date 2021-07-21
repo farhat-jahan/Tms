@@ -109,7 +109,7 @@ def delete_user():
     :return: json message after making flag 'is_active=false'
     """
     user_id = request.json['id']
-    if user_id is None or len(user_id.strip()) is 0:
+    if user_id is None:
         return jsonify({"error": "id can not be empty"}), 400
 
     try:
@@ -124,12 +124,12 @@ def delete_user():
 @login_required
 @requires_admin_auth
 def update_user():
-    """This function updated the existing user active user.
+    """Updates the existing active-user.
     :param:id, role, user_type, employee_id, is_active
     :return: json message
     """
     user_id = request.json['id']
-    if user_id is None or len(user_id.strip()) is 0:
+    if user_id is None:
         return jsonify({"error": "id can not be empty"}), 400
 
     user_new_details = request.json
@@ -145,7 +145,7 @@ def update_user():
 @login_required
 def department_list():
     """
-    :return: department id, name and email
+    return: department id, name and email
     """
     try:
         db_department = userquery.get_department_list()
@@ -159,7 +159,7 @@ def department_list():
 @login_required
 def users_list():
     """
-    :return:  id, first_name, last_name, email, user_role, user_type, employee_id, student_id, is_active
+    return:  id, first_name, last_name, email, user_role, user_type, employee_id, student_id, is_active
     """
     try:
         db_user = userquery.get_user_list()
@@ -172,6 +172,9 @@ def users_list():
 @app.route('/api/v1/task-type-list', methods=["GET"])
 @login_required
 def task_type_list():
+    """
+    :return: task-type lists
+    """
     try:
         task_type = TASK_TYPE_MAPPING
         return jsonify(task_type), 200
@@ -179,8 +182,11 @@ def task_type_list():
         return jsonify({"error": str(exc)})
 
 @app.route('/api/v1/task-priority-list', methods=["GET"])
-#@login_required
+@login_required
 def task_priority_list():
+    """
+    :return: Task priority lists
+    """
     try:
         task_priority = TASK_PRIORITY_MAPPING
         return jsonify(task_priority), 200
@@ -191,12 +197,12 @@ def task_priority_list():
 @app.route('/api/v1/emp-dept-mapping', methods=["POST"])
 @login_required
 def employee_department():
-    """This function return Employee-department mapping details
+    """Returns Employee-department mapping details
     :param: user's id as id
     :return: user_id, dept_id, department_email, department_name
     """
     user_id = request.json['id']
-    if user_id is None or len(user_id.strip()) is 0:
+    if user_id is None:
         return jsonify({"error": "id can not be empty"}), 400
 
     try:
@@ -212,3 +218,25 @@ def employee_department():
     }
 
     return jsonify(response), 200
+
+@app.route('/api/v1/assignee-task-list', methods=["POST"])
+@login_required
+def assigned_task_to_user():
+    """
+     returns assigned task details like:
+     ('task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id')
+    :return:
+    """
+    user_id = request.json['id']
+    if user_id is None:
+        return jsonify({"error": "id can not be empty"}), 400
+
+    try:
+        user_task = userquery.get_assigned_task_to_user(user_id)
+        return jsonify(user_task), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+

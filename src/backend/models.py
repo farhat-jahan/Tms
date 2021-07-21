@@ -6,6 +6,8 @@ from flask_login import UserMixin
 import enum
 from backend.constants import TASK_TYPE_MAPPING, ROLE_MAPPING, USER_TYPE_MAPPING, TASK_PRIORITY_MAPPING, \
     TASK_STATE_MAPPING
+# from . constants import TASK_TYPE_MAPPING, ROLE_MAPPING, USER_TYPE_MAPPING, TASK_PRIORITY_MAPPING, \
+#     TASK_STATE_MAPPING
 
 app = Flask(__name__)
 # Below is the set up for database where database=tms, db_password=password12, db_user=root, db_host=localhost
@@ -219,6 +221,9 @@ class UserType(enum.Enum):
 
 class User(Base, UserMixin):
     """ Model for User details """
+
+    __tablename__ = 'user'
+
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(200), unique=True, nullable=False)
@@ -257,12 +262,12 @@ class Task(Base):
     task_type = db.Column(db.Enum(TaskType))
     task_state = db.Column(db.Enum(TaskState))
     task_priority = db.Column(db.Enum(TaskPriority))
-    department_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
-    assignee_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    originator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False, unique=False)
+    assignee_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=False)
+    originator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=False)
 
     def __repr__(self):
-        return '<(TaskTitle=%d)>' % (self.task_title)
+        return '<(TaskTitle=%s)>' % (self.task_title)
 
 
 class Discussion(Base):

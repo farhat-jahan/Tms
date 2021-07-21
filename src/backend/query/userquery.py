@@ -96,6 +96,7 @@ def find_user_by_id(id):
 
     db_user = None
     try:
+        print("find_user_by_id--:", id)
         db_user = User.query.get(id)
         if not db_user:
             raise InvalidInputException("user with id {} not found.".format(id))
@@ -115,6 +116,7 @@ def find_active_user_by_id(id):
     @returns db_user if user exist, else Raise ItemNotFoundException
     raise: InvalidInputException, TimeoutException, QueryException
     """
+    print("find_active_user_by_id--:", id)
     user = find_user_by_id(id)
     if not user.is_active:
         raise ItemNotFoundException("User, with id {} not found".format(id))
@@ -130,6 +132,7 @@ def check_user_role(user):
     if user and user.role.upper() == Role.ADMIN.name:
         return True
     return False
+
 
 # This is Unused function
 # def find_user_by_email(user_email):
@@ -262,16 +265,30 @@ def get_employee_department_for_userid(id):
 
         user_department = Department.query.filter_by(id=dept.dept_id).one()
 
-    except NoResultFound :
+    except NoResultFound:
         raise NoResultFound("Employee-department mapping does not exist")
 
     return user_department
 
 
+def get_assigned_task_to_user(id):
+    """
+    Queries the all assigned task to this id and return task details like:
+     ('task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id')
+    :param id: user's id as id
+    :return: assigned task details to this user
+    """
+    try:
+        user = find_active_user_by_id(id)
+        if not user:
+            raise ItemNotFoundException("User with id {} not found".format(id))
 
+        db_user_task = Task.query.filter_by(assignee_id=id).all()
+        serialized_user_task = serializers.task_schema.dump(db_user_task)
+        if len(serialized_user_task) == 0:
+            raise ItemNotFoundException("Task is not assigned to user-{}".format(user.id))
 
+    except ItemNotFoundException:
+        raise ItemNotFoundException("Task is not assigned to user-{}".format(user.id))
 
-
-
-
-
+    return serialized_user_task

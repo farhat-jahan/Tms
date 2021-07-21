@@ -8,7 +8,7 @@ sys.path.append(_APPDIR)
 from flask_marshmallow import Marshmallow
 from marshmallow_enum import EnumField
 from models import app
-from models import User, Role, UserType, Department
+from models import User, Role, UserType, Department, TaskType, TaskState, TaskPriority, Task
 
 ma = Marshmallow(app)
 
@@ -34,6 +34,17 @@ class UserSchema(ma.Schema):
 user_schema = UserSchema(many=True)
 
 
+class TaskSchema(ma.Schema):
+    task_type = EnumField(TaskType, by_value=True)
+    task_state = EnumField(TaskState, by_value=True)
+    task_priority = EnumField(TaskPriority, by_value=True)
+    class Meta:
+        model = Task
+        ordered = True
+        fields = ('task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id',
+                  'originator_id')
+
+task_schema = TaskSchema(many=True)
 
 
 

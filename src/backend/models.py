@@ -38,7 +38,7 @@ class Department(Base):
     department_email = db.Column(db.String(200), unique=True, nullable=False)
 
     def __repr__(self):
-        return '<Department Name  %r>' % self.department_name
+        return '<Department Name  %s>' % self.department_name
 
 
 class TaskType(enum.Enum):

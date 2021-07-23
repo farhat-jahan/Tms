@@ -292,3 +292,18 @@ def get_assigned_task_to_user(id):
         raise ItemNotFoundException("Task is not assigned to user-{}".format(user.id))
 
     return serialized_user_task
+
+
+def create_new_departments(department):
+    """ Creates new department in department table.
+        :return: department object
+        """
+    try:
+        new_department = Department(department_name=department['department_name'],
+                                    department_email=department['department_email'])
+        db.session.add(new_department)
+        db.session.commit()
+        return new_department
+    except Exception as exc:
+        raise CreateNewItemException("Failed to create departments. Reason {}".format(exc))
+

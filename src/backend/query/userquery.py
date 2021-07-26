@@ -246,6 +246,36 @@ def get_user_list():
     return serialized_user_data
 
 
+def get_department_wise_team_list(dept_id):
+    """Return team list details of each departments
+    :param:
+    :return: serialized users details
+    """
+
+    try:
+        db_dept = Department.query.get(dept_id)
+        if not db_dept:
+            raise QueryException("Failed to find the department")
+
+        emp_dept_mapping = EmployeeDepartmentMapping.query.with_entities(EmployeeDepartmentMapping.user_id)\
+            .filter_by(dept_id=db_dept.id).all()
+        emp_dept_mapping_user_id = [id for val in emp_dept_mapping for id in val]
+        db_teams_users = User.query.filter(User.id.in_(emp_dept_mapping_user_id)).all()
+
+        serialized_teams_users = serializers.user_schema.dump(db_teams_users)
+        if len(serialized_teams_users) == 0:
+            raise ItemNotFoundException("Employee-department mapping does not exist")
+
+        else:
+            for i, v in enumerate(serialized_teams_users):
+                v['department_name']=db_dept.department_name
+
+    except TimeoutError as e:
+        raise TimeoutException("Timeout error. Failed to find department.Error {}".format(e))
+
+    return serialized_teams_users
+
+
 def get_employee_department_for_userid(id):
     """Checks Employee-department mapping in EmployeeDepartmentMapping model.
     it returns the department details for this user's id

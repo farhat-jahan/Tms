@@ -168,6 +168,23 @@ def users_list():
     return jsonify(db_user), 200
 
 
+@app.route('/api/v1/teams', methods=["POST"])
+@login_required
+def departments_teams_list():
+    """ return all users details, group by department.
+    return:  first_name, last_name, email, user_role, user_type, employee_id, student_id, department_name
+    """
+    dept_id = request.json['id']
+    if dept_id is None:
+        return jsonify({"error": "department-id can not be empty"}), 400
+    try:
+        db_teams = userquery.get_department_wise_team_list(dept_id)
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+    return jsonify(db_teams), 200
+
+
 @app.route('/api/v1/task-type-list', methods=["GET"])
 @login_required
 def task_type_list():
@@ -241,6 +258,7 @@ def assigned_task_to_user():
 
 
 @app.route('/api/v1/create-department', methods=["POST"])
+@login_required
 @requires_admin_auth
 def create_departments():
     """ Creates new department in department table.
@@ -257,3 +275,5 @@ def create_departments():
         return jsonify({"error": str(exc)}), 500
 
     return {"department-id": db_departments.id}, 200
+
+

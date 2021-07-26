@@ -202,7 +202,7 @@ class Role(enum.Enum):
 #         return val
 
 class UserType(enum.Enum):
-    """ Model for staff Role """
+    """ Model for user  type """
 
     STUDENT = USER_TYPE_MAPPING["STUDENT"]
     EMPLOYEE = USER_TYPE_MAPPING["EMPLOYEE"]
@@ -287,7 +287,7 @@ class Attachment(Base):
 
     attachment_name = db.Column(db.Text, nullable=True)
     attachment_url = db.Column(db.Text, nullable=True)
-    originator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    originator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     task_id = db.Column(db.Integer, db.ForeignKey('task.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):

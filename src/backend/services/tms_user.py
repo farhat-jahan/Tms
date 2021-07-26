@@ -3,7 +3,6 @@ import os
 import sys
 from functools import wraps
 
-
 _CURRDIR = os.path.dirname(__file__)
 _APPDIR = os.path.join(_CURRDIR, "..")
 sys.path.append(_APPDIR)
@@ -56,7 +55,7 @@ def requires_admin_auth(func):
     @wraps(func)
     def admin_check(*args, **kwargs):
         session_current_role = userquery.check_user_role(current_user)
-       # print("session_current_role{admin decorator}->", session_current_role)
+        # print("session_current_role{admin decorator}->", session_current_role)
         if session_current_role is False:
             return jsonify({"Unauthorized": "Admin authorization is required"}), 401
         return func(*args, **kwargs)
@@ -181,6 +180,7 @@ def task_type_list():
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
+
 @app.route('/api/v1/task-priority-list', methods=["GET"])
 @login_required
 def task_priority_list():
@@ -219,6 +219,7 @@ def employee_department():
 
     return jsonify(response), 200
 
+
 @app.route('/api/v1/assignee-task-list', methods=["POST"])
 @login_required
 def assigned_task_to_user():
@@ -239,4 +240,20 @@ def assigned_task_to_user():
         return jsonify({"error": str(exc)})
 
 
+@app.route('/api/v1/create-department', methods=["POST"])
+@requires_admin_auth
+def create_departments():
+    """ Creates new department in department table.
+    :return: department-id
+    """
+    departments_json = request.json
+    if len((departments_json['department_name']).strip()) == 0 or len(
+            (departments_json['department_email']).strip()) == 0:
+        return jsonify({"error": "department_name and department_email are required fields"}), 400
 
+    try:
+        db_departments = userquery.create_new_departments(departments_json)
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 500
+
+    return {"department-id": db_departments.id}, 200

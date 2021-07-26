@@ -54,10 +54,14 @@ def _logout_user():
 def requires_admin_auth(func):
     @wraps(func)
     def admin_check(*args, **kwargs):
+        if current_user.is_anonymous:
+             return jsonify({"Unauthorized": "Login as admin to perform action"}), 401
+
         session_current_role = userquery.check_user_role(current_user)
         # print("session_current_role{admin decorator}->", session_current_role)
         if session_current_role is False:
             return jsonify({"Unauthorized": "Admin authorization is required"}), 401
+        
         return func(*args, **kwargs)
 
     return admin_check

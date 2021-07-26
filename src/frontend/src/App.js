@@ -21,12 +21,12 @@ function App() {
         <StudentDashBoard />
       </div> */}
       <div>
-        < CreateTaskFaculty />
+        {/* < CreateTaskFaculty /> */}
         {/* < CreateTaskStudent /> */}
       </div>
-      {/* <div className="Tms-page-bg">
+      <div className="Tms-page-bg">
         < Login />
-      </div> */}
+      </div>
       {/* <div>
         <AddNewUser />
       </div> */}

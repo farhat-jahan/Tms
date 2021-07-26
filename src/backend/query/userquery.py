@@ -129,7 +129,8 @@ def check_user_role(user):
     :param user:
     :return: True is user is ADMIN else return False
     """
-    if user and user.role.upper() == Role.ADMIN.name:
+    print(user)
+    if user and user.role == Role.ADMIN:
         return True
     return False
 

@@ -49,7 +49,7 @@ h6 {
     border: 2px dashed #91b0b3;
     color: #92b0b3;
     position: relative;
-    height: 150px;
+    height: 200px;
 }
 
 .dropzone-desc {
@@ -61,4 +61,52 @@ h6 {
     width: 40%;
     top: 50px;
     font-size: 16px;
+}
+
+.inquiry-form {
+    padding: 50px;
+    border-radius: 20px;
+}
+
+.inquiry-submit-btn {
+    float:right;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-left: 16px;
+}
+
+.newtask-form {
+    padding: 50px;
+    border-radius: 20px;
+    width: 55rem;
+}
+
+.newtask-submit-btn {
+    float:right;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 16px;
+}
+
+.form-select {
+    font-size: 14px;
+    border: none;
+    height: 150px;
+    outline: none;
+}
+
+.project-status {
+    border-radius: 10px;
+}
+
+.form-select option {
+    margin-top: 10px;
+    padding: 2px;
+}
+.btn-circle-btn-sm {
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    border-radius: 15px;
+    font-size: 8px;
 }

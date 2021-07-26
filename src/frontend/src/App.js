@@ -4,8 +4,9 @@ import Login from "./components/Login/Login";
 import AddNewUser from "./components/AddNewUser/AddNewUser";
 import CreateTaskStudent from "./components/CreateTask/CreateTaskStudent";
 import CreateTaskFaculty from './components/CreateTask/CreateTaskFaculty';
-import './App.css';
 import StudentDashBoard from "./components/StudentDashBoard/StudentDashBoard";
+import EditTask from "./components/EditTask/EditTask";
+import './App.css';
 
 function App() {
   return (
@@ -13,11 +14,14 @@ function App() {
       <div>
         < Navbar />
       </div>
-      <div>
-          { <div>
+      {/* <div>
+        <EditTask />
+      </div> */}
+      {/* <div>
         <StudentDashBoard />
-      </div> }
-        {/*< CreateTaskFaculty />*/}
+      </div> */}
+      <div>
+        < CreateTaskFaculty />
         {/* < CreateTaskStudent /> */}
       </div>
       {/* <div className="Tms-page-bg">

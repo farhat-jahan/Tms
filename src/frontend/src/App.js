@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Switch, Route, NavLink } from 'react-router-dom';
+import axios from 'axios';
+
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import AddNewUser from "./components/AddNewUser/AddNewUser";
@@ -8,29 +11,40 @@ import StudentDashBoard from "./components/StudentDashBoard/StudentDashBoard";
 import EditTask from "./components/EditTask/EditTask";
 import './App.css';
 
+import { getToken, removeUserSession, setUserSession } from './components/Utils/Common';
+
 function App() {
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      return;
+    }
+  }, []);
+  
   return (
-    <>
-      <div>
-        < Navbar />
-      </div>
-      {/* <div>
-        <EditTask />
-      </div> */}
-      {/* <div>
-        <StudentDashBoard />
-      </div> */}
-      <div>
-        {/* < CreateTaskFaculty /> */}
-        {/* < CreateTaskStudent /> */}
-      </div>
-      <div className="Tms-page-bg">
-        < Login />
-      </div>
-      {/* <div>
-        <AddNewUser />
-      </div> */}
-    </>
+    <div className="App">
+      <BrowserRouter>
+        <div>
+          <div className="header">
+            <Navbar></Navbar>
+            {/* <NavLink exact activeClassName="active" to="/">Home</NavLink>
+            <NavLink activeClassName="active" to="/login">Login</NavLink>
+            <NavLink activeClassName="active" to="/dashboard">Dashboard</NavLink> */}
+          </div>
+          <div className="content">
+            <Switch>
+              <Route exact path="/" component={Login} />
+              <Route path="/add" component={AddNewUser} />
+              <Route path="/inquiry" component={CreateTaskStudent} />
+              <Route path="/task" component={CreateTaskFaculty} />
+              <Route path="/student" component={StudentDashBoard} />
+              <Route path="/edittask" component={EditTask} />
+            </Switch>
+          </div>
+        </div>
+      </BrowserRouter>
+    </div>
   );
 }
 

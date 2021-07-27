@@ -23,16 +23,13 @@ function App() {
   }, []);
   
   return (
-    <div className="App">
+    <div>
       <BrowserRouter>
         <div>
-          <div className="header">
             <Navbar></Navbar>
             {/* <NavLink exact activeClassName="active" to="/">Home</NavLink>
             <NavLink activeClassName="active" to="/login">Login</NavLink>
             <NavLink activeClassName="active" to="/dashboard">Dashboard</NavLink> */}
-          </div>
-          <div className="content">
             <Switch>
               <Route exact path="/" component={Login} />
               <Route path="/add" component={AddNewUser} />
@@ -41,7 +38,6 @@ function App() {
               <Route path="/student" component={StudentDashBoard} />
               <Route path="/edittask" component={EditTask} />
             </Switch>
-          </div>
         </div>
       </BrowserRouter>
     </div>

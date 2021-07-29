@@ -157,7 +157,7 @@ def department_list():
 @app.route('/api/v1/user-list', methods=["GET"])
 @login_required
 def users_list():
-    """
+    """return all the added/registered staff/students details.
     return:  id, first_name, last_name, email, user_role, user_type, employee_id, student_id, is_active
     """
     try:
@@ -202,7 +202,7 @@ def task_type_list():
 @login_required
 def task_priority_list():
     """
-    :return: Task priority lists
+    :return: Tasks priority lists
     """
     try:
         task_priority = TASK_PRIORITY_MAPPING
@@ -240,10 +240,8 @@ def employee_department():
 @app.route('/api/v1/assignee-task-list', methods=["POST"])
 @login_required
 def assigned_task_to_user():
-    """
-     returns assigned task details like:
-     ('task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id')
-    :return:
+    """Takes argument staff's id as id and returns assigned task details like:
+    :return:'task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id'
     """
     user_id = request.json['id']
     if user_id is None:

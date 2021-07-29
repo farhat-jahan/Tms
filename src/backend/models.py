@@ -42,7 +42,7 @@ class Department(Base):
 
 
 class TaskType(enum.Enum):
-    """ Model for Task Types """
+    """ Model for Tasks Types """
 
     QUESTION = TASK_TYPE_MAPPING['QUESTION']
     INCIDENT = TASK_TYPE_MAPPING['INCIDENT']
@@ -62,7 +62,7 @@ class TaskType(enum.Enum):
 
 
 # class TaskPriority(enum.Enum):
-#     """ Model for Task Priority """
+#     """ Model for Tasks Priority """
 #
 #     LOW = "LOW"
 #     MEDIUM = "MEDIUM"
@@ -84,7 +84,7 @@ class TaskType(enum.Enum):
 #         return val
 
 class TaskPriority(enum.Enum):
-    """ Model for Task Priority """
+    """ Model for Tasks Priority """
 
     LOW = TASK_PRIORITY_MAPPING["LOW"]
     MEDIUM = TASK_PRIORITY_MAPPING["MEDIUM"]
@@ -103,7 +103,7 @@ class TaskPriority(enum.Enum):
 
 
 # class TaskState(enum.Enum):
-#     """ Model for Task State """
+#     """ Model for Tasks State """
 #
 #     SCREEN = "SCREEN"
 #     ASSIGNED = "ASSIGNED"
@@ -123,10 +123,10 @@ class TaskPriority(enum.Enum):
 #
 #         val = mapping.get(string_val)
 #         if not val:
-#             raise Exception("Task State {} is not implemented".format(string_val))
+#             raise Exception("Tasks State {} is not implemented".format(string_val))
 
 class TaskState(enum.Enum):
-    """ Model for Task State """
+    """ Model for Tasks State """
 
     SCREEN = TASK_STATE_MAPPING["SCREEN"]
     ASSIGNED = TASK_STATE_MAPPING["ASSIGNED"]
@@ -253,7 +253,7 @@ class EmployeeDepartmentMapping(Base):
 
 
 class Task(Base):
-    """ Model for Task """
+    """ Model for Tasks """
 
     __tablename__ = 'task'
 

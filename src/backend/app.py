@@ -3,6 +3,7 @@ This files is for business logic
 """
 import os
 import sys
+from flask_cors import CORS
 
 
 _CURRDIR = os.path.dirname(__file__)
@@ -15,6 +16,7 @@ from models import app
 from query import userquery
 from TMSExceptions import *
 from services.tms_user import *
+cors = CORS(app)
 
 
 

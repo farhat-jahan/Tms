@@ -316,10 +316,10 @@ def get_assigned_task_to_user(id):
         db_user_task = Task.query.filter_by(assignee_id=id).all()
         serialized_user_task = serializers.task_schema.dump(db_user_task)
         if len(serialized_user_task) == 0:
-            raise ItemNotFoundException("Task is not assigned to user-{}".format(user.id))
+            raise ItemNotFoundException("Tasks is not assigned to user-{}".format(user.id))
 
     except ItemNotFoundException:
-        raise ItemNotFoundException("Task is not assigned to user-{}".format(user.id))
+        raise ItemNotFoundException("Tasks is not assigned to user-{}".format(user.id))
 
     return serialized_user_task
 

@@ -1,4 +1,4 @@
-#create-new-task{
+#view-all-task{
     float:right;
     width: 140px;
     height: 40px;
@@ -14,7 +14,7 @@
 
 #status-col{
     width: 200px;
-    margin-left: 100px;
+    margin-left: 50px;
 }
 
 .priority-value{
@@ -24,4 +24,19 @@
     background-color: white;
     border: none;
 }
+
+.card-min-height{
+    min-height: 309px;
+    max-height: 309px;
+}
+.content-overflow-hidden{
+    overflow: hidden;
+}
+
+/*div.my-task-header-inline{*/
+/*    block:inline-block;*/
+/*    width: 100px;*/
+/*   */
+
+/*}*/
 

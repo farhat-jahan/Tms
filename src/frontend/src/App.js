@@ -8,6 +8,8 @@ import AddNewUser from "./components/AddNewUser/AddNewUser";
 import CreateTaskStudent from "./components/CreateTask/CreateTaskStudent";
 import CreateTaskFaculty from './components/CreateTask/CreateTaskFaculty';
 import StudentDashBoard from "./components/StudentDashBoard/StudentDashBoard";
+import StaffDashBoard from "./components/StaffDashBoard/StaffDashBoard";
+import Tasks from "./components/Tasks/Tasks";
 import EditTask from "./components/EditTask/EditTask";
 import './App.css';
 
@@ -37,6 +39,8 @@ function App() {
               <Route path="/task" component={CreateTaskFaculty} />
               <Route path="/student" component={StudentDashBoard} />
               <Route path="/edittask" component={EditTask} />
+              <Route path="/staff" component={StaffDashBoard} />
+              <Route path="/admintasks" component={Tasks} />
             </Switch>
         </div>
       </BrowserRouter>

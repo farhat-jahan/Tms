@@ -1,27 +1,90 @@
-#create-a-task{
+.student-task-detail{
+    padding: 50px;
+    border-radius: 20px;
+    width: 60rem;
+}
+
+.create-task-btn {
     float:right;
-    width: 140px;
-    height: 40px;
-    padding: 0px;
-    border-radius: 15px;
-    font-size: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 16px;
+    background: #334C60;
+    box-shadow: 0px 0px 8px rgba(51, 51, 51, 0.2);
+    border-radius: 20px;
+}
+
+.create-task-text {
     font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.task-search-apply {
+    float:left;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 16px;
     background: #1DB954;
     box-shadow: 0px 0px 8px rgba(51, 51, 51, 0.2);
-    font-size: 1rem;
-
 }
 
-#status-col{
-    width: 200px;
-    margin-left: 100px;
+.status_low{
+    position: static;
+    width: 82px;
+    height: 22px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13.28px;
+    line-height: 18px;
+    text-align: center;
+    color: #333333;
+}
+#urgent {
+    background: #FFADAD;
+}
+#low{
+    background: #BBFFBB;
+}
+#meduim {
+    background: #A4D5FF;
+}
+#high{
+    background: #FFFF97;
 }
 
-.priority-value{
-    margin-top: 12px;
-    width:120px;
-    border-radius: 10px;
-    background-color: white;
-    border: none;
+.table-text-completed {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 137%;
+    color: #1DB954;
 }
 
+.table-text-other {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 137%;
+    color: #333333;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #1DB954;
+    border-color: #1DB954;
+}
+
+.pagination-text {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #AEAEAE;
+}

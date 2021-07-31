@@ -6,7 +6,6 @@ function Tasks(){
 
     return (
         <div className="container-fluid Tms-page-bg">
-
             <br/><br/><br/>
             <div className="row">
                 <div className="col col-md-6 offset-md-3">

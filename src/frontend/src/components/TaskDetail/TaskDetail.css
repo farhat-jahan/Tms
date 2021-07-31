@@ -2,10 +2,6 @@
 body {
     height: 100vh;
     font-family: 'Open Sans', sans-serif;
-    background: #bea2e7; 
-    background: -moz-linear-gradient(top,  #bea2e7 0%, #86b7e7 100%); 
-    background: -webkit-linear-gradient(top,  #bea2e7 0%,#86b7e7 100%); 
-    background: linear-gradient(to bottom,  #bea2e7 0%,#86b7e7 100%); 
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bea2e7', endColorstr='#86b7e7',GradientType=0 ); 
 
 }

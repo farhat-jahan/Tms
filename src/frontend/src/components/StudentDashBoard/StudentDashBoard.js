@@ -1,93 +1,130 @@
+
 import React from "react";
-import './StudentDashBoard.css';
-import axios from "axios";
+import './StudentDashboard.css';
+
+const StudentTaskTable = () => {
+    return(
+        <div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">01</th>
+                        <td> OPT Request </td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
+                        </td>
+                        <td className="table-text-other">In Progress</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">02</th>
+                        <td> Course egistration queries </td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
+                        </td>
+                        <td className="table-text-other">In Progress</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">03</th>
+                        <td> Fall 2021 Fees related queries</td>
+                        <td>
+                            <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>
+                        </td>
+                        <td className="table-text-other">Submitted</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">04</th>
+                        <td> OPT Request </td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
+                        </td>
+                        <td className="table-text-completed">Completed</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">05</th>
+                        <td> Course registration queries</td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>
+                        </td>
+                        <td className="table-text-other">Submitted</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">06</th>
+                        <td> Request to add Java Course for Fall 2021 </td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
+                        </td>
+                        <td className="table-text-completed">Completed</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <div>
+                <ul class="pagination pagination-sm justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">&laquo;</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link pagination-text" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link pagination-text" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link pagination-text" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link pagination-text" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link pagination-text" href="#">5</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link pagination-text" href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    );
+}
 
 function StudentDashBoard(){
-
-     // WE WILL USE STAFF-ID TO GET THE ASSIGNED TASK DETAILS, THIS IS POST API CALL FOR THIS DATA
-    const studentTaskDetails = ()=>{
-        axios.post("http://127.0.0.1:5000/api/v1/assignee-task-list",{id:"3"})
-            .then(
-            (response)=>{
-            console.log(response)
-        })
-            .catch(error=>{
-                console.log(error);
-            })
-    }
-
-    return (
-        // <div className="container-sm pt-3 my-3 border Tms-page-bg" >
+    return(
         <div className="container-fluid Tms-page-bg">
-
-
-             {/*--------------------------------START-------------------------------------------------------*/}
-            {/*BELOW BUTTON IS FOR TESTING THE POST API JSON DATA, WE CAN REMOVE THIS*/}
-            <button id="FOR-TESTING-POST-API REMOVE-THIS-BUTTON" onClick={studentTaskDetails}>CLICK HERE</button>
-            {/*---------------------------------END------------------------------------------------------*/}
-
-            <br/><br/><br/>
+            <br/> <br />
             <div className="row">
-                <div className="col col-md-6 offset-md-3">
-                    <a href="#" className="card-link text-decoration-none Tms-para4"> &lt; Back to Listings</a>
-                    <div className="card student-task-details">
-                        <div className="card-body my-task-header">
-                            <div className="row">
-                                <div className="col">
-                                    <h4 className="card-title Tms-h4">My Tasks</h4>
-                                </div>
-                            <div className="col-6">
-                                <button type="submit" id="create-new-task" className="btn form-button active-tab">Creat New Task</button>
+                <div className="col col-md-7 offset-md-2">
+                <div className="card student-task-detail">
+                    <div className="card-body">
+                        <div className="row">
+                            <div className="col-md-4">
+                                <h4 className="card-title Tms-h4">My Tasks</h4>
                             </div>
+                            <div className="col-md-8">
+                                <button type="submit" className="btn btn-md student-dashboard-create-btn Tms-btn-secondary">Create a New Task</button>
                             </div>
-
-
                         </div>
-                        <div className="container-fluid">
-                            <div className="row">
-                                <div className="table-responsive">
-                                    <table className="table table-striped my-task-table">
-                                        <thead className=".thead-dark">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Task</th>
-                                            <th scope="col">Priority</th>
-                                            <th scope="col" id="status-col">Status</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Admissions question</td>
-                                            {/*<td className="priority-value" name="priority-val">Low</td>*/}
-                                            <button className="status_low rounded rectangle" id="low" value="Low" >Low</button>
-                                            <td>Submitted</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Iso question</td>
-                                            {/*<td className="priority-value" name="priority-val">Low</td>*/}
-                                            <button className="status_low rounded rectangle" id="meduim" value="Medium">Medium</button>
-                                            <td>In Progress</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Account question</td>
-                                            {/*<td className="priority-value" name="priority-val">Low</td>*/}
-                                            <button className="status_low rounded text rectangle" id="high" value="High">High</button>
-                                            <td>Completed</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <br/> <br/> <br/>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <StudentTaskTable></StudentTaskTable>
                             </div>
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
-            <br/><br/><br/>
         </div>
     );
 }
+
 export default StudentDashBoard;
 

@@ -26,6 +26,18 @@ function EditTaskForm() {
                             </div>
 
                             <div className="form-group">
+                                <label htmlFor="inquiry-title" className="form-label mt-4 Tms-input-label">TYPE</label>
+                                <select className="form-control" id="departmentselection">
+                                    <option>Select</option>
+                                    <option>Question</option>
+                                    <option>Incident</option>
+                                    <option>Problem</option>
+                                    <option>Feature Request</option>
+                                    <option>Refund</option>
+                                </select>
+                            </div>
+
+                            <div className="form-group">
                                 <label htmlFor="newtask-description" className="form-label mt-4 Tms-input-label">DESCRIPTION</label>
                                 <textarea className="form-control Tms-imput-field-text" id="newtask-description" placeholder="Type something" rows="10"/>
                             </div>

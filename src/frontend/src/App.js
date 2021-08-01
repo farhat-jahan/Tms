@@ -13,6 +13,7 @@ import Tasks from "./components/Tasks/Tasks";
 import EditTask from "./components/EditTask/EditTask";
 import TaskDetail from "./components/TaskDetail/TaskDetail";
 import Teams from "./components/Teams/Teams";
+import NewDepartment from './components/AddDepartment/AddDepartment';
 import './App.css';
 
 import { getToken, removeUserSession, setUserSession } from './components/Utils/Common';
@@ -46,6 +47,7 @@ function App() {
               <Route path="/admintasks" component={Tasks} />
               <Route path="/taskdetail" component={TaskDetail} />
               <Route path="/teams" component={Teams} />
+              <Route path="/department" component={NewDepartment} />
             </Switch>
         </div>
       </BrowserRouter>

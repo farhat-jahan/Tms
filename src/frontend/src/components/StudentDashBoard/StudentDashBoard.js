@@ -1,6 +1,6 @@
 
 import React from "react";
-import './StudentDashboard.css';
+import './StudentDashBoard.css';
 
 const StudentTaskTable = () => {
     return(

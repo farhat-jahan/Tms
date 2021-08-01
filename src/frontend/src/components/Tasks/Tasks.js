@@ -1,103 +1,172 @@
 import React from "react";
 import './Tasks.css';
-import searchimage from "./TemSrchImage.svg"
+import SearchTask from './SearchTask.svg';
+import CreateTaskBtn from './CreateTaskBtn.svg';
 
-function Tasks(){
-
+const TaskTableSearch = () => {
     return (
-        <div className="container-fluid Tms-page-bg">
-
-            <br/><br/><br/>
-            <div className="row">
-                <div className="col col-md-6 offset-md-3">
-                    <a href="#" className="card-link text-decoration-none Tms-para4"> &lt; Back to Listings</a>
-
-                    <div className="card task-details">
-                        <div className="card-body my-task-header">
-
-                            <div className="row">
-                                <div className="col-md-8">
-                                    <h4 className="card-title Tms-h4">Tasks</h4>
-                                </div>
-
-                               <div className="col-md-4">
-                                    <div className="col">
-                                        <button type="submit" id="create-a-task" className="btn form-button active-tab">Creat a Task</button>
-                                    </div>
-
-                                    <div className="col">
-                                        <img src={searchimage} alt="searchimage" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br/><br/><br/>
-
-                        <div>
-                            <form>
-                                <div className="row">
-                                    <div className="col col-4">
-                                        <input type="text" className="form-control" placeholder="Department"/>
-                                    </div>
-                                    <div className="col col-4">
-                                        <input type="text" className="form-control" placeholder="Role"/>
-                                    </div>
-                                    <div className="col col-3">
-                                        <input type="text" className="form-control" placeholder="Program"/>
-                                    </div>
-                                    <div className="col col-1">
-                                        <button type="submit" className="btn btn-color mb-2">Apply</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="table-responsive">
-                                <table className="table table-striped my-task-table">
-                                    <thead className=".thead-dark">
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Task</th>
-                                        <th scope="col">Priority</th>
-                                        <th scope="col" id="status-col">Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Admissions question</td>
-                                        {/*<td className="priority-value" name="priority-val">Low</td>*/}
-                                        <button className="status_low rounded rectangle" id="low" value="Low" >Low</button>
-                                        <td>Submitted</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Iso question</td>
-                                        {/*<td className="priority-value" name="priority-val">Low</td>*/}
-                                        <button className="status_low rounded rectangle" id="meduim" value="Medium">Medium</button>
-                                        <td>In Progress</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Account question</td>
-                                        {/*<td className="priority-value" name="priority-val">Low</td>*/}
-                                        <button className="status_low rounded text rectangle" id="high" value="High">High</button>
-                                        <td>Completed</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
+        <div>
+            <form className="row g-3">
+            <div className="col-md-3">
+                <select className="form-control" id="taskdepartment">
+                    <option selected>Department</option>
+                    <option>Admissions</option>
+                    <option>ISO</option>
+                    <option>Registrar</option>
+                    <option>Advising</option>
+                </select>
             </div>
-            <br/><br/><br/>
+            <div className="col-md-3">
+                <select className="form-control" id="taskrole">
+                    <option selected>Role</option>
+                    <option>Admin</option>
+                    <option>Regular</option>
+                </select>
+            </div>
+            <div className="col-md-3">
+                <select className="form-control" id="taskprogram">
+                    <option selected>Program</option>
+                    <option>Computer</option>
+                </select>
+            </div>
+            <div className="col-md-3">
+                <button type="submit" className="btn task-search-apply create-task-text">Apply</button>
+            </div>
+            </form>
         </div>
     );
 }
-export default Tasks;
 
+const TaskTable = () => {
+    return(
+        <div>
+            <table className="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">01</th>
+                        <td> OPT Request </td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
+                        </td>
+                        <td className="table-text-other">In Progress</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">02</th>
+                        <td> Course egistration queries </td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
+                        </td>
+                        <td className="table-text-other">In Progress</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">03</th>
+                        <td> Fall 2021 Fees related queries</td>
+                        <td>
+                            <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>
+                        </td>
+                        <td className="table-text-other">Submitted</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">04</th>
+                        <td> OPT Request </td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
+                        </td>
+                        <td className="table-text-completed">Completed</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">05</th>
+                        <td> Course registration queries</td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>
+                        </td>
+                        <td className="table-text-other">Submitted</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">06</th>
+                        <td> Request to add Java Course for Fall 2021 </td>
+                        <td>
+                            <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
+                        </td>
+                        <td className="table-text-completed">Completed</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <div>
+                <ul className="pagination pagination-sm justify-content-center">
+                    <li className="page-item disabled">
+                        <a className="page-link" href="#">&laquo;</a>
+                    </li>
+                    <li className="page-item active">
+                        <a className="page-link pagination-text" href="#">1</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">2</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">3</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">4</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">5</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    );
+}
+
+function Tasks(){
+    return(
+        <div className="container-fluid Tms-page-bg">
+            <br/> <br />
+            <div className="row">
+                <div className="col col-md-7 offset-md-2">
+                <div className="card student-task-detail">
+                    <div className="card-body">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <h4 className="card-title Tms-h3">Tasks</h4>
+                            </div>
+                            <div className="col-md-2">
+                            </div>
+                            <div className="col-md-4">
+                                <div class="btn-group">
+                                    <button className="btn"><img src={SearchTask} alt="SearchTask" /></button>
+                                    <button className="btn"><img src={CreateTaskBtn} alt="CreateTask" /></button>
+                                    {/* <button className="btn btn-md create-task-btn create-task-text">Create a Task</button> */}
+                                </div>
+                            </div>
+                        </div>
+                        <br/> <br/> <br/>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <TaskTableSearch></TaskTableSearch>
+                                <br/>
+                                <TaskTable></TaskTable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default Tasks;

@@ -31,15 +31,30 @@ const InquiryForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="inquiry-title" className="form-label mt-4 Tms-input-label">DEPARTMENT</label>
-                    <select className="form-control" id="departmentselection">
-                        <option>Department</option>
-                        <option>Admissions</option>
-                        <option>ISO</option>
-                        <option>Registrar</option>
-                        <option>Advising</option>
-                        <option>Accounting</option>
-                    </select>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <label htmlFor="inquiry-title" className="form-label mt-4 Tms-input-label">DEPARTMENT</label>
+                            <select className="form-control" id="departmentselection">
+                                <option>Select</option>
+                                <option>Admissions</option>
+                                <option>ISO</option>
+                                <option>Registrar</option>
+                                <option>Advising</option>
+                                <option>Accounting</option>
+                            </select>
+                        </div>
+                        <div className="col-md-6">
+                            <label htmlFor="inquiry-title" className="form-label mt-4 Tms-input-label">TYPE</label>
+                            <select className="form-control" id="departmentselection">
+                                <option>Select</option>
+                                <option>Question</option>
+                                <option>Incident</option>
+                                <option>Problem</option>
+                                <option>Feature Request</option>
+                                <option>Refund</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="form-group">

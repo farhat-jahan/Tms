@@ -7,10 +7,11 @@ import Login from "./components/Login/Login";
 import AddNewUser from "./components/AddNewUser/AddNewUser";
 import CreateTaskStudent from "./components/CreateTask/CreateTaskStudent";
 import CreateTaskFaculty from './components/CreateTask/CreateTaskFaculty';
-import StudentDashBoard from "./components/StudentDashBoard/StudentDashBoard";
+import StudentDashboard from "./components/StudentDashboard/StudentDashboard";
 import StaffDashBoard from "./components/StaffDashBoard/StaffDashBoard";
 import Tasks from "./components/Tasks/Tasks";
 import EditTask from "./components/EditTask/EditTask";
+import TaskDetail from "./components/TaskDetail/TaskDetail";
 import './App.css';
 
 import { getToken, removeUserSession, setUserSession } from './components/Utils/Common';
@@ -37,10 +38,11 @@ function App() {
               <Route path="/add" component={AddNewUser} />
               <Route path="/inquiry" component={CreateTaskStudent} />
               <Route path="/task" component={CreateTaskFaculty} />
-              <Route path="/student" component={StudentDashBoard} />
+              <Route path="/student" component={StudentDashboard} />
               <Route path="/edittask" component={EditTask} />
               <Route path="/staff" component={StaffDashBoard} />
               <Route path="/admintasks" component={Tasks} />
+              <Route path="/taskdetail" component={TaskDetail} />
             </Switch>
         </div>
       </BrowserRouter>

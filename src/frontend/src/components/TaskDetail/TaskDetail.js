@@ -1,9 +1,8 @@
 import React from 'react';
 import './TaskDetail.css';
-import { ReactComponent as HKIcon } from "./HK.svg";
-import { ReactComponent as FJIcon } from "./FJ.svg";
 import taskElements from './TaskHistory';
-import "react-vertical-timeline-component/style.min.css";
+import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
+import 'react-vertical-timeline-component/style.min.css';
 
 const TaskInfo = () => {
     return(
@@ -38,48 +37,101 @@ const TaskInfo = () => {
 
 const TaskHistory = () => {
     return (
-        <div class="container">
-            <ul>
-            <li>
-                <span></span>
-                <div>
-                <div class="title">Codify</div>
-                <div class="info">Let's make coolest things in css</div>
-                <div class="type">Prensetation</div>
-                </div>
-                <span class="number">
-                <span>10:00</span>
-                <span>12:00</span>
-                </span>
-            </li>
-            <li>
-                <div>
-                <span></span>
-                <div class="title">Codify</div>
-                <div class="info">Let's make coolest things in javascript</div>
-                <div class="type">Prensetation</div>
-                </div>
-                <span class="number">
-                <span>13:00</span>
-                <span>14:00</span>
-                </span>
-            </li>
-            <li>
-                <div>
-                <span></span>
-                <div class="title">Codify</div>
-                <div class="info">Let's make coolest things in css</div>
-                <div class="type">Review</div>
-                </div>
-                <span class="number">
-                <span>15:00</span>
-                <span>17:45</span>
-                </span>
-            </li>
-            </ul>
-      </div>
+        <div>
+            <VerticalTimeline
+                layout="1-column-left">
+                <VerticalTimelineElement
+                    className="vertical-timeline-element--work"
+                    contentArrowStyle={{ visibility: 'hidden'}}
+                    date="4/15/21"
+                    iconStyle={{ background: '#334c60', color: '#fff'}}
+                    icon={<div className="icon-text-center">HP</div>}
+                >
+                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Hinka Patel </span> created the task</h3>
+                    <br/>
+                    <h4 className="vertical-timeline-element-subtitle">Overview</h4>
+                    <p className="task-history-para-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec.
+                    </p>
+                </VerticalTimelineElement>
+
+                <VerticalTimelineElement
+                    className="vertical-timeline-element--work"
+                    contentArrowStyle={{ visibility: 'hidden'}}
+                    date="4/15/21"
+                    iconStyle={{ background: '#334c60', color: '#fff'}}
+                    icon={<div className="icon-text-center">HP</div>}
+                >
+                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Hinka Patel </span> commented on the task</h3>
+                    <br/>
+                    <p className="task-history-para-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec.
+                    </p>
+                </VerticalTimelineElement>
+
+                <VerticalTimelineElement
+                    className="vertical-timeline-element--work"
+                    contentArrowStyle={{ visibility: 'hidden'}}
+                    date="4/15/21"
+                    iconStyle={{ background: '#FF7E36', color: '#fff'}}
+                    icon={<div className="icon-text-center">FJ</div>}
+                >
+                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Farhat Jahan </span> commented on the task</h3>
+                    <br/>
+                    <p className="task-history-para-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec.
+                    </p>
+                </VerticalTimelineElement>
+
+                <VerticalTimelineElement
+                    className="vertical-timeline-element--work"
+                    contentArrowStyle={{ visibility: 'hidden'}}
+                    date="4/15/21"
+                    iconStyle={{ background: '#A5A6F6', color: '#fff'}}
+                    icon={<div className="icon-text-center">EN</div>}
+                >
+                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Erwin Nieva </span> added two attachments</h3>
+                    <br/>
+                </VerticalTimelineElement>
+
+                <VerticalTimelineElement
+                    className="vertical-timeline-element--work"
+                    contentArrowStyle={{ visibility: 'hidden'}}
+                    date="4/15/21"
+                    iconStyle={{ background: '#FFB4B4', color: '#fff'}}
+                    icon={<div className="icon-text-center">AK</div>}
+                >
+                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Alex Kim </span> changed the project status to <strong> IN PROGRESS </strong> </h3>
+                    <br/>
+                </VerticalTimelineElement>
+
+                <VerticalTimelineElement
+                    className="vertical-timeline-element--work"
+                    contentArrowStyle={{ visibility: 'hidden'}}
+                    date="4/15/21"
+                    iconStyle={{ background: '#334c60', color: '#fff'}}
+                    icon={<div className="icon-text-center">HP</div>}
+                >
+                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Hinka Patel </span> changed the priority from MEDIUM to <strong> URGENT </strong> </h3>
+                    <br/>
+                </VerticalTimelineElement>
+
+                <VerticalTimelineElement
+                    className="vertical-timeline-element--work"
+                    contentArrowStyle={{ visibility: 'hidden'}}
+                    iconStyle={{ background: '#00A3FF', color: '#fff'}}
+                    icon={<div className="icon-text-center">CJ</div>}
+                >
+                    <h3 className="vertical-timeline-element-title"> <strong> Cherri Jeong </strong> </h3>
+                    <br/>
+                    <p className="task-history-para-text"> Leave a Comment </p>
+                    <button className="btn btn-md comment-btn Tms-btn-secondary "> Comment </button>
+                </VerticalTimelineElement>
+            </VerticalTimeline>
+        </div>
     );
 }
+
 
 function TaskDetail() {
     return (

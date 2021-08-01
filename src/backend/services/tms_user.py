@@ -12,7 +12,7 @@ from flask import request, jsonify, session
 from models import app, db
 from query import userquery
 from TMSExceptions import *
-from backend.constants import TASK_TYPE_MAPPING, TASK_PRIORITY_MAPPING
+from backend.constants import TASK_TYPE_MAPPING, TASK_PRIORITY_MAPPING, ROLE_MAPPING, USER_TYPE_MAPPING
 
 login_manager = LoginManager(app)
 
@@ -279,3 +279,26 @@ def create_departments():
     return {"department-id": db_departments.id}, 200
 
 
+@app.route('/api/v1/predefined-role-list', methods=["GET"])
+@login_required
+def predefined_role_details():
+    """ to show the pre-defined role types:ADMIN OR REGULAR
+    :return: Role
+    """
+    try:
+        predefined_roles = ROLE_MAPPING
+        return jsonify(predefined_roles), 200
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+@app.route('/api/v1/predefined-userrole-list', methods=["GET"])
+@login_required
+def predefined_userrole_details():
+    """ to show the pre-defined user role types:STUDENT OR EMPLOYEEE
+    :return: PRE-DEFINED USER ROLE
+    """
+    try:
+        predefined_user_roles = USER_TYPE_MAPPING
+        return jsonify(predefined_user_roles), 200
+    except Exception as exc:
+        return jsonify({"error": str(exc)})

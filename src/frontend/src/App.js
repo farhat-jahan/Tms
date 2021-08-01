@@ -12,9 +12,11 @@ import StaffDashBoard from "./components/StaffDashBoard/StaffDashBoard";
 import Tasks from "./components/Tasks/Tasks";
 import EditTask from "./components/EditTask/EditTask";
 import TaskDetail from "./components/TaskDetail/TaskDetail";
+import Teams from "./components/Teams/Teams";
 import './App.css';
 
 import { getToken, removeUserSession, setUserSession } from './components/Utils/Common';
+
 
 function App() {
 
@@ -43,6 +45,7 @@ function App() {
               <Route path="/staff" component={StaffDashBoard} />
               <Route path="/admintasks" component={Tasks} />
               <Route path="/taskdetail" component={TaskDetail} />
+              <Route path="/teams" component={Teams} />
             </Switch>
         </div>
       </BrowserRouter>

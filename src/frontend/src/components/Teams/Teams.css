@@ -1,0 +1,20 @@
+/* Css for teams */
+.border-left-department-list {
+    border-left: 12px solid;
+}
+
+.border-color-iso {
+    border-color: #1142F1;
+}
+.border-color-admisions {
+    border-color: #00FF75;
+}
+.border-color-reg {
+    border-color: #FF6B00;
+}
+.border-color-advising {
+    border-color: #CC00FF;
+}
+.border-color-acc {
+    border-color: #FFF500;
+}

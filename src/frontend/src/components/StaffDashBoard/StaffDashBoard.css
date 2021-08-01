@@ -3,6 +3,10 @@
     padding: 50px;
     border-radius: 20px;
     width: 30rem;
+    background: #FFFFFF;
+    border: 1px solid #AEAEAE;
+    box-sizing: border-box;
+    border-radius: 20px;
 }
 
 .staff-calender{
@@ -10,12 +14,20 @@
     border-radius: 20px;
     width: 30rem;
     height: 30rem;
+    background: #FFFFFF;
+    border: 1px solid #AEAEAE;
+    box-sizing: border-box;
+    border-radius: 20px;
 }
 
 .staff-recent-tasks{
     padding: 50px;
     border-radius: 20px;
-    width: 60rem;
+    width: 64rem;
+    background: #FFFFFF;
+    border: 1px solid #AEAEAE;
+    box-sizing: border-box;
+    border-radius: 20px;
 }
 
 .view-task-btn {

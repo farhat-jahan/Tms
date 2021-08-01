@@ -7,7 +7,7 @@ import Login from "./components/Login/Login";
 import AddNewUser from "./components/AddNewUser/AddNewUser";
 import CreateTaskStudent from "./components/CreateTask/CreateTaskStudent";
 import CreateTaskFaculty from './components/CreateTask/CreateTaskFaculty';
-import StudentDashboard from "./components/StudentDashBoard/StudentDashBoard";
+import StudentDashboard from "./components/StudentDashboard/StudentDashboard";
 import StaffDashBoard from "./components/StaffDashBoard/StaffDashBoard";
 import Tasks from "./components/Tasks/Tasks";
 import EditTask from "./components/EditTask/EditTask";

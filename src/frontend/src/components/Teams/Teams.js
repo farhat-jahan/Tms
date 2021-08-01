@@ -1,140 +1,208 @@
 import React from "react";
-import "./Teams.css"
+import "./Teams.css";
+import EmailIcon from "./EmailIcon.svg";
 
-function Teams() {
+const DepartmentList = () => {
     return(
-        <div className="container-fluid">
-            <br/><br/><br/><br/>
-
-                <div className="row">
-                    <div className="col-md-2"></div>
-                    <div className="col-md-2">
-                        <div className="card mb-2 shadow-sm">
-                            <div className="card-header">
-                                <h4 className="card-heading">Departments</h4>
-                            </div>
-                            <div className="card-body">
-                                <div
-                                    className="shadow p-3 mb-3 bg-white rounded border-left-department-list border-color-iso">
-                                    <div className="text mb-2">
-                                        <h6 className="mb-0">International Student Office</h6>
-                                        <small className="text-gray-500 float-right">25 new clients</small>
-                                    </div>
-                                </div>
-                                <div
-                                    className="shadow p-3 mb-3 bg-white rounded border-left-department-list border-color-admisions">
-                                    <div className="text mb-2">
-                                        <h6 className="mb-0">Admissions</h6>
-                                        <small className="text-gray-500 float-right">25 new clients</small>
-                                    </div>
-
-                                </div>
-                                <div
-                                    className="shadow p-3 mb-3 bg-white rounded border-left-department-list border-color-reg">
-                                    <div className="text mb-2">
-                                        <h6 className="mb-0">Registrar</h6>
-                                        <small className="text-gray-500 float-right">25 new clients</small>
-                                    </div>
-
-                                </div>
-                                <div
-                                    className="shadow p-3 mb-3 bg-white rounded border-left-department-list border-color-advising">
-
-                                    <div className="text mb-2">
-                                        <h6 className="mb-0">Advising</h6>
-                                        <small className="text-gray-500 float-right">25 new clients</small>
-                                    </div>
-                                </div>
-                                <div
-                                    className="shadow p-3 mb-3 bg-white rounded border-left-department-list border-color-acc">
-                                    <div className="text mb-2">
-                                        <h6 className="mb-0">Accounting</h6>
-                                        <small className="text-gray-500 float-right">25 new clients</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div className="col-md-6">
-                        <div className="card mb-4 shadow-sm">
-                            <div className="card-body">
-                                <h5 className="card-title">Users</h5>
-
-                                <form>
-                                    <div className="row">
-                                        <div className="col-4">
-                                            <input type="text" className="form-control" placeholder="Department"/>
-                                        </div>
-                                        <div className="col-4">
-                                            <input type="text" className="form-control" placeholder="Role"/>
-                                        </div>
-                                        <div className="col-3">
-                                            <input type="text" className="form-control" placeholder="Program"/>
-                                        </div>
-                                        <div className="col-1">
-                                            <button type="submit" className="btn btn-color mb-2">Apply</button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <table className="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Role</th>
-                                        <th scope="col">Department</th>
-                                        <th scope="col">Email</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td><i className="fa fa-envelope-o" aria-hidden="true"></i>Mail</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td><i className="fa fa-envelope-o" aria-hidden="true"></i>Mail</td>
-                                    </tr>
-                                    <tr>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>Larry</td>
-                                        <td><i className="fa fa-envelope-o" aria-hidden="true"></i>Mail</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td><i className="fa fa-envelope-o" aria-hidden="true"></i>Mail</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td><i className="fa fa-envelope-o" aria-hidden="true"></i>Mail</td>
-                                    </tr>
-                                    <tr>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>Larry</td>
-                                        <td><i className="fa fa-envelope-o" aria-hidden="true"></i>Mail</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
+        <div className="card-body">
+            <div className="p-3 mb-3 bg-white rounded border-left-department-list border-color-iso">
+                <div className="text mb-2">
+                    <h6 className="Tms-h6">International Student Office</h6>
+                    <small className="department-side-text float-right">10 USERS</small>
+                </div>
+            </div>
+            <div
+                className="p-3 mb-3 bg-white rounded border-left-department-list border-color-admisions">
+                <div className="text mb-2">
+                    <h6 className="Tms-h6">Admissions</h6>
+                    <small className="department-side-text float-right">15 USERS</small>
                 </div>
 
-        </div>
+            </div>
+            <div
+                className="p-3 mb-3 bg-white rounded border-left-department-list border-color-reg">
+                <div className="text mb-2">
+                    <h6 className="Tms-h6">Registrar</h6>
+                    <small className="department-side-text float-right">8 USERS</small>
+                </div>
 
+            </div>
+            <div
+                className="p-3 mb-3 bg-white rounded border-left-department-list border-color-advising">
+
+                <div className="text mb-2">
+                    <h6 className="Tms-h6">Advising</h6>
+                    <small className="department-side-text float-right">5 USERS</small>
+                </div>
+            </div>
+            <div
+                className="p-3 mb-3 bg-white rounded border-left-department-list border-color-acc">
+                <div className="text mb-2">
+                    <h6 className="Tms-h6">Accounting</h6>
+                    <small className="department-side-text float-right">7 USERS</small>
+                </div>
+            </div>
+        </div>
     );
 }
-export default Teams
+
+const UserTabkeSearch = () => {
+    return (
+        <div>
+            <form className="row g-3">
+            <div className="col-md-3">
+                <select className="form-control" id="taskdepartment">
+                    <option selected>Department</option>
+                    <option>Admissions</option>
+                    <option>ISO</option>
+                    <option>Registrar</option>
+                    <option>Advising</option>
+                </select>
+            </div>
+            <div className="col-md-3">
+                <select className="form-control" id="taskrole">
+                    <option selected>Role</option>
+                    <option>Admin</option>
+                    <option>Regular</option>
+                </select>
+            </div>
+            <div className="col-md-3">
+                <select className="form-control" id="taskprogram">
+                    <option selected>Program</option>
+                    <option>Computer</option>
+                </select>
+            </div>
+            <div className="col-md-3">
+                <button type="submit" className="btn apply-search-btn apply-serach-text">Apply</button>
+            </div>
+            </form>
+        </div>
+    );
+}
+
+const UserTable = () => {
+    return(
+        <div>
+            <table className="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td className="Tms-h6"> Alex Kim </td>
+                        <td className="Tms-para4"> Staff </td>
+                        <td className="Tms-para4"> ISO </td>
+                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
+                    </tr>
+                    <tr>
+                        <td className="Tms-h6"> Dave Lo </td>
+                        <td className="Tms-para4"> Staff </td>
+                        <td className="Tms-para4"> Admissions </td>
+                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
+                    </tr>
+                    <tr>
+                        <td className="Tms-h6"> David Schaefer </td>
+                        <td className="Tms-para4"> Student </td>
+                        <td className="Tms-para4"> Student </td>
+                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
+                    </tr>
+                    <tr>
+                        <td className="Tms-h6"> Steve Wang </td>
+                        <td className="Tms-para4"> Admin </td>
+                        <td className="Tms-para4"> Registrar </td>
+                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
+                    </tr>
+                    <tr>
+                        <td className="Tms-h6"> Lorraine Pakravan </td>
+                        <td className="Tms-para4"> Student </td>
+                        <td className="Tms-para4"> Student </td>
+                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
+                    </tr>
+                    <tr>
+                        <td className="Tms-h6"> Daniel Kim </td>
+                        <td className="Tms-para4"> Staff </td>
+                        <td className="Tms-para4"> Advising </td>
+                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
+                    </tr>
+                    <tr>
+                        <td className="Tms-h6"> Alex Stone </td>
+                        <td className="Tms-para4"> Student </td>
+                        <td className="Tms-para4"> Student </td>
+                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
+                    </tr>
+                    <tr>
+                        <td className="Tms-h6"> Henry Watson </td>
+                        <td className="Tms-para4"> Staff </td>
+                        <td className="Tms-para4"> Accounting </td>
+                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <div>
+                <ul className="pagination pagination-sm justify-content-center">
+                    <li className="page-item disabled">
+                        <a className="page-link" href="#">&laquo;</a>
+                    </li>
+                    <li className="page-item active">
+                        <a className="page-link pagination-text" href="#">1</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">2</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">3</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">4</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">5</a>
+                    </li>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    );
+}
+
+function Teams(){
+    return(
+        <div className="container-fluid Tms-page-bg">
+            <br/> <br />
+            <div className="row">
+                <div className="col-md-3">
+                    <div className="card team-department-detail">
+                        <div className="card-body">
+                            <h4 className="card-title Tms-h3">Departments</h4>
+                            <br/>
+                            <DepartmentList></DepartmentList>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-2"></div>
+                <div className="col-md-7">
+                    <div className="card team-users-detail">
+                        <div className="card-body">
+                            <h4 className="card-title Tms-h3">Users</h4>
+                            <br />
+                            <UserTabkeSearch></UserTabkeSearch>
+                            <br /> <br />
+                            <UserTable></UserTable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default Teams;

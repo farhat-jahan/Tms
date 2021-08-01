@@ -2,6 +2,11 @@
     padding: 50px;
     border-radius: 20px;
     width: 60rem;
+    height: 800px;
+    background: #FFFFFF;
+    border: 1px solid #AEAEAE;
+    box-sizing: border-box;
+    border-radius: 20px;
 }
 
 .student-dashboard-create-btn {

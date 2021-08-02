@@ -62,16 +62,16 @@ function AddNewUser() {
                                             <div className="col-md-11 offset-md-1">
                                                 <form>
                                                     <div className="form-group">
-                                                        <input type="email" className="form-control" id="studentituemail" placeholder="ITU Email Address" />
+                                                        <input type="email" className="form-control Tms-input-field" id="studentituemail" placeholder="ITU Email Address" />
                                                     </div>
                                                     <div className="form-group">
-                                                        <input className="form-control" id="studentfname" placeholder="First Name" />
+                                                        <input className="form-control Tms-input-field" id="studentfname" placeholder="First Name" />
                                                     </div>
                                                     <div className="form-group">
-                                                        <input className="form-control" id="studentlname" placeholder="Last Name" />
+                                                        <input className="form-control Tms-input-field" id="studentlname" placeholder="Last Name" />
                                                     </div>
                                                     <div className="form-group">
-                                                        <select className="form-control" id="roleselection">
+                                                        <select className="form-control Tms-input-field" id="roleselection">
                                                             <option>Role</option>
                                                             <option>Student</option>
                                                             <option>Employee</option>
@@ -80,7 +80,7 @@ function AddNewUser() {
                                                         </select>
                                                     </div>
                                                     <div className="form-group">
-                                                        <select className="form-control" id="departmentselection">
+                                                        <select className="form-control Tms-input-field" id="departmentselection">
                                                             <option>Department</option>
                                                             <option>Admissions</option>
                                                             <option>ISO</option>
@@ -112,13 +112,13 @@ function AddNewUser() {
                                             <div className="col-md-11 offset-md-1">
                                                 <form>
                                                     <div className="form-group">
-                                                        <input type="email" className="form-control" id="studentituemail" placeholder="ITU Email Address" />
+                                                        <input type="email" className="form-control Tms-input-field" id="studentituemail" placeholder="ITU Email Address" />
                                                     </div>
                                                     <div className="form-group">
-                                                        <input className="form-control" id="studentfname" placeholder="First Name" />
+                                                        <input className="form-control Tms-input-field" id="studentfname" placeholder="First Name" />
                                                     </div>
                                                     <div className="form-group">
-                                                        <input className="form-control" id="studentlname" placeholder="Last Name" />
+                                                        <input className="form-control Tms-input-field" id="studentlname" placeholder="Last Name" />
                                                     </div>
                                                     <div className="form-check text-left">
                                                         <input className="form-check-input" type="checkbox" value="" id="emailupdate" />

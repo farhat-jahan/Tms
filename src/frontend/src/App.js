@@ -38,7 +38,7 @@ function App() {
             <NavLink activeClassName="active" to="/dashboard">Dashboard</NavLink> */}
             <Switch>
               <Route exact path="/" component={Login} />
-              <Route path="/add" component={AddNewUser} />
+              <Route path="/user" component={AddNewUser} />
               <Route path="/inquiry" component={CreateTaskStudent} />
               <Route path="/task" component={CreateTaskFaculty} />
               <Route path="/student" component={StudentDashboard} />

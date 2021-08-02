@@ -31,12 +31,12 @@ const NewTaskForm = () => {
                         <fieldset>
                             <div className="form-group">
                                 <label htmlFor="newtask-title" className="form-label mt-4 Tms-input-label">TITLE</label>
-                                <input type="text" className="form-control Tms-imput-field-text" id="newtask-title" placeholder="Type something"/>
+                                <input type="text" className="form-control Tms-input-field Tms-imput-field-text" id="newtask-title" placeholder="Type something"/>
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="inquiry-title" className="form-label mt-4 Tms-input-label">TYPE</label>
-                                <select className="form-control" id="departmentselection">
+                                <select className="form-control Tms-input-field" id="departmentselection">
                                     <option>Select</option>
                                     <option>Question</option>
                                     <option>Incident</option>
@@ -48,7 +48,7 @@ const NewTaskForm = () => {
 
                             <div className="form-group">
                                 <label htmlFor="newtask-description" className="form-label mt-4 Tms-input-label">DESCRIPTION</label>
-                                <textarea className="form-control Tms-imput-field-text" id="newtask-description" placeholder="Type something" rows="10"/>
+                                <textarea className="form-control Tms-input-field Tms-imput-field-text" id="newtask-description" placeholder="Type something" rows="10"/>
                             </div>
                             
                             <div className="form-group">

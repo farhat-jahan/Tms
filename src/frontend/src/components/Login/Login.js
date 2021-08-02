@@ -27,46 +27,49 @@ function Login(props) {
       }
 
 return (
-    <div className="container" style= {{height: "100vh"}}>
+    <div className="container-fluid Tms-page-bg" style= {{height: "100vh"}}>
         <br /> <br /> <br /> <br /> <br /> <br /> <br />
         <div className="row">
-            <div className="col-md-4 offset-md-1">
+            <div className="col-md-3"></div>
+            <div className="col-md-4">
                 <img src={itulogo} alt="itulogo" />
             </div>
             <div className="col-md-4">
                 <form>
-                    <div className="form-group">
-                        <label className="Tms-h5">Sign In with ITU email</label>
-                    </div>
-                    <div className="form-group">
-                        <input type="email" 
-                            {...ituEmail}
-                            className="form-control Tms-input-field Tms-imput-field-text" 
-                            id="ituemail" 
-                            placeholder="ITU Email Address" 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input type="password" 
-                            {...ituPassword}
-                            className="form-control Tms-input-field Tms-imput-field-text" 
-                            id="itupassword" 
-                            placeholder="Password" 
-                        />
-                    </div>
-                    {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
-                    <div className="form-check Set-position-right">
-                        <input type="checkbox" className="form-check-input" id="remembermelogin" />
-                        <label className="Tms-para4">Remember Me</label>
-                    </div>
-                    <br /> <br/>
-                    <div>
-                        <label className="Tms-para3 Tms-primary-color-green Text-center">Forgot Password?</label>
-                        <button
-                            value={loading ? 'Loading...' : 'Login'} onClick={handleLogin} disabled={loading}
-                            className="Tms-primary-large-button Tms-button-text-color Set-position-right">
-                        Sign In</button>
-                    </div>
+                    <fieldset>
+                        <div className="form-group">
+                            <label className="Tms-h5">Sign In with ITU email</label>
+                        </div>
+                        <div className="form-group">
+                            <input type="email" 
+                                {...ituEmail}
+                                className="form-control Tms-input-field Tms-imput-field-text" 
+                                id="ituemail" 
+                                placeholder="ITU Email Address" 
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input type="password" 
+                                {...ituPassword}
+                                className="form-control Tms-input-field Tms-imput-field-text" 
+                                id="itupassword" 
+                                placeholder="Password" 
+                            />
+                        </div>
+                        {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
+                        <div className="form-check Set-position-right">
+                            <input type="checkbox" className="form-check-input" id="remembermelogin" />
+                            <label className="Tms-para4">Remember Me</label>
+                        </div>
+                        <br /> <br/>
+                        <div>
+                            <label className="Tms-para3 Tms-primary-color-green Text-center">Forgot Password?</label>
+                            <button
+                                value={loading ? 'Loading...' : 'Login'} onClick={handleLogin} disabled={loading}
+                                className="Tms-primary-large-button Tms-button-text-color Set-position-right">
+                            Sign In</button>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
         </div>

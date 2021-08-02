@@ -9,15 +9,15 @@ const DepartmentForm = () => {
                 <fieldset>
                 <div className="form-group">
                     <label for="deptname" className="form-label mt-4 form-title-green">DEPARTMENT NAME</label>
-                    <input type="text" className="form-control" id="deptname" placeholder="Type Something" />
+                    <input type="text" className="form-control Tms-input-field" id="deptname" placeholder="Type Something" />
                 </div>
                 <div className="form-group">
                     <label for="ituemail" className="form-label mt-4 form-title-green">ITU EMAIL ADDRESS</label>
-                    <input type="email" className="form-control" id="ituemail" aria-describedby="emailHelp" placeholder="Type Something" />
+                    <input type="email" className="form-control Tms-input-field" id="ituemail" aria-describedby="emailHelp" placeholder="Type Something" />
                 </div>
                 <div className="form-group">
                     <label for="deptdescription" className="form-label mt-4 form-title-green">DESCRIPTION</label>
-                    <textarea className="form-control" id="deptdescription" rows="9" placeholder="Type Something" ></textarea>
+                    <textarea className="form-control Tms-input-field" id="deptdescription" rows="9" placeholder="Type Something" ></textarea>
                 </div>
                 </fieldset>
             </form>
@@ -34,7 +34,7 @@ const SearchDepartment = () => {
                     <label for="deptname" className="form-label mt-4 form-title-green">ASSIGN STAFF</label>
                     <div className="col-md-2"></div>
                     <div className="col-md-5">
-                        <input className="form-control search-field" type="text" placeholder="Search staff" aria-label="Search" /> 
+                        <input className="form-control Tms-input-field search-field" type="text" placeholder="Search staff" aria-label="Search" /> 
                     </div>
                     <div className="col-md-3">
                        <button className="btn green-btn add-btn-text"> ADD </button>

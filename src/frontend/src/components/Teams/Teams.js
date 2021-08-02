@@ -51,7 +51,7 @@ const UserTabkeSearch = () => {
         <div>
             <form className="row g-3">
             <div className="col-md-3">
-                <select className="form-control" id="taskdepartment">
+                <select className="form-control Tms-input-field" id="taskdepartment">
                     <option selected>Department</option>
                     <option>Admissions</option>
                     <option>ISO</option>
@@ -60,14 +60,14 @@ const UserTabkeSearch = () => {
                 </select>
             </div>
             <div className="col-md-3">
-                <select className="form-control" id="taskrole">
+                <select className="form-control Tms-input-field" id="taskrole">
                     <option selected>Role</option>
                     <option>Admin</option>
                     <option>Regular</option>
                 </select>
             </div>
             <div className="col-md-3">
-                <select className="form-control" id="taskprogram">
+                <select className="form-control Tms-input-field" id="taskprogram">
                     <option selected>Program</option>
                     <option>Computer</option>
                 </select>

@@ -3,7 +3,7 @@ import navbarlogo from './NavbarLogo.svg';
 
 function Navbar() {
     return (
-        <nav className="navbar navbar-color navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light navbar-color">
             <img src={navbarlogo} alt="logo" />
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>

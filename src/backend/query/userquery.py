@@ -135,27 +135,30 @@ def check_user_role(user):
     return False
 
 
-# This is Unused function
-# def find_user_by_email(user_email):
-#     """This function will check user by email and also checks if user is still active or not.
-#     :param user_email:
-#     :return: db_user (user object if user is active) else False
-#     """
-#     if user_email is None:
-#         raise InvalidInputException(" None Email is provided ")
-#
-#     db_user = None
-#     try:
-#         db_user = User.query.filter_by(email=user_email).one()
-#     except TimeoutException as e:
-#         raise TimeoutException("Timeout error. Failed to get user by email-{}. Error {}".format(user_email, e))
-#     except Exception as e:
-#         raise QueryException("Failed to get user by email-{}. Error {}".format(user_email, e))
-#
-#     if db_user and db_user.is_active is True:
-#         return db_user
-#
-#     return False
+def find_user_by_email(user_email):
+    """This function will check user by email and also checks if user is still active or not.
+    :param user_email:
+    :return: db_user (user object if user is active) else False
+    """
+    # if user_email is None:
+    #     raise InvalidInputException("None Email is provided ")
+
+    db_user = None
+    try:
+        db_user = User.query.filter_by(email=user_email).one()
+    except TimeoutException as e:
+        raise TimeoutException("Timeout error. Failed to get user by email-{}. Error {}".format(user_email, e))
+    except Exception as e:
+        raise QueryException("Failed to get user by email-{}. Error {}".format(user_email, e))
+
+    if db_user and db_user.is_active is True:
+        return db_user
+
+    db_user = None
+    return db_user
+
+
+
 
 
 def update_user_by_id(user_new_details):
@@ -283,7 +286,6 @@ def get_employee_department_for_userid(id):
     :param id:
     :return: department object as user_department
     """
-
     try:
         user = find_active_user_by_id(id)
         if not user:
@@ -337,4 +339,42 @@ def create_new_departments(department):
         return new_department
     except Exception as exc:
         raise CreateNewItemException("Failed to create departments. Reason {}".format(exc))
+
+
+def forgot_password_reset(data):
+    """ validates the active user based on email and then resets the password.
+    :param data: email, password, confirm-password
+    :return: db_user
+    """
+    db_user = find_user_by_email(data['email'])
+    try:
+        if db_user is None:
+            raise QueryException("Failed to get user by email-{}".format(data['email']))
+
+        password_hash = bcrypt.generate_password_hash(data['password'])
+        db_user.password = password_hash
+        db.session.commit()
+        return db_user
+
+    except Exception as exc:
+        raise CreateNewItemException("Failed to reset new password. Reason {}".format(exc))
+
+
+def update_new_password(data):
+    """ validates the active user based on email and then updates the old password with new password
+        :param data: email, old-password, new--password
+        :return: db_user
+        """
+    try:
+        db_user = find_user_by_credentials(data["email"], data["old-password"])
+        if db_user is None:
+            raise QueryException("Failed to get user by email-{}".format(data['email']))
+
+        password_hash = bcrypt.generate_password_hash(data['new-password'])
+        db_user.password = password_hash
+        db.session.commit()
+        return db_user
+
+    except UnauthorizedUserException as e:
+        raise UnauthorizedUserException("Unauthorized user. Error {}".format(e))
 

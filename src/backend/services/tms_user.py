@@ -288,8 +288,10 @@ def predefined_role_details():
     try:
         predefined_roles = ROLE_MAPPING
         return jsonify(predefined_roles), 200
+
     except Exception as exc:
         return jsonify({"error": str(exc)})
+
 
 @app.route('/api/v1/predefined-userrole-list', methods=["GET"])
 @login_required
@@ -300,5 +302,41 @@ def predefined_userrole_details():
     try:
         predefined_user_roles = USER_TYPE_MAPPING
         return jsonify(predefined_user_roles), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/forgot-password', methods=["POST"])
+@login_required
+def forgot_password():
+    """ validates the active user based on email and then resets the password.
+    :param data: email, password, confirm-password
+    :return: success or failure
+    """
+    password_reset_data = request.json
+    if password_reset_data['password'] != password_reset_data['confirm-password']:
+        return jsonify({"error": "Password and confirm password are different"})
+
+    try:
+        password_reset = userquery.forgot_password_reset(password_reset_data)
+        return jsonify({"success": "Password is changed"}), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/update-password', methods=["POST"])
+@login_required
+def update_password():
+    """ validates the active user based on email and then updates the new the password.
+    :param data: email, old-password, new-password
+    :return: success or failure
+    """
+    password_reset_data = request.json
+    try:
+        password_update = userquery.update_new_password(password_reset_data)
+        return jsonify({"success": "Password is updated"}), 200
+
     except Exception as exc:
         return jsonify({"error": str(exc)})

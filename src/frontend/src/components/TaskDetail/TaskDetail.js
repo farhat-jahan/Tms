@@ -3,6 +3,7 @@ import './TaskDetail.css';
 import taskElements from './TaskHistory';
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
+import { useHistory } from 'react-router-dom';
 
 const TaskInfo = () => {
     return(
@@ -134,6 +135,8 @@ const TaskHistory = () => {
 
 
 function TaskDetail() {
+    const history = useHistory();
+    const staffTask = () => history.push('/task');
     return (
         <div className="container-fluid Tms-page-bg">
             <br/>
@@ -159,7 +162,7 @@ function TaskDetail() {
                             <label className="Tms-para5">Created by Hinka Patel 6 days ago</label>
                         </div>
                         <div className="col-md-3">
-                            <button type="submit" className="btn btn-md Tms-btn-primary newtask-submit-btn">New Task</button>
+                            <button type="submit" className="btn btn-md Tms-btn-primary newtask-submit-btn" onClick={staffTask}>New Task</button>
                         </div>
                         <div className="col-md-2">
                             <button type="submit" className="btn btn-md newtask-submit-btn Tms-btn-secondary">Edit</button>

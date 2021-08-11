@@ -1,6 +1,7 @@
 
 import React from "react";
 import './StudentDashboard.css';
+import { useHistory } from 'react-router-dom';
 
 const StudentTaskTable = () => {
     return(
@@ -97,6 +98,8 @@ const StudentTaskTable = () => {
 }
 
 function StudentDashBoard(){
+    const history = useHistory();
+    const studentInquiry = () => history.push('/inquiry');
     return(
         <div className="container-fluid Tms-page-bg">
             <br/> <br />
@@ -109,7 +112,7 @@ function StudentDashBoard(){
                                 <h4 className="card-title Tms-h4">My Tasks</h4>
                             </div>
                             <div className="col-md-8">
-                                <button type="submit" className="btn btn-md student-dashboard-create-btn Tms-btn-secondary">Create a New Task</button>
+                                <button type="submit" className="btn btn-md student-dashboard-create-btn Tms-btn-secondary" onClick={studentInquiry} >Create a New Task</button>
                             </div>
                         </div>
                         <br/> <br/> <br/>

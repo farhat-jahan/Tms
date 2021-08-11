@@ -2,6 +2,7 @@ import React from "react";
 import './Tasks.css';
 import SearchTask from './SearchTask.svg';
 import CreateTaskBtn from './CreateTaskBtn.svg';
+import { useHistory } from 'react-router-dom';
 
 const TaskTableSearch = () => {
     return (
@@ -132,6 +133,8 @@ const TaskTable = () => {
 }
 
 function Tasks(){
+    const history = useHistory();
+    const adminTask = () => history.push('/task');
     return(
         <div className="container-fluid Tms-page-bg">
             <br/> <br />
@@ -148,7 +151,7 @@ function Tasks(){
                             <div className="col-md-4">
                                 <div class="btn-group">
                                     <button className="btn"><img src={SearchTask} alt="SearchTask" /></button>
-                                    <button className="btn"><img src={CreateTaskBtn} alt="CreateTask" /></button>
+                                    <button className="btn" onClick={adminTask} ><img src={CreateTaskBtn} alt="CreateTask" /></button>
                                     {/* <button className="btn btn-md create-task-btn create-task-text">Create a Task</button> */}
                                 </div>
                             </div>

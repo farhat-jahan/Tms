@@ -263,7 +263,7 @@ class Task(Base):
     task_state = db.Column(db.Enum(TaskState))
     task_priority = db.Column(db.Enum(TaskPriority))
     department_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False, unique=False)
-    assignee_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=False)
+    assignee_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True, unique=False)
     originator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=False)
 
     def __repr__(self):

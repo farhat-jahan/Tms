@@ -243,8 +243,8 @@ def employee_department():
 
 @app.route('/api/v1/assignee-task-list', methods=["POST"])
 @login_required
-def assigned_task_to_user():
-    """Takes argument staff's id as id and returns assigned task details like:
+def assignee_task_list():
+    """Takes argument staff's id as id and returns task details like:
     :return:'task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id'
     """
     user_id = request.json['id']
@@ -252,7 +252,7 @@ def assigned_task_to_user():
         return jsonify({"error": "id can not be empty"}), 400
 
     try:
-        user_task = userquery.get_assigned_task_to_user(user_id)
+        user_task = userquery.get_assignee_task_list(user_id)
         return jsonify(user_task), 200
 
     except Exception as exc:
@@ -337,6 +337,35 @@ def update_password():
     try:
         password_update = userquery.update_new_password(password_reset_data)
         return jsonify({"success": "Password is updated"}), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+@app.route('/api/v1/create-task-student', methods=["POST"])
+@login_required
+def create_task_student():
+    task = request.json
+    try:
+        db_task = userquery.task_createdby_student(task)
+        return jsonify({'taskId': db_task.id}), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/student-task-list', methods=["POST"])
+@login_required
+def task_list_student():
+    """takes student id as id and returns created task details like:
+    :return:'task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id'
+    """
+    user_id = request.json['id']
+    if user_id is None:
+        return jsonify({"error": "id can not be empty"}), 400
+
+    try:
+        user_task = userquery.get_task_createdby_student(user_id)
+        return jsonify(user_task), 200
 
     except Exception as exc:
         return jsonify({"error": str(exc)})

@@ -304,9 +304,9 @@ def get_employee_department_for_userid(id):
     return user_department
 
 
-def get_assigned_task_to_user(id):
+def get_assignee_task_list(id):
     """
-    Queries the all assigned task to this id and return task details like:
+    Queries the task associated with this id and return task details like:
      ('task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id')
     :param id: user's id as id
     :return: assigned task details to this user
@@ -378,3 +378,45 @@ def update_new_password(data):
     except UnauthorizedUserException as e:
         raise UnauthorizedUserException("Unauthorized user. Error {}".format(e))
 
+
+def task_createdby_student(task):
+    try:
+        task_type = TaskType(task['taskType'].upper())
+        db_dept = Department.query.filter_by(department_name=task['department']).one()
+        if not db_dept:
+            dept_id = 1
+        else:
+            dept_id = db_dept.id
+        new_task = Task(task_title=task['title'], department_id=dept_id,
+                        task_type=task_type, description=task['description'],
+                        originator_id=task['studentId'], task_priority='MEDIUM',
+                        task_state='ASSIGNED')
+
+        db.session.add(new_task)
+        db.session.commit()
+        db_task = Task.query.filter_by(originator_id=task['studentId'])
+        return new_task
+    except Exception as exc:
+        raise CreateNewItemException("Failed to create new user. Reason {}".format(exc))
+
+
+def get_task_createdby_student(id):
+    """
+    return task details created by student
+    :param id:
+    :return:
+    """
+    try:
+        user = find_active_user_by_id(id)
+        if not user:
+            raise ItemNotFoundException("User with id {} not found".format(id))
+
+        db_user_task = Task.query.filter_by(originator_id=id).all()
+        serialized_user_task = serializers.task_schema.dump(db_user_task)
+        if len(serialized_user_task) == 0:
+            raise ItemNotFoundException("Tasks can not be created by-{}".format(user.id))
+
+    except ItemNotFoundException:
+        raise ItemNotFoundException("Tasks can not be created by-{}".format(user.id))
+
+    return serialized_user_task

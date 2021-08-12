@@ -173,16 +173,16 @@ def users_list():
 
 
 @app.route('/api/v1/teams', methods=["POST"])
-@login_required
+#@login_required
 def departments_teams_list():
     """ return all users details, group by department.
     return:  first_name, last_name, email, user_role, user_type, employee_id, student_id, department_name
     """
-    dept_id = request.json['id']
-    if dept_id is None:
-        return jsonify({"error": "department-id can not be empty"}), 400
+    department_name = request.json['department']
+    if department_name is None:
+        return jsonify({"error": "department name can not be empty"}), 400
     try:
-        db_teams = userquery.get_department_wise_team_list(dept_id)
+        db_teams = userquery.get_department_wise_team_list(department_name)
     except Exception as exc:
         return jsonify({"error": str(exc)})
 

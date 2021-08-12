@@ -43,7 +43,7 @@ POST-DATA:
     {
         "studentId":2,
         "title":"x",
-        "taskType":"x",
+        "taskType":"QUESTION",
         "description":"x",
         "assignee":"t@g",
         "department":"ISO",
@@ -61,5 +61,12 @@ POST-DATA:
 
 URL:http://127.0.0.1:5000/api/v1/admin-task-list
 Method:GET
+
+URL:http://127.0.0.1:5000/api/v1/teams
+Method:POST
+POST-DATA:
+    {
+        "department": "AdvIsing"
+    }
 
 

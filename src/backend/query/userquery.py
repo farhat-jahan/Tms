@@ -304,9 +304,9 @@ def get_employee_department_for_userid(id):
     return user_department
 
 
-def get_assignee_task_list(id):
+def get_staff_task_list(id):
     """
-    Queries the task associated with this id and return task details like:
+    reeturs staffs task details: both tasks 'created by staff and assigned to staff'
      ('task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id')
     :param id: user's id as id
     :return: assigned task details to this user
@@ -316,13 +316,16 @@ def get_assignee_task_list(id):
         if not user:
             raise ItemNotFoundException("User with id {} not found".format(id))
 
-        db_user_task = Task.query.filter_by(assignee_id=id).all()
-        serialized_user_task = serializers.task_schema.dump(db_user_task)
+        db_task = Task.query.filter(
+            (Task.assignee_id==id) |(Task.originator_id==id)
+        ).all()
+
+        serialized_user_task = serializers.task_schema.dump(db_task)
         if len(serialized_user_task) == 0:
-            raise ItemNotFoundException("Tasks is not assigned to user-{}".format(user.id))
+            raise ItemNotFoundException("Tasks is not assigned/created for/by user-{}".format(user.id))
 
     except ItemNotFoundException:
-        raise ItemNotFoundException("Tasks is not assigned to user-{}".format(user.id))
+        raise ItemNotFoundException("Tasks is not assigned/created for/by user-{}".format(user.id))
 
     return serialized_user_task
 
@@ -379,7 +382,12 @@ def update_new_password(data):
         raise UnauthorizedUserException("Unauthorized user. Error {}".format(e))
 
 
+#TODO attachment upload part is not included in this API yet
 def task_createdby_student(task):
+    """ Stores the task created by students
+    :param task: studentId,title, department, taskType, description
+    :return:
+    """
     try:
         task_type = TaskType(task['taskType'].upper())
         db_dept = Department.query.filter_by(department_name=task['department']).one()
@@ -397,12 +405,12 @@ def task_createdby_student(task):
         db_task = Task.query.filter_by(originator_id=task['studentId'])
         return new_task
     except Exception as exc:
-        raise CreateNewItemException("Failed to create new user. Reason {}".format(exc))
+        raise CreateNewItemException("Failed to create new task. Reason {}".format(exc))
 
 
 def get_task_createdby_student(id):
     """
-    return task details created by student
+    return the task details created by student
     :param id:
     :return:
     """
@@ -414,9 +422,52 @@ def get_task_createdby_student(id):
         db_user_task = Task.query.filter_by(originator_id=id).all()
         serialized_user_task = serializers.task_schema.dump(db_user_task)
         if len(serialized_user_task) == 0:
-            raise ItemNotFoundException("Tasks can not be created by-{}".format(user.id))
+            raise ItemNotFoundException("Tasks are not created by-{}".format(user.id))
 
     except ItemNotFoundException:
-        raise ItemNotFoundException("Tasks can not be created by-{}".format(user.id))
+        raise ItemNotFoundException("Tasks are not created by-{}".format(user.id))
+
+    return serialized_user_task
+
+
+#TODO attachment upload part is not included in this API yet
+def task_createdby_staff(task):
+    """
+    :param task: studentId, title, taskType, description,assignee, department,taskStatus
+    :return:
+    """
+    try:
+        task_type = TaskType(task['taskType'].upper())
+        task_status = TaskState(task['taskStatus'].upper())
+        db_dept = Department.query.filter_by(department_name=task['department']).one()
+        if not db_dept:
+            dept_id = 1
+        else:
+            dept_id = db_dept.id
+        db_assignee = User.query.filter_by(email=task['assignee']).first()
+
+        new_task = Task(task_title=task['title'], task_type=task_type,
+                        description=task['description'], assignee_id=db_assignee.id,
+                        department_id=dept_id, originator_id=task['studentId'],
+                        task_state=task['taskStatus'],task_priority=task['taskPriority'])
+
+        db.session.add(new_task)
+        db.session.commit()
+        db_task = Task.query.filter_by(originator_id=task['studentId'])#This will be used for storing attachment/Discussion
+        return new_task
+    except Exception as exc:
+        raise CreateNewItemException("Failed to create new user. Reason {}".format(exc))
+
+
+def get_admin_task_list():
+    try:
+        db_task  =Task.query.all()
+        print("db_task")
+        serialized_user_task = serializers.task_schema.dump(db_task)
+        if len(serialized_user_task) == 0:
+            raise ItemNotFoundException("Tasks are empty")
+
+    except ItemNotFoundException:
+        raise ItemNotFoundException("Tasks are empty")
 
     return serialized_user_task

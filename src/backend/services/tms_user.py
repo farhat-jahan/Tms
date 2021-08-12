@@ -241,10 +241,23 @@ def employee_department():
     return jsonify(response), 200
 
 
-@app.route('/api/v1/assignee-task-list', methods=["POST"])
+@app.route('/api/v1/create-task-staff', methods=["POST"])
 @login_required
-def assignee_task_list():
-    """Takes argument staff's id as id and returns task details like:
+def create_task_staff():
+    """stores the task created by staffs"""
+    task = request.json
+    try:
+        db_task = userquery.task_createdby_staff(task)
+        return jsonify({'taskId': db_task.id}), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/staff-task-list', methods=["POST"])
+@login_required
+def staff_task_list():
+    """Takes staff's id as id and returns task: created by this staff and also assigned task to this staff
     :return:'task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id'
     """
     user_id = request.json['id']
@@ -252,7 +265,7 @@ def assignee_task_list():
         return jsonify({"error": "id can not be empty"}), 400
 
     try:
-        user_task = userquery.get_assignee_task_list(user_id)
+        user_task = userquery.get_staff_task_list(user_id)
         return jsonify(user_task), 200
 
     except Exception as exc:
@@ -341,9 +354,11 @@ def update_password():
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
+
 @app.route('/api/v1/create-task-student', methods=["POST"])
 @login_required
 def create_task_student():
+    """stores the task created by students"""
     task = request.json
     try:
         db_task = userquery.task_createdby_student(task)
@@ -355,7 +370,7 @@ def create_task_student():
 
 @app.route('/api/v1/student-task-list', methods=["POST"])
 @login_required
-def task_list_student():
+def student_task_list():
     """takes student id as id and returns created task details like:
     :return:'task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id'
     """
@@ -366,6 +381,21 @@ def task_list_student():
     try:
         user_task = userquery.get_task_createdby_student(user_id)
         return jsonify(user_task), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/admin-task-list', methods=["GET"])
+@login_required
+def admin_task_list():
+    """return all tasks for admin dashboard
+    :return:'task_title', 'description', 'task_type', 'task_state', 'task_priority',
+    assignee_id, 'department_id','originator_id'
+    """
+    try:
+        db_task = userquery.get_admin_task_list()
+        return jsonify(db_task), 200
 
     except Exception as exc:
         return jsonify({"error": str(exc)})

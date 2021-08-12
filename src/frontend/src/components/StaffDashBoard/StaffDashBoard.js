@@ -3,6 +3,7 @@ import './StaffDashBoard.css';
 import { Doughnut } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
 import StaffCalendarimg from './StaffCalendar.svg';
+import axios from "axios";
 
 class DepartmentOverview extends React.Component {
     state = {
@@ -42,6 +43,19 @@ const StaffCalendar = () => {
 }
 
 const StaffNewTask = () => {
+
+    // START:ADDED API HERE
+    const [task, setTask] = React.useState(null);
+    React.useEffect(() => {
+    axios.post('http://127.0.0.1:5000/api/v1/staff-task-list',{id:2}).then((response) => {
+      setTask(response.data);
+    });
+  }, []);
+    console.log(task)
+
+  if (!task) return null;
+  // END:ADDED API HERE
+
     return(
         <div>
             <table className="table table-hover">
@@ -54,6 +68,7 @@ const StaffNewTask = () => {
                     </tr>
                 </thead>
                 <tbody>
+
                     <tr>
                         <th scope="row">01</th>
                         <td> OPT Request </td>
@@ -62,46 +77,47 @@ const StaffNewTask = () => {
                         </td>
                         <td className="table-text-other">In Progress</td>
                     </tr>
-                    <tr>
-                        <th scope="row">02</th>
-                        <td> Course egistration queries </td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
-                        </td>
-                        <td className="table-text-other">In Progress</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">03</th>
-                        <td> Fall 2021 Fees related queries</td>
-                        <td>
-                            <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>
-                        </td>
-                        <td className="table-text-other">Submitted</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">04</th>
-                        <td> OPT Request </td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
-                        </td>
-                        <td className="table-text-completed">Completed</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">05</th>
-                        <td> Course registration queries</td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>
-                        </td>
-                        <td className="table-text-other">Submitted</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">06</th>
-                        <td> Request to add Java Course for Fall 2021 </td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
-                        </td>
-                        <td className="table-text-completed">Completed</td>
-                    </tr>
+
+                    {/*<tr>*/}
+                    {/*    <th scope="row">02</th>*/}
+                    {/*    <td> Course egistration queries </td>*/}
+                    {/*    <td>*/}
+                    {/*        <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>*/}
+                    {/*    </td>*/}
+                    {/*    <td className="table-text-other">In Progress</td>*/}
+                    {/*</tr>*/}
+                    {/*<tr>*/}
+                    {/*    <th scope="row">03</th>*/}
+                    {/*    <td> Fall 2021 Fees related queries</td>*/}
+                    {/*    <td>*/}
+                    {/*        <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>*/}
+                    {/*    </td>*/}
+                    {/*    <td className="table-text-other">Submitted</td>*/}
+                    {/*</tr>*/}
+                    {/*<tr>*/}
+                    {/*    <th scope="row">04</th>*/}
+                    {/*    <td> OPT Request </td>*/}
+                    {/*    <td>*/}
+                    {/*        <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>*/}
+                    {/*    </td>*/}
+                    {/*    <td className="table-text-completed">Completed</td>*/}
+                    {/*</tr>*/}
+                    {/*<tr>*/}
+                    {/*    <th scope="row">05</th>*/}
+                    {/*    <td> Course registration queries</td>*/}
+                    {/*    <td>*/}
+                    {/*        <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>*/}
+                    {/*    </td>*/}
+                    {/*    <td className="table-text-other">Submitted</td>*/}
+                    {/*</tr>*/}
+                    {/*<tr>*/}
+                    {/*    <th scope="row">06</th>*/}
+                    {/*    <td> Request to add Java Course for Fall 2021 </td>*/}
+                    {/*    <td>*/}
+                    {/*        <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>*/}
+                    {/*    </td>*/}
+                    {/*    <td className="table-text-completed">Completed</td>*/}
+                    {/*</tr>*/}
                 </tbody>
             </table>
 

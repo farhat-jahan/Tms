@@ -173,7 +173,7 @@ def users_list():
 
 
 @app.route('/api/v1/teams', methods=["POST"])
-#@login_required
+@login_required
 def departments_teams_list():
     """ return all users details, group by department.
     return:  first_name, last_name, email, user_role, user_type, employee_id, student_id, department_name
@@ -277,7 +277,7 @@ def staff_task_list():
 @requires_admin_auth
 def create_departments():
     """ Creates new department in department table.
-    :return: department-id
+    :return: department_id
     """
     departments_json = request.json
     if len((departments_json['department_name']).strip()) == 0 or len(
@@ -289,7 +289,7 @@ def create_departments():
     except Exception as exc:
         return jsonify({"error": str(exc)}), 500
 
-    return {"department-id": db_departments.id}, 200
+    return {"department_id": db_departments.id}, 200
 
 
 @app.route('/api/v1/predefined-role-list', methods=["GET"])

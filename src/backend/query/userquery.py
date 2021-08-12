@@ -332,7 +332,8 @@ def create_new_departments(department):
         """
     try:
         new_department = Department(department_name=department['department_name'],
-                                    department_email=department['department_email'])
+                                    department_email=department['department_email'],
+                                    department_description=department['department_description'])
         db.session.add(new_department)
         db.session.commit()
         return new_department

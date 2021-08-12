@@ -36,6 +36,7 @@ class Department(Base):
 
     department_name = db.Column(db.String(80), unique=True, nullable=False)
     department_email = db.Column(db.String(200), unique=True, nullable=False)
+    department_description = db.Column(db.String(300),  nullable=True)
 
     def __repr__(self):
         return '<Department Name  %s>' % self.department_name

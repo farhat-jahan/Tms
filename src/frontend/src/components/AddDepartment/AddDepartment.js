@@ -1,8 +1,25 @@
 import React from "react";
 import './AddDepartment.css';
 import EmailIcon from '../Teams/EmailIcon.svg'
+import axios from "axios";
 
 const DepartmentForm = () => {
+
+  //   // START:ADDED API HERE
+  //   const [task, setTask] = React.useState(null);
+  //   React.useEffect(() => {
+  //   axios.post('http://127.0.0.1:5000/api/v1/create-department',
+  //       {'department_name':'AdvIsing','department_email':'acccount@itu.test',
+  //           'department_description':'Handles payments' })
+  //       .then((response) => {
+  //     setTask(response.data);
+  //   });
+  // }, []);
+  //   console.log(task)
+  //
+  // if (!task) return null;
+  // // END:ADDED API HERE
+
     return (
         <div>
             <form>

@@ -69,4 +69,12 @@ POST-DATA:
         "department": "AdvIsing"
     }
 
+URL:http://127.0.0.1:5000/api/v1/create-department
+Method:POST
+POST-DATA:
+{
+	"department_name":"Accounting",
+	"department_email":"acccount@itu.test",
+	"department_description":"Handles payments"
+}
 

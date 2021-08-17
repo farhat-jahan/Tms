@@ -149,7 +149,7 @@ function Tasks(){
                             <div className="col-md-2">
                             </div>
                             <div className="col-md-4">
-                                <div class="btn-group">
+                                <div className="btn-group">
                                     <button className="btn"><img src={SearchTask} alt="SearchTask" /></button>
                                     <button className="btn" onClick={adminTask} ><img src={CreateTaskBtn} alt="CreateTask" /></button>
                                     {/* <button className="btn btn-md create-task-btn create-task-text">Create a Task</button> */}

@@ -74,7 +74,7 @@ def create_user(user):
             password_hash = bcrypt.generate_password_hash(user['password'])
             new_user = User(first_name=user['first_name'], last_name=user['last_name'],
                             email=user['email'], password=password_hash,
-                            role=Role(user['role'].upper()),
+                            role=user['role'].upper(),
                             user_type=UserType(user['user_type'].upper()),
                             employee_id=user['employee_id'])
 
@@ -83,6 +83,8 @@ def create_user(user):
             return new_user
         except Exception as exc:
             raise CreateNewItemException("Failed to create new user. Reason {}".format(exc))
+    except Exception as e:
+        print(e)
 
 
 def find_user_by_id(id):
@@ -377,4 +379,3 @@ def update_new_password(data):
 
     except UnauthorizedUserException as e:
         raise UnauthorizedUserException("Unauthorized user. Error {}".format(e))
-

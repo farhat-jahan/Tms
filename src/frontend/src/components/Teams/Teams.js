@@ -1,8 +1,23 @@
 import React from "react";
 import "./Teams.css";
 import EmailIcon from "./EmailIcon.svg";
+import axios from "axios";
 
 const DepartmentList = () => {
+
+    // START:ADDED API HERE
+    const [task, setTask] = React.useState(null);
+    React.useEffect(() => {
+    axios.post('http://127.0.0.1:5000/api/v1/teams',{'department':'AdvIsing'}).then((response) => {
+      setTask(response.data);
+    });
+  }, []);
+    console.log(task)
+
+  if (!task) return null;
+  // END:ADDED API HERE
+
+
     return(
         <div className="card-body">
             <div className="p-3 mb-3 bg-white rounded border-left-department-list border-color-iso">

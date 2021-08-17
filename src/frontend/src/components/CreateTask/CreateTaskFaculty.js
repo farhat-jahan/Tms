@@ -120,7 +120,7 @@ const NewTaskForm = () => {
                             <div className="form-group w-100">
                                 <label htmlFor="newtask-title" className="form-label mt-4 Tms-input-label w-100">
                                     <div className="row">
-                                        <div className="col col-md-8">PROJECT STATUS</div>
+                                        <div className="col col-md-8">TASK PRIORITY</div>
                                         
                                     </div>
                                     

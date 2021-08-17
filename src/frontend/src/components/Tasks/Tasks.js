@@ -3,6 +3,7 @@ import './Tasks.css';
 import SearchTask from './SearchTask.svg';
 import CreateTaskBtn from './CreateTaskBtn.svg';
 import { useHistory } from 'react-router-dom';
+import axios from "axios";
 
 const TaskTableSearch = () => {
     return (
@@ -135,6 +136,22 @@ const TaskTable = () => {
 function Tasks(){
     const history = useHistory();
     const adminTask = () => history.push('/task');
+
+
+    // START:ADDED API HERE
+    const [task, setTask] = React.useState(null);
+    React.useEffect(() => {
+    axios.get('http://127.0.0.1:5000/api/v1/admin-task-list').then((response) => {
+      setTask(response.data);
+    });
+  }, []);
+    console.log(task)
+
+  if (!task) return null;
+   // END:ADDED API HERE
+
+
+
     return(
         <div className="container-fluid Tms-page-bg">
             <br/> <br />

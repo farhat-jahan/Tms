@@ -198,11 +198,11 @@ def departments_teams_list():
     """ return all users details, group by department.
     return:  first_name, last_name, email, user_role, user_type, employee_id, student_id, department_name
     """
-    dept_id = request.json['id']
-    if dept_id is None:
-        return jsonify({"error": "department-id can not be empty"}), 400
+    department_name = request.json['department']
+    if department_name is None:
+        return jsonify({"error": "department name can not be empty"}), 400
     try:
-        db_teams = userquery.get_department_wise_team_list(dept_id)
+        db_teams = userquery.get_department_wise_team_list(department_name)
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
@@ -272,7 +272,7 @@ def assigned_task_to_user():
         return jsonify({"error": "id can not be empty"}), 400
 
     try:
-        user_task = userquery.get_assigned_task_to_user(user_id)
+        user_task = userquery.get_staff_task_list(user_id)
         return jsonify(user_task), 200
 
     except Exception as exc:
@@ -284,7 +284,7 @@ def assigned_task_to_user():
 @requires_admin_auth
 def create_departments():
     """ Creates new department in department table.
-    :return: department-id
+    :return: department_id
     """
     departments_json = request.json
     if len((departments_json['department_name']).strip()) == 0 or len(
@@ -296,7 +296,7 @@ def create_departments():
     except Exception as exc:
         return jsonify({"error": str(exc)}), 500
 
-    return {"department-id": db_departments.id}, 200
+    return {"department_id": db_departments.id}, 200
 
 
 @app.route('/api/v1/predefined-role-list', methods=["GET"])
@@ -357,6 +357,52 @@ def update_password():
     try:
         password_update = userquery.update_new_password(password_reset_data)
         return jsonify({"success": "Password is updated"}), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/create-task-student', methods=["POST"])
+@jwt_required()
+def create_task_student():
+    """stores the task created by students"""
+    task = request.json
+    try:
+        db_task = userquery.task_createdby_student(task)
+        return jsonify({'taskId': db_task.id}), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/student-task-list', methods=["POST"])
+@jwt_required()
+def student_task_list():
+    """takes student id as id and returns created task details like:
+    :return:'task_title', 'description', 'task_type', 'task_state', 'task_priority', 'department_id','originator_id'
+    """
+    user_id = request.json['id']
+    if user_id is None:
+        return jsonify({"error": "id can not be empty"}), 400
+
+    try:
+        user_task = userquery.get_task_createdby_student(user_id)
+        return jsonify(user_task), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/admin-task-list', methods=["GET"])
+@jwt_required()
+def admin_task_list():
+    """return all tasks for admin dashboard
+    :return:'task_title', 'description', 'task_type', 'task_state', 'task_priority',
+    assignee_id, 'department_id','originator_id'
+    """
+    try:
+        db_task = userquery.get_admin_task_list()
+        return jsonify(db_task), 200
 
     except Exception as exc:
         return jsonify({"error": str(exc)})

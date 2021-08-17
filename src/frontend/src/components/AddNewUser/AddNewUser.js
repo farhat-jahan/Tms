@@ -107,13 +107,13 @@ function AddNewUser(props) {
                         employee_id: studentId.value
         }
         axios.post('http://localhost:5000/api/v1/register', reqBody, config).then(response => {
-        setLoading(false);
-        props.history.push('/admintasks');
+            setLoading(false);
+            props.history.push('/admintasks');
         }).catch(error => {
-        setLoading(false);
-        if (error.response && error.response.status === 401) setError(error.response.data.message);
-        else if (error.response && error.response.status === 500) setError(error.message);
-        else setError("Something went wrong. Please try again later.");
+            setLoading(false);
+            if (error.response && error.response.status === 401) setError(error.response.data.message);
+            else if (error.response && error.response.status === 500) setError(error.message);
+            else setError("Something went wrong. Please try again later.");
         });
     }
 

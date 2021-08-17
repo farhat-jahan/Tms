@@ -1,6 +1,6 @@
 
 import React from "react";
-import './StudentDashBoard.css';
+import './StudentDashboard.css';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -22,7 +22,7 @@ const StudentTaskTable = () => {
 
     return(
         <div>
-            <table class="table table-hover">
+            <table className="table table-hover">
                 <thead>
                     <tr>
                     <th scope="col">#</th>
@@ -93,27 +93,27 @@ const StudentTaskTable = () => {
 
             <br/>
             <div>
-                <ul class="pagination pagination-sm justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">&laquo;</a>
+                <ul className="pagination pagination-sm justify-content-center">
+                    <li className="page-item disabled">
+                        <a className="page-link" href="#">&laquo;</a>
                     </li>
-                    <li class="page-item active">
-                        <a class="page-link pagination-text" href="#">1</a>
+                    <li className="page-item active">
+                        <a className="page-link pagination-text" href="#">1</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link pagination-text" href="#">2</a>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">2</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link pagination-text" href="#">3</a>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">3</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link pagination-text" href="#">4</a>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">4</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link pagination-text" href="#">5</a>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">5</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link pagination-text" href="#">&raquo;</a>
+                    <li className="page-item">
+                        <a className="page-link pagination-text" href="#">&raquo;</a>
                     </li>
                 </ul>
             </div>
@@ -121,7 +121,7 @@ const StudentTaskTable = () => {
     );
 }
 
-function StudentDashBoard(){
+function StudentDashboard(){
     const history = useHistory();
     const studentInquiry = () => history.push('/inquiry');
     return(
@@ -153,5 +153,5 @@ function StudentDashBoard(){
     );
 }
 
-export default StudentDashBoard;
+export default StudentDashboard;
 

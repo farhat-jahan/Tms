@@ -1,43 +1,85 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './AddDepartment.css';
 import EmailIcon from '../Teams/EmailIcon.svg'
 import axios from "axios";
+import { getToken } from '../Utils/Common';
 
-const DepartmentForm = () => {
+const DepartmentForm = (props) => {
+    
+    const deptName = useFormInput('');
+    const deptItuEmail = useFormInput('');
+    const deptDescription = useFormInput(''); 
 
-  //   // START:ADDED API HERE
-  //   const [task, setTask] = React.useState(null);
-  //   React.useEffect(() => {
-  //   axios.post('http://127.0.0.1:5000/api/v1/create-department',
-  //       {'department_name':'AdvIsing','department_email':'acccount@itu.test',
-  //           'department_description':'Handles payments' })
-  //       .then((response) => {
-  //     setTask(response.data);
-  //   });
-  // }, []);
-  //   console.log(task)
-  //
-  // if (!task) return null;
-  // // END:ADDED API HERE
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    let config = {
+        headers : {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    }
+
+    const createNewDepartment = (event) => {
+        let reqBody = { 
+            department_name: deptName.value,
+            department_email: deptItuEmail.value,
+            department_description: deptDescription.value
+        }
+        event.preventDefault();
+        console.log(reqBody);
+        axios.post('http://localhost:5000/api/v1/create-department', reqBody, config).then(response => {
+            console.log(response);
+            setLoading(false);
+            props.history.push('/admintasks');
+        }).catch(error => {
+            setLoading(false);
+            if (error.response && error.response.status === 401) setError(error.response.data.message);
+            else if (error.response && error.response.status === 500) setError(error.message);
+            else setError("Something went wrong. Please try again later.");
+        });
+    }
 
     return (
         <div>
             <form>
                 <fieldset>
                 <div className="form-group">
-                    <label for="deptname" className="form-label mt-4 form-title-green">DEPARTMENT NAME</label>
-                    <input type="text" className="form-control Tms-input-field" id="deptname" placeholder="Type Something" />
+                    <label className="form-label mt-4 form-title-green">DEPARTMENT NAME</label>
+                    <input 
+                        {...deptName}
+                        type="text" 
+                        className="form-control Tms-input-field" 
+                        id="deptName" 
+                        placeholder="Type Something" 
+                    />
                 </div>
                 <div className="form-group">
-                    <label for="ituemail" className="form-label mt-4 form-title-green">ITU EMAIL ADDRESS</label>
-                    <input type="email" className="form-control Tms-input-field" id="ituemail" aria-describedby="emailHelp" placeholder="Type Something" />
+                    <label className="form-label mt-4 form-title-green">ITU EMAIL ADDRESS</label>
+                    <input 
+                        {...deptItuEmail}
+                        type="email" 
+                        className="form-control Tms-input-field" 
+                        id="deptItuEmail" 
+                        aria-describedby="emailHelp" 
+                        placeholder="Type Something" 
+                    />
                 </div>
                 <div className="form-group">
-                    <label for="deptdescription" className="form-label mt-4 form-title-green">DESCRIPTION</label>
-                    <textarea className="form-control Tms-input-field" id="deptdescription" rows="9" placeholder="Type Something" ></textarea>
+                    <label className="form-label mt-4 form-title-green">DESCRIPTION</label>
+                    <textarea 
+                        {...deptDescription}
+                        className="form-control Tms-input-field" 
+                        id="deptDescription" 
+                        rows="9" 
+                        placeholder="Type Something" >
+                    </textarea>
                 </div>
+                <br /> <br />
+                <button className="btn btn-md green-btn add-btn-text" onClick={createNewDepartment}> Submit </button>
+                <button className="btn btn-md grey-btn add-btn-text"> Save a Draft </button>
                 </fieldset>
             </form>
+        <br /><br/>
         </div>
     );
 }
@@ -47,8 +89,8 @@ const SearchDepartment = () => {
         <div>
             <form>
                 <fieldset>
-                <div class="form-group row">
-                    <label for="deptname" className="form-label mt-4 form-title-green">ASSIGN STAFF</label>
+                <div className="form-group row">
+                    <label className="form-label mt-4 form-title-green">ASSIGN STAFF</label>
                     <div className="col-md-2"></div>
                     <div className="col-md-5">
                         <input className="form-control Tms-input-field search-field" type="text" placeholder="Search staff" aria-label="Search" /> 
@@ -64,6 +106,7 @@ const SearchDepartment = () => {
 }
 
 const DepartmentTable = () => {
+
     return (
         <div>
             <table className="table table-hover">
@@ -120,9 +163,6 @@ const DepartmentTable = () => {
             </table>
 
             <br/>
-
-            <button className="btn btn-md green-btn add-btn-text"> Submit </button>
-            <button className="btn btn-md grey-btn add-btn-text"> Save a Draft </button>
         </div>
     );
 }
@@ -152,6 +192,18 @@ function AddDepartment() {
             
         </div>
     );
+}
+
+const useFormInput = initialValue => {
+    const [value, setValue] = useState(initialValue);
+   
+    const handleChange = e => {
+      setValue(e.target.value);
+    }
+    return {
+      value,
+      onChange: handleChange
+    }
 }
 
 export default AddDepartment;

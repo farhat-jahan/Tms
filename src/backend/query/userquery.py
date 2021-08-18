@@ -448,6 +448,10 @@ def task_createdby_staff(task):
         task_status = TaskState(task['taskStatus'].upper())
 
         db_dept = Department.query.filter(Department.department_name.ilike(task['department'])).one()
+        db_user_emp_id = User.query.filter_by(employee_id=task['employee_Id']).first()
+        print("****-",db_user_emp_id)
+        if db_user_emp_id is None:
+            raise NoResultFound("Employee id not found")
 
         db_assignee = User.query.filter_by(email=task['assignee']).first()
         if db_assignee is None:
@@ -455,7 +459,7 @@ def task_createdby_staff(task):
 
         new_task = Task(task_title=task['title'], task_type=task_type,
                         description=task['description'], assignee_id=db_assignee.id,
-                        department_id=db_dept.id, originator_id=task['employee_Id'],
+                        department_id=db_dept.id, originator_id=db_user_emp_id.id,
                         task_state=task['taskStatus'],task_priority=task['taskPriority'])
 
         db.session.add(new_task)

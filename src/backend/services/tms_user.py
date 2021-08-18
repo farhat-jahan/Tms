@@ -49,6 +49,7 @@ def load_user(id):
         return None
 '''
 
+
 def _login_user(user):
     '''
     if current_user and current_user.is_authenticated:
@@ -57,7 +58,7 @@ def _login_user(user):
     '''
     try:
         db_user = userquery.find_user_by_credentials(user["email"], user["password"])
-        #login_user(db_user)
+        # login_user(db_user)
         if db_user.role == Role.ADMIN:
             access_token = create_access_token(identity=user["email"], additional_claims={"is_administrator": True})
         else:
@@ -68,7 +69,7 @@ def _login_user(user):
 
 
 def _logout_user():
-    #logout_user()
+    # logout_user()
     return 200
 
 
@@ -240,7 +241,7 @@ def task_priority_list():
 def employee_department():
     """Returns Employee-department mapping details
     :param: user's id as id
-    :return: user_id, dept_id, department_email, department_name
+    :return:  id, department_email, department_name, user_id, user_email
     """
     user_id = request.json['id']
     if user_id is None:
@@ -251,14 +252,7 @@ def employee_department():
     except Exception as exc:
         return jsonify({"error": str(exc)})
 
-    response = {
-        "user_id": user_id,
-        "dept_id": user_dept.id,
-        "department_name": user_dept.department_name,
-        "department_email": user_dept.department_email
-    }
-
-    return jsonify(response), 200
+    return jsonify(user_dept), 200
 
 
 @app.route('/api/v1/assignee-task-list', methods=["POST"])
@@ -403,6 +397,19 @@ def admin_task_list():
     try:
         db_task = userquery.get_admin_task_list()
         return jsonify(db_task), 200
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)})
+
+
+@app.route('/api/v1/create-task-staff', methods=["POST"])
+@jwt_required()
+def create_task_staff():
+    """stores the task created by staffs"""
+    task = request.json
+    try:
+        db_task = userquery.task_createdby_staff(task)
+        return jsonify({'taskId': db_task.id}), 200
 
     except Exception as exc:
         return jsonify({"error": str(exc)})

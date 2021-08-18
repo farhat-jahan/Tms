@@ -282,24 +282,34 @@ def get_employee_department_for_userid(id):
     """Checks Employee-department mapping in EmployeeDepartmentMapping model.
     it returns the department details for this user's id
     :param id:
-    :return: department object as user_department
+    :return: serialized object
     """
     try:
         user = find_active_user_by_id(id)
         if not user:
             raise ItemNotFoundException("User with id {} not found".format(id))
 
-        dept = EmployeeDepartmentMapping.query.filter_by(user_id=user.id).one()
+        emp_dept_mapping = EmployeeDepartmentMapping.query.with_entities(EmployeeDepartmentMapping.dept_id) \
+            .filter_by(user_id=user.id).all()
+        emp_dept_mapping_dept_id = [id for val in emp_dept_mapping for id in val]
 
-        if not dept:
+        if not emp_dept_mapping_dept_id:
             raise ItemNotFoundException("Employee-department mapping does not exist")
 
-        user_department = Department.query.filter_by(id=dept.dept_id).one()
+        db_user_department = Department.query.filter(Department.id.in_(emp_dept_mapping_dept_id)).all()
+        serialized_db_user_department = serializers.department_schema.dump(db_user_department)
+        print("**** ", serialized_db_user_department)
+        if len(serialized_db_user_department) == 0:
+            raise ItemNotFoundException("Employee-department mapping does not exist")
 
+        else:
+            for i, v in enumerate(serialized_db_user_department):
+                v['user_id'] = user.id
+                v['user_email'] = user.email
     except NoResultFound:
         raise NoResultFound("Employee-department mapping does not exist")
 
-    return user_department
+    return serialized_db_user_department
 
 
 def get_staff_task_list(id):
@@ -430,7 +440,7 @@ def get_task_createdby_student(id):
 #TODO attachment upload part is not included in this API yet
 def task_createdby_staff(task):
     """
-    :param task: studentId, title, taskType, description,assignee, department,taskStatus
+    :param task: employee_Id, title, taskType, description,assignee, department,taskStatus
     :return:
     """
     try:
@@ -440,25 +450,27 @@ def task_createdby_staff(task):
         db_dept = Department.query.filter(Department.department_name.ilike(task['department'])).one()
 
         db_assignee = User.query.filter_by(email=task['assignee']).first()
+        if db_assignee is None:
+            raise NoResultFound("assignee not found")
 
         new_task = Task(task_title=task['title'], task_type=task_type,
                         description=task['description'], assignee_id=db_assignee.id,
-                        department_id=db_dept.id, originator_id=task['studentId'],
+                        department_id=db_dept.id, originator_id=task['employee_Id'],
                         task_state=task['taskStatus'],task_priority=task['taskPriority'])
 
         db.session.add(new_task)
         db.session.commit()
-        db_task = Task.query.filter_by(originator_id=task['studentId'])#This will be used for storing attachment/Discussion
+        db_task = Task.query.filter_by(originator_id=task['employee_Id'])#This will be used for storing attachment/Discussion
         return new_task
     except NoResultFound as exc:
-        raise NoResultFound("Failed,department not found. Reason {}".format(exc))
+        raise NoResultFound("Failed, Reason {}".format(exc))
     except Exception as exc:
         raise CreateNewItemException("Failed to create new task. Reason {}".format(exc))
 
 
 def get_admin_task_list():
     try:
-        db_task  =Task.query.all()
+        db_task=Task.query.all()
         print("db_task")
         serialized_user_task = serializers.task_schema.dump(db_task)
         if len(serialized_user_task) == 0:

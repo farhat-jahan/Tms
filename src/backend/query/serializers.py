@@ -16,6 +16,7 @@ ma = Marshmallow(app)
 class DepartmentSchema(ma.Schema):
     class Meta:
         model = Department
+        ordered = True
         fields = ('id', 'department_name', 'department_email')
 
 

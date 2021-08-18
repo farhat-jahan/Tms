@@ -41,7 +41,7 @@ URL: http://127.0.0.1:5000/api/v1/create-task-staff
 Method:POST
 POST-DATA:
     {
-        "studentId":2,
+        "employee_Id":2,
         "title":"x",
         "taskType":"QUESTION",
         "description":"x",
@@ -51,7 +51,7 @@ POST-DATA:
         "taskPriority":"LOW"
     }
 
-URL: http://127.0.0.1:5000/api/v1/staff-task-list
+URL: http://127.0.0.1:5000/api/v1/assignee-task-list
 Method:POST
 POST-DATA:
     {

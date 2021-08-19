@@ -26,9 +26,7 @@ const DepartmentForm = (props) => {
             department_description: deptDescription.value
         }
         event.preventDefault();
-        console.log(reqBody);
         axios.post('http://localhost:5000/api/v1/create-department', reqBody, config).then(response => {
-            console.log(response);
             setLoading(false);
             props.history.push('/admintasks');
         }).catch(error => {
@@ -74,6 +72,7 @@ const DepartmentForm = (props) => {
                         placeholder="Type Something" >
                     </textarea>
                 </div>
+                {/* {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br /> */}
                 <br /> <br />
                 <button className="btn btn-md green-btn add-btn-text" onClick={createNewDepartment}> Submit </button>
                 <button className="btn btn-md grey-btn add-btn-text"> Save a Draft </button>

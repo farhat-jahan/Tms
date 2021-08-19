@@ -398,11 +398,11 @@ def task_createdby_student(task):
     :return:
     """
     try:
-        task_type = TaskType(task['taskType'].upper())
+        # task_type = TaskType(task['taskType'].upper())
         db_dept = Department.query.filter_by(department_name=task['department']).one()
         new_task = Task(task_title=task['title'], department_id=db_dept.id,
-                        task_type=task_type, description=task['description'],
-                        originator_id=task['studentId'], task_priority='MEDIUM',
+                        task_type=task['taskType'], description=task['description'],
+                        originator_id=task['studentId'], task_priority=task['task_priority'],
                         task_state='ASSIGNED')
 
         db.session.add(new_task)

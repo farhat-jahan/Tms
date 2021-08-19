@@ -1,23 +1,45 @@
-
-import React from "react";
+import React, {useState, useEffect} from "react";
 import './StudentDashboard.css';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { getToken } from '../Utils/Common';
+
 
 const StudentTaskTable = () => {
+    const [tasks, setTasks] = useState([]);
 
-    // START:ADDED API HERE
-    const [task, setTask] = React.useState(null);
-    React.useEffect(() => {
-    axios.post('http://127.0.0.1:5000/api/v1/student-task-list',{id:2}).then((response) => {
-      setTask(response.data);
-    });
-  }, []);
-    console.log(task)
+    const getPriorityID = (task_priority) => {
+        if (task_priority === 'LOW'){
+            return 'low';
+        } else if (task_priority === 'MEDIUM') {
+            return 'meduim';
+        } else if (task_priority === 'HIGH') {
+            return 'high';
+        } else if (task_priority === 'URGENT') {
+            return 'urgent';
+        }
+        return task_priority;
+    }
 
-  if (!task) return null;
-  // END:ADDED API HERE
+    let config = {
+        headers : {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    }
 
+    let reqBody = {
+        id: 8
+    }
+
+    useEffect(() => {
+        const url = axios.post('http://localhost:5000/api/v1/student-task-list', reqBody , config).then(res => {
+                let resp = res.data;
+                setTasks(resp);
+                return resp;
+            })
+            .then(setTasks)
+            .catch(console.error)
+    }, []);
 
 
     return(
@@ -32,62 +54,20 @@ const StudentTaskTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>{
-                        task.map(task => (
-                        <td>{task.task_title}</td>
-                        // <td>{task.task_title}</td>
-                        // <td>{task.task_state}</td>
-                        // <td>{task.task_priority}</td>
-                        ))}
-                    </tr>
-                    {/*<tr>*/}
-                    {/*    <th scope="row"></th>*/}
-                    {/*    <td> OPT Request </td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-other">In Progress</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">02</th>*/}
-                    {/*    <td> Course egistration queries </td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-other">In Progress</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">03</th>*/}
-                    {/*    <td> Fall 2021 Fees related queries</td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-other">Submitted</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">04</th>*/}
-                    {/*    <td> OPT Request </td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-completed">Completed</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">05</th>*/}
-                    {/*    <td> Course registration queries</td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-other">Submitted</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">06</th>*/}
-                    {/*    <td> Request to add Java Course for Fall 2021 </td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-completed">Completed</td>*/}
-                    {/*</tr>*/}
+                    {tasks?.map((task, index) => {
+                    return <tr key={index}>
+                            <th scope="row">
+                                {task.department_id}
+                            </th>
+                            <td>
+                                {task.task_title}
+                            </td>
+                            <td>
+                                <span className="badge status_low rounded rectangle" id={getPriorityID(task.task_priority)} value={getPriorityID(task.task_priority)}>{task.task_priority}</span>
+                            </td>
+                            <td className="table-text-other">{task.task_state}</td>
+                        </tr>
+                    })}
                 </tbody>
             </table>
 

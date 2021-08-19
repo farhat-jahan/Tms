@@ -399,18 +399,23 @@ def task_createdby_student(task):
     """
     try:
         # task_type = TaskType(task['taskType'].upper())
+        db_user_st_id = User.query.filter_by(employee_id=task['studentId']).first()
+        print("****-", db_user_st_id)
+        if db_user_st_id is None:
+            raise NoResultFound("Student id not found")
+
         db_dept = Department.query.filter_by(department_name=task['department']).one()
         new_task = Task(task_title=task['title'], department_id=db_dept.id,
                         task_type=task['taskType'], description=task['description'],
-                        originator_id=task['studentId'], task_priority=task['task_priority'],
+                        originator_id=db_user_st_id.id, task_priority=task['task_priority'],
                         task_state='ASSIGNED')
 
         db.session.add(new_task)
         db.session.commit()
-        db_task = Task.query.filter_by(originator_id=task['studentId'])
+        db_task = Task.query.filter_by(originator_id=db_user_st_id.id)
         return new_task
     except NoResultFound as exc:
-        raise NoResultFound("Failed,department not found . Reason {}".format(exc))
+        raise NoResultFound("Failed . Reason {}".format(exc))
     except Exception as exc:
         raise CreateNewItemException("Failed to create new task. Reason {}".format(exc))
 

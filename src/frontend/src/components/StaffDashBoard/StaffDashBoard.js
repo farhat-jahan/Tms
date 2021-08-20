@@ -3,6 +3,7 @@ import './StaffDashBoard.css';
 import { Doughnut } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
 import StaffCalendarimg from './StaffCalendar.svg';
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
 
 class DepartmentOverview extends React.Component {
@@ -45,15 +46,15 @@ const StaffCalendar = () => {
 const StaffNewTask = () => {
 
     // START:ADDED API HERE
-    const [task, setTask] = React.useState(null);
-    React.useEffect(() => {
-    axios.post('http://127.0.0.1:5000/api/v1/staff-task-list',{id:2}).then((response) => {
-      setTask(response.data);
-    });
-  }, []);
-    console.log(task)
+    // const [task, setTask] = React.useState(null);
+    // React.useEffect(() => {
+    // axios.post('http://127.0.0.1:5000/api/v1/staff-task-list',{id:2}).then((response) => {
+    //   setTask(response.data);
+    // });
+    // }, []);
+    //     console.log(task)
 
-  if (!task) return null;
+    // if (!task) return null;
   // END:ADDED API HERE
 
     return(
@@ -78,46 +79,46 @@ const StaffNewTask = () => {
                         <td className="table-text-other">In Progress</td>
                     </tr>
 
-                    {/*<tr>*/}
-                    {/*    <th scope="row">02</th>*/}
-                    {/*    <td> Course egistration queries </td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-other">In Progress</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">03</th>*/}
-                    {/*    <td> Fall 2021 Fees related queries</td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-other">Submitted</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">04</th>*/}
-                    {/*    <td> OPT Request </td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-completed">Completed</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">05</th>*/}
-                    {/*    <td> Course registration queries</td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-other">Submitted</td>*/}
-                    {/*</tr>*/}
-                    {/*<tr>*/}
-                    {/*    <th scope="row">06</th>*/}
-                    {/*    <td> Request to add Java Course for Fall 2021 </td>*/}
-                    {/*    <td>*/}
-                    {/*        <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>*/}
-                    {/*    </td>*/}
-                    {/*    <td className="table-text-completed">Completed</td>*/}
-                    {/*</tr>*/}
+                    <tr>
+                       <th scope="row">02</th>
+                       <td> Course egistration queries </td>
+                       <td>
+                           <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
+                       </td>
+                       <td className="table-text-other">In Progress</td>
+                    </tr>
+                    <tr>
+                       <th scope="row">03</th>
+                       <td> Fall 2021 Fees related queries</td>
+                       <td>
+                           <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>
+                       </td>
+                       <td className="table-text-other">Submitted</td>
+                    </tr>
+                    <tr>
+                       <th scope="row">04</th>
+                       <td> OPT Request </td>
+                       <td>
+                           <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
+                       </td>
+                       <td className="table-text-completed">Completed</td>
+                    </tr>
+                    <tr>
+                       <th scope="row">05</th>
+                       <td> Course registration queries</td>
+                       <td>
+                           <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>
+                       </td>
+                       <td className="table-text-other">Submitted</td>
+                    </tr>
+                    <tr>
+                       <th scope="row">06</th>
+                       <td> Request to add Java Course for Fall 2021 </td>
+                       <td>
+                           <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
+                       </td>
+                       <td className="table-text-completed">Completed</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -152,6 +153,10 @@ const StaffNewTask = () => {
 }
 
 function Tasks(){
+    const history = useHistory();
+    const newTask = () => history.push('/task');
+    const viewAll = () => history.push('/taskdetail');
+
     return(
         <div className="container-fluid Tms-page-bg">
             <br/> <br />
@@ -185,7 +190,8 @@ function Tasks(){
                                             <h4 className="card-title Tms-h5">Recently Updated Tasks</h4>
                                         </div>
                                         <div className="col-md-6">
-                                            <button className="btn view-task-btn view-task-text ">View All</button>
+                                            <button className="btn view-task-btn view-task-text " onClick={newTask}>New Task</button>
+                                            <button className="btn view-task-btn view-task-text " onClick={viewAll}>View All</button>
                                         </div>
                                     </div>
                                     <br/> <br/>

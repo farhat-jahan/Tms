@@ -1,60 +1,49 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./Teams.css";
 import EmailIcon from "./EmailIcon.svg";
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
+import { getToken } from '../Utils/Common';
 
 const DepartmentList = () => {
+    const history = useHistory();
+    const addDepartment = () => history.push('/department');
 
-    // START:ADDED API HERE
-    const [task, setTask] = React.useState(null);
-    React.useEffect(() => {
-    axios.post('http://127.0.0.1:5000/api/v1/teams',{'department':'AdvIsing'}).then((response) => {
-      setTask(response.data);
-    });
-  }, []);
-    console.log(task)
+    let config = {
+        headers : {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    }
+    
+    let [departmentList, setDepartmentList] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/v1/department-list', config).then(response=>{
+            let deptList = response.data;
+            setDepartmentList(deptList); 
+            console.log(departmentList);     
+        });
+    }, []);
 
-  if (!task) return null;
-  // END:ADDED API HERE
-
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+ }
+  const colorCodes = ["border-color-iso", "border-color-admisions", "border-color-reg", "border-color-advising",
+                      "border-color-acc"]
 
     return(
         <div className="card-body">
-            <div className="p-3 mb-3 bg-white rounded border-left-department-list border-color-iso">
-                <div className="text mb-2">
-                    <h6 className="Tms-h6">International Student Office</h6>
-                    <small className="department-side-text float-right">10 USERS</small>
-                </div>
-            </div>
-            <div
-                className="p-3 mb-3 bg-white rounded border-left-department-list border-color-admisions">
-                <div className="text mb-2">
-                    <h6 className="Tms-h6">Admissions</h6>
-                    <small className="department-side-text float-right">15 USERS</small>
-                </div>
-
-            </div>
-            <div
-                className="p-3 mb-3 bg-white rounded border-left-department-list border-color-reg">
-                <div className="text mb-2">
-                    <h6 className="Tms-h6">Registrar</h6>
-                    <small className="department-side-text float-right">8 USERS</small>
-                </div>
-
-            </div>
-            <div
-                className="p-3 mb-3 bg-white rounded border-left-department-list border-color-advising">
-
-                <div className="text mb-2">
-                    <h6 className="Tms-h6">Advising</h6>
-                    <small className="department-side-text float-right">5 USERS</small>
-                </div>
-            </div>
-            <div
-                className="p-3 mb-3 bg-white rounded border-left-department-list border-color-acc">
-                <div className="text mb-2">
-                    <h6 className="Tms-h6">Accounting</h6>
-                    <small className="department-side-text float-right">7 USERS</small>
+            {departmentList?.map((department, index) => {
+                return (
+                <div className={"p-3 mb-3 bg-white rounded border-left-department-list " +  colorCodes[getRandomInt(colorCodes.length)]}>
+                    <div className="text mb-2">
+                <h6 className="Tms-h6">{department["department_name"]}</h6>
+                        <small className="department-side-text float-right">{5 + getRandomInt(20)} USERS</small>
+                    </div>
+                </div>)})}
+            <br/><br/>
+            <div >
+                <div>
+                    <button type="submit" className="btn apply-search-btn apply-serach-text" onClick={() => addDepartment()}>Add Department</button>
                 </div>
             </div>
         </div>
@@ -62,6 +51,8 @@ const DepartmentList = () => {
 }
 
 const UserTabkeSearch = () => {
+    const history = useHistory();
+    const addUser = () => history.push('/user');
     return (
         <div>
             <form className="row g-3">
@@ -90,12 +81,31 @@ const UserTabkeSearch = () => {
             <div className="col-md-3">
                 <button type="submit" className="btn apply-search-btn apply-serach-text">Apply</button>
             </div>
+            <br/><br/><br/>
+            <div className="col-md-3">
+                <button type="submit" className="btn apply-search-btn apply-serach-text" onClick={() => addUser()}>Add User</button>
+            </div>
             </form>
         </div>
     );
 }
 
 const UserTable = () => {
+
+    let config = {
+        headers : {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    }
+    
+    let [userList, setUserList] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/v1/user-list', config).then(response=>{
+            let userList = response.data;
+            console.log(userList);
+            setUserList(userList);    
+        });
+    }, []);
     return(
         <div>
             <table className="table table-hover">
@@ -103,59 +113,20 @@ const UserTable = () => {
                     <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Role</th>
-                    <th scope="col">Department</th>
+                    <th scope="col">Student/Employee</th>
                     <th scope="col">Email</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className="Tms-h6"> Alex Kim </td>
-                        <td className="Tms-para4"> Staff </td>
-                        <td className="Tms-para4"> ISO </td>
+                {userList?.map((user, index) => {
+                return (
+                    <tr key={"user" + index}>
+                        <td className="Tms-h6"> {user["first_name"] + " " + user["last_name"]} </td>
+                        <td className="Tms-para4"> {user["role"]} </td>
+                        <td className="Tms-para4"> {user["user_type"]} </td>
                         <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
                     </tr>
-                    <tr>
-                        <td className="Tms-h6"> Dave Lo </td>
-                        <td className="Tms-para4"> Staff </td>
-                        <td className="Tms-para4"> Admissions </td>
-                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
-                    </tr>
-                    <tr>
-                        <td className="Tms-h6"> David Schaefer </td>
-                        <td className="Tms-para4"> Student </td>
-                        <td className="Tms-para4"> Student </td>
-                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
-                    </tr>
-                    <tr>
-                        <td className="Tms-h6"> Steve Wang </td>
-                        <td className="Tms-para4"> Admin </td>
-                        <td className="Tms-para4"> Registrar </td>
-                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
-                    </tr>
-                    <tr>
-                        <td className="Tms-h6"> Lorraine Pakravan </td>
-                        <td className="Tms-para4"> Student </td>
-                        <td className="Tms-para4"> Student </td>
-                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
-                    </tr>
-                    <tr>
-                        <td className="Tms-h6"> Daniel Kim </td>
-                        <td className="Tms-para4"> Staff </td>
-                        <td className="Tms-para4"> Advising </td>
-                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
-                    </tr>
-                    <tr>
-                        <td className="Tms-h6"> Alex Stone </td>
-                        <td className="Tms-para4"> Student </td>
-                        <td className="Tms-para4"> Student </td>
-                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
-                    </tr>
-                    <tr>
-                        <td className="Tms-h6"> Henry Watson </td>
-                        <td className="Tms-para4"> Staff </td>
-                        <td className="Tms-para4"> Accounting </td>
-                        <td> <img src={EmailIcon} alt="EmailIcon" /> </td>
-                    </tr>
+                )})}
                 </tbody>
             </table>
 
@@ -190,12 +161,15 @@ const UserTable = () => {
 }
 
 function Teams(){
+    const history = useHistory();
+    const adminDashboard = () => history.push('/admintasks');
     return(
         <div className="container-fluid Tms-page-bg">
             <br/> <br />
+            <a href="#" className="card-link text-decoration-none Tms-para4" onClick={adminDashboard}> &lt; Go to Dashboard</a>        
             <div className="row">
                 <div className="col-md-3">
-                    <div className="card team-department-detail">
+                <div className="card team-department-detail">
                         <div className="card-body">
                             <h4 className="card-title Tms-h3">Departments</h4>
                             <br/>

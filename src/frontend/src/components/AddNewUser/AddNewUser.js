@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import './AddNewUser.css';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { getToken } from '../Utils/Common';
 
 function selectForm(sectionType) {
@@ -35,6 +36,9 @@ function selectForm(sectionType) {
 }
 
 function AddNewUser(props) {
+    const history = useHistory();
+    const adminTeams= () => history.push('/teams');
+
     const staffEmail = useFormInput('');
     const staffPassword = useFormInput('');
     const staffFname = useFormInput('');
@@ -87,7 +91,7 @@ function AddNewUser(props) {
                     }
         axios.post('http://localhost:5000/api/v1/register', reqBody, config).then(response => {
             setLoading(false);
-            props.history.push('/admintasks');
+            props.history.push('/teams');
         }).catch(error => {
             setLoading(false);
             if (error.response && error.response.status === 401) setError(error.response.data.message);
@@ -108,7 +112,7 @@ function AddNewUser(props) {
         }
         axios.post('http://localhost:5000/api/v1/register', reqBody, config).then(response => {
             setLoading(false);
-            props.history.push('/admintasks');
+            props.history.push('/teams');
         }).catch(error => {
             setLoading(false);
             if (error.response && error.response.status === 401) setError(error.response.data.message);
@@ -118,13 +122,15 @@ function AddNewUser(props) {
     }
 
 return (
+
     <div className="container-fluid Tms-page-bg">
         <br/>
         <br/>
         <br/>
+        <a href="#" className="card-link text-decoration-none Tms-para4" onClick={adminTeams}> &lt; Back to Teams</a>  
         <div className="row justify-content-center text-center">
             <div className="col-md-6">
-                <div className="card card-main-add-new-user">
+            <div className="card card-main-add-new-user">
                     <div className="card-body">
                         <br/>
                         <div className="card-title"> 

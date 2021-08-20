@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './AddDepartment.css';
-import EmailIcon from '../Teams/EmailIcon.svg'
+import EmailIcon from '../Teams/EmailIcon.svg';
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import { getToken } from '../Utils/Common';
 
@@ -13,22 +14,25 @@ const DepartmentForm = (props) => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const history = useHistory();
+    const adminTeams= () => history.push('/teams');
+
     let config = {
         headers : {
             'Authorization': 'Bearer ' + getToken()
         }
     }
 
-    const createNewDepartment = (event) => {
+    const createNewDepartment = () => {
         let reqBody = { 
             department_name: deptName.value,
             department_email: deptItuEmail.value,
             department_description: deptDescription.value
         }
-        event.preventDefault();
+        //event.preventDefault();
         axios.post('http://localhost:5000/api/v1/create-department', reqBody, config).then(response => {
             setLoading(false);
-            props.history.push('/admintasks');
+            adminTeams();
         }).catch(error => {
             setLoading(false);
             if (error.response && error.response.status === 401) setError(error.response.data.message);
@@ -73,12 +77,12 @@ const DepartmentForm = (props) => {
                     </textarea>
                 </div>
                 {/* {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br /> */}
-                <br /> <br />
-                <button className="btn btn-md green-btn add-btn-text" onClick={createNewDepartment}> Submit </button>
-                <button className="btn btn-md grey-btn add-btn-text"> Save a Draft </button>
+                <br />
                 </fieldset>
             </form>
-        <br /><br/>
+            <button className="btn btn-md green-btn add-btn-text" onClick={createNewDepartment}> Submit </button>
+            <button className="btn btn-md grey-btn add-btn-text"> Save a Draft </button>
+        <br /><br/><br />
         </div>
     );
 }
@@ -89,7 +93,7 @@ const SearchDepartment = () => {
             <form>
                 <fieldset>
                 <div className="form-group row">
-                    <label className="form-label mt-4 form-title-green">ASSIGN STAFF</label>
+                <label className="form-label mt-4 form-title-green">ASSIGN STAFF</label>
                     <div className="col-md-2"></div>
                     <div className="col-md-5">
                         <input className="form-control Tms-input-field search-field" type="text" placeholder="Search staff" aria-label="Search" /> 
@@ -167,13 +171,15 @@ const DepartmentTable = () => {
 }
 
 function AddDepartment() {
+    const history = useHistory();
+    const adminTeams= () => history.push('/teams');
 
     return (
         <div className="container-fluid Tms-page-bg">
             <br/><br/><br/>
             <div className="row">
                 <div className="col col-md-7 offset-md-2">
-                    <a href="#" className="card-link text-decoration-none Tms-para4"> &lt; Back to Teams</a>
+                    <a href="#" className="card-link text-decoration-none Tms-para4" onClick={adminTeams}> &lt; Back to Teams</a>
                     <div className="card department-detail">
                         <div className="card-body">
                             <h4 className="card-title Tms-h4">Create a Department</h4>

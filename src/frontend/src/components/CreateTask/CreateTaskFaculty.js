@@ -2,6 +2,7 @@ import React, {useRef, useState} from "react";
 import { FileDrop } from 'react-file-drop';
 import './CreateTaskBase.css';
 import {Button, Modal} from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
 import ituCongrats from './Congrats.svg';
 //https://www.npmjs.com/package/react-file-drop
 
@@ -200,13 +201,15 @@ const NewTaskForm = () => {
 
 
 function CreateTaskFaculty() {
+    const history = useHistory();
+    const staffDashboard = () => history.push('/staff');
 
     return (
         <div className="container-fluid Tms-page-bg">
             <br/><br/><br/>
             <div className="row">
                 <div className="col col-md-6 offset-md-3">
-                    <a href="#" className="card-link text-decoration-none Tms-para4"> &lt; Back to Listings</a>
+                    <a href="#" className="card-link text-decoration-none Tms-para4" onClick={staffDashboard}> &lt; Back to Listings</a>
                     <div className="card newtask-form">
                         <div className="card-body">
                             <h4 className="card-title Tms-h4">Create a New Task</h4>

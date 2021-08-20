@@ -136,18 +136,19 @@ const TaskTable = () => {
 function Tasks(){
     const history = useHistory();
     const adminTask = () => history.push('/task');
+    const adminTeams = () => history.push('/teams');
 
 
     // START:ADDED API HERE
-    const [task, setTask] = React.useState(null);
-    React.useEffect(() => {
-    axios.get('http://127.0.0.1:5000/api/v1/admin-task-list').then((response) => {
-      setTask(response.data);
-    });
-  }, []);
-    console.log(task)
+    // const [task, setTask] = React.useState(null);
+    // React.useEffect(() => {
+    // axios.get('http://127.0.0.1:5000/api/v1/admin-task-list').then((response) => {
+    //   setTask(response.data);
+    // });
+    // }, []);
+    // console.log(task)
 
-  if (!task) return null;
+    // if (!task) return null;
    // END:ADDED API HERE
 
 
@@ -157,6 +158,7 @@ function Tasks(){
             <br/> <br />
             <div className="row">
                 <div className="col col-md-7 offset-md-2">
+                <a href="#" className="card-link text-decoration-none Tms-para4" onClick={adminTeams}> &lt; Go to teams</a>
                 <div className="card student-task-detail">
                     <div className="card-body">
                         <div className="row">

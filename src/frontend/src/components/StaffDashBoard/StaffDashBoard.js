@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import './StaffDashBoard.css';
 import { Doughnut } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
 import StaffCalendarimg from './StaffCalendar.svg';
 import { useHistory } from 'react-router-dom';
 import axios from "axios";
+import { getToken } from '../Utils/Common';
 
 class DepartmentOverview extends React.Component {
     state = {
@@ -44,25 +45,49 @@ const StaffCalendar = () => {
 }
 
 const StaffNewTask = () => {
+    const history = useHistory();
+    const taskHistory = () => history.push('/taskdetail');
 
-    // START:ADDED API HERE
-    // const [task, setTask] = React.useState(null);
-    // React.useEffect(() => {
-    // axios.post('http://127.0.0.1:5000/api/v1/staff-task-list',{id:2}).then((response) => {
-    //   setTask(response.data);
-    // });
-    // }, []);
-    //     console.log(task)
+    const [staffTasks, setStaffTasks] = useState([]);
 
-    // if (!task) return null;
-  // END:ADDED API HERE
+    const getPriorityID = (task_priority) => {
+        if (task_priority === 'LOW'){
+            return 'low';
+        } else if (task_priority === 'MEDIUM') {
+            return 'meduim';
+        } else if (task_priority === 'HIGH') {
+            return 'high';
+        } else if (task_priority === 'URGENT') {
+            return 'urgent';
+        }
+        return task_priority;
+    }
+
+    let config = {
+        headers : {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    }
+
+    let reqBody = {
+        id: 9
+    }
+
+    useEffect(() => {
+        const url = axios.post('http://localhost:5000/api/v1/student-task-list', reqBody , config).then(res => {
+                let resp = res.data;
+                setStaffTasks(resp);
+                return resp;
+            })
+            .then(setStaffTasks)
+            .catch(console.error)
+    }, []);
 
     return(
         <div>
             <table className="table table-hover">
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Task</th>
                     <th scope="col">Priority</th>
                     <th scope="col">Status</th>
@@ -70,56 +95,19 @@ const StaffNewTask = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {staffTasks?.map((task, index) => {
+                        return <tr key={index}>
+                                <td>
+                                    {task.task_title}
+                                </td>
+                                <td>
+                                    <span className="badge status_low rounded rectangle" id={getPriorityID(task.task_priority)} value={getPriorityID(task.task_priority)}>{task.task_priority}</span>
+                                </td>
+                                <td className="table-text-other">{task.task_state}</td>
+                                <td><i className="fa fa-history" onClick={taskHistory}></i></td>
+                            </tr>
+                        })}
 
-                    <tr>
-                        <th scope="row">01</th>
-                        <td> OPT Request </td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
-                        </td>
-                        <td className="table-text-other">In Progress</td>
-                    </tr>
-
-                    <tr>
-                       <th scope="row">02</th>
-                       <td> Course egistration queries </td>
-                       <td>
-                           <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
-                       </td>
-                       <td className="table-text-other">In Progress</td>
-                    </tr>
-                    <tr>
-                       <th scope="row">03</th>
-                       <td> Fall 2021 Fees related queries</td>
-                       <td>
-                           <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>
-                       </td>
-                       <td className="table-text-other">Submitted</td>
-                    </tr>
-                    <tr>
-                       <th scope="row">04</th>
-                       <td> OPT Request </td>
-                       <td>
-                           <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
-                       </td>
-                       <td className="table-text-completed">Completed</td>
-                    </tr>
-                    <tr>
-                       <th scope="row">05</th>
-                       <td> Course registration queries</td>
-                       <td>
-                           <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>
-                       </td>
-                       <td className="table-text-other">Submitted</td>
-                    </tr>
-                    <tr>
-                       <th scope="row">06</th>
-                       <td> Request to add Java Course for Fall 2021 </td>
-                       <td>
-                           <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
-                       </td>
-                       <td className="table-text-completed">Completed</td>
-                    </tr>
                 </tbody>
             </table>
 

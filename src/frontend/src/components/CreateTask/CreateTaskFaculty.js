@@ -21,7 +21,6 @@ const NewTaskForm = () => {
     const onFileInputChange = (event) => {
         const { files } = event.target;
         console.log(files);
-        // do something with your files...
     }
 
     const onTargetClick = () => {
@@ -61,7 +60,7 @@ const NewTaskForm = () => {
                             taskType: "QUESTION",
                             task_state: "ASSIGNED",
                             task_priority: "MEDIUM",
-                            studentId: 62312
+                            studentId: 12345 //32134-Staff, 12345-Admin
                         }
 
         axios.post('http://localhost:5000/api/v1/create-task-student', reqBody, config).then(response => {

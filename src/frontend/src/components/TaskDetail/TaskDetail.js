@@ -10,7 +10,7 @@ const TaskInfo = () => {
         <div className="d-flex flex-column taskdetail-form">
             <div className="p-2">
                 <p className="card-title taskdetail-title">STATUS</p>
-                <p className="card-subtitle mb-2 taskdetail-subtitle">In progress</p>
+                <p className="card-subtitle mb-2 taskdetail-subtitle">Assigned</p>
             </div> <br />
             <div className="p-2">
                 <p className="card-title taskdetail-title ">DEPARTMENT</p>
@@ -25,7 +25,7 @@ const TaskInfo = () => {
             </div> <br />
             <div className="p-2">
                 <p className="card-title taskdetail-title ">ASSIGNEE</p>
-                <p className="card-subtitle mb-2 taskdetail-subtitle">Farhat Jahan</p>
+                <p className="card-subtitle mb-2 taskdetail-subtitle">John Kim</p>
             </div> <br />
             <div className="p-2">
                 <p className="card-title taskdetail-title ">ATTACHMENTS</p>
@@ -52,7 +52,7 @@ const TaskHistory = () => {
                     <br/>
                     <h4 className="vertical-timeline-element-subtitle">Overview</h4>
                     <p className="task-history-para-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec.
+                        I have applied for the OPT last week. I have not received any response yet. I would like to do a follow-up on the same as I need to apply for the OPT as soon as possible. Let me know if there are any documents are missing from the application. 
                     </p>
                 </VerticalTimelineElement>
 
@@ -66,7 +66,7 @@ const TaskHistory = () => {
                     <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Hinka Patel </span> commented on the task</h3>
                     <br/>
                     <p className="task-history-para-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec.
+                        I also wanted to ask one more question related to OPT. I have few questions related to the process as I am new to it. It would be great if anyone from the ISO team could connect with me and help me out. I am available anytime after 4 pm. Let me know if anything else is needed.
                     </p>
                 </VerticalTimelineElement>
 
@@ -80,7 +80,7 @@ const TaskHistory = () => {
                     <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Farhat Jahan </span> commented on the task</h3>
                     <br/>
                     <p className="task-history-para-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec. Arcu quis consectetur sit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vel quisque tincidunt lacus, augue urna, purus tristique molestie nec.
+                        Thank you Hinka for uploading your documents and provide us all documents as needed. We are still reviewing the documents and waiting for few more documents from the Advisor such as Pre graduation checklist. We will keep update you here and if there is anything else we will let you know. In order to answer your questions related to OPT, you can book an available slot from the calendar, We will be happy to answer those questions.
                     </p>
                 </VerticalTimelineElement>
 
@@ -102,7 +102,7 @@ const TaskHistory = () => {
                     iconStyle={{ background: '#FFB4B4', color: '#fff'}}
                     icon={<div className="icon-text-center">AK</div>}
                 >
-                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Alex Kim </span> changed the project status to <strong> IN PROGRESS </strong> </h3>
+                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Alex Kim </span> changed the project status to <strong> ASSIGNED </strong> </h3>
                     <br/>
                 </VerticalTimelineElement>
 
@@ -113,7 +113,7 @@ const TaskHistory = () => {
                     iconStyle={{ background: '#334c60', color: '#fff'}}
                     icon={<div className="icon-text-center">HP</div>}
                 >
-                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Hinka Patel </span> changed the priority from MEDIUM to <strong> URGENT </strong> </h3>
+                    <h3 className="vertical-timeline-element-title"> <span className="task-title-name-text"> Hinka Patel </span> changed the priority from HIGH to <strong> URGENT </strong> </h3>
                     <br/>
                 </VerticalTimelineElement>
 
@@ -125,7 +125,13 @@ const TaskHistory = () => {
                 >
                     <h3 className="vertical-timeline-element-title"> <strong> Cherri Jeong </strong> </h3>
                     <br/>
-                    <p className="task-history-para-text"> Leave a Comment </p>
+                    <textarea 
+                        className="form-control Tms-input-field Tms-imput-field-text" 
+                        id="comment" 
+                        placeholder="Leave a Comment" 
+                        rows="5" cols="65"
+                    />
+                    <br/>
                     <button className="btn btn-md comment-btn Tms-btn-secondary "> Comment </button>
                 </VerticalTimelineElement>
             </VerticalTimeline>

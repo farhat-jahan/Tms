@@ -136,7 +136,7 @@ const TaskHistory = () => {
 
 function TaskDetail() {
     const history = useHistory();
-    const staffTask = () => history.push('/task');
+    const staffDashboard = () => history.push('/staff');
     return (
         <div className="container-fluid Tms-page-bg">
             <br/>
@@ -144,7 +144,7 @@ function TaskDetail() {
                 <div className="col col-md-7 offset-md-3">
                     <div className="row">
                         <div className="col-md-12">
-                            <a href="#" className="card-link text-decoration-none Tms-para4"> &lt; Back to Listings</a>
+                            <a href="#" className="card-link text-decoration-none Tms-para4" onClick={staffDashboard}> &lt; Back to Listings</a>
                         </div>
                     </div>
 
@@ -161,9 +161,9 @@ function TaskDetail() {
                         <div className="col-md-5">
                             <label className="Tms-para5">Created by Hinka Patel 6 days ago</label>
                         </div>
-                        <div className="col-md-3">
+                        {/* <div className="col-md-3">
                             <button type="submit" className="btn btn-md Tms-btn-primary newtask-submit-btn" onClick={staffTask}>New Task</button>
-                        </div>
+                        </div> */}
                         <div className="col-md-2">
                             <button type="submit" className="btn btn-md newtask-submit-btn Tms-btn-secondary">Edit</button>
                         </div>

@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import './Tasks.css';
 import SearchTask from './SearchTask.svg';
 import CreateTaskBtn from './CreateTaskBtn.svg';
 import { useHistory } from 'react-router-dom';
-import axios from "axios";
+import axios from 'axios';
+import { getToken } from '../Utils/Common';
 
 const TaskTableSearch = () => {
     return (
@@ -40,66 +41,69 @@ const TaskTableSearch = () => {
 }
 
 const TaskTable = () => {
+
+    const [admintask, setAdminTasks] = useState([]);
+
+    const getPriorityID = (task_priority) => {
+        if (task_priority === 'LOW'){
+            return 'low';
+        } else if (task_priority === 'MEDIUM') {
+            return 'meduim';
+        } else if (task_priority === 'HIGH') {
+            return 'high';
+        } else if (task_priority === 'URGENT') {
+            return 'urgent';
+        }
+        return task_priority;
+    }
+
+    let config = {
+        headers : {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    }
+
+    let reqBody = {
+        id: 8
+    }
+
+    useEffect(() => {
+        const url = axios.post('http://localhost:5000/api/v1/student-task-list', reqBody , config).then(res => {
+                let resp = res.data;
+                setAdminTasks(resp);
+                return resp;
+            })
+            .then(setAdminTasks)
+            .catch(console.error)
+    }, []);
+
     return(
         <div>
             <table className="table table-hover">
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
+                    {/* <th scope="col">#</th> */}
                     <th scope="col">Task</th>
                     <th scope="col">Priority</th>
                     <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">01</th>
-                        <td> OPT Request </td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
-                        </td>
-                        <td className="table-text-other">In Progress</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">02</th>
-                        <td> Course egistration queries </td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
-                        </td>
-                        <td className="table-text-other">In Progress</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">03</th>
-                        <td> Fall 2021 Fees related queries</td>
-                        <td>
-                            <span className="badge status_low rounded text rectangle" id="high" value="High">High</span>
-                        </td>
-                        <td className="table-text-other">Submitted</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">04</th>
-                        <td> OPT Request </td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="meduim" value="Medium">Medium</span>
-                        </td>
-                        <td className="table-text-completed">Completed</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">05</th>
-                        <td> Course registration queries</td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="urgent" value="Urgent">Urgent</span>
-                        </td>
-                        <td className="table-text-other">Submitted</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">06</th>
-                        <td> Request to add Java Course for Fall 2021 </td>
-                        <td>
-                            <span className="badge status_low rounded rectangle" id="low" value="Low">Low</span>
-                        </td>
-                        <td className="table-text-completed">Completed</td>
-                    </tr>
+                    {admintask?.map((task, index) => {
+                        return <tr key={index}>
+                                {/* <th scope="row">
+                                    {task.department_id}
+                                </th> */}
+                                <td>
+                                    {task.task_title}
+                                </td>
+                                <td>
+                                    <span className="badge status_low rounded rectangle" id={getPriorityID(task.task_priority)} value={getPriorityID(task.task_priority)}>{task.task_priority}</span>
+                                </td>
+                                <td className="table-text-other">{task.task_state}</td>
+                            </tr>
+                    })}
+                
                 </tbody>
             </table>
 
@@ -137,21 +141,6 @@ function Tasks(){
     const history = useHistory();
     const adminTask = () => history.push('/task');
     const adminTeams = () => history.push('/teams');
-
-
-    // START:ADDED API HERE
-    // const [task, setTask] = React.useState(null);
-    // React.useEffect(() => {
-    // axios.get('http://127.0.0.1:5000/api/v1/admin-task-list').then((response) => {
-    //   setTask(response.data);
-    // });
-    // }, []);
-    // console.log(task)
-
-    // if (!task) return null;
-   // END:ADDED API HERE
-
-
 
     return(
         <div className="container-fluid Tms-page-bg">

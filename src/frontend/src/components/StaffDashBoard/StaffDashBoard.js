@@ -66,6 +66,7 @@ const StaffNewTask = () => {
                     <th scope="col">Task</th>
                     <th scope="col">Priority</th>
                     <th scope="col">Status</th>
+                    <th scope="col">History</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -191,7 +192,7 @@ function Tasks(){
                                         </div>
                                         <div className="col-md-6">
                                             <button className="btn view-task-btn view-task-text " onClick={newTask}>New Task</button>
-                                            <button className="btn view-task-btn view-task-text " onClick={viewAll}>View All</button>
+                                            {/* <button className="btn view-task-btn view-task-text " onClick={viewAll}>View All</button> */}
                                         </div>
                                     </div>
                                     <br/> <br/>

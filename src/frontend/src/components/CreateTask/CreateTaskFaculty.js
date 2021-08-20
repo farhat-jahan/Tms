@@ -1,12 +1,16 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useEffect} from "react";
 import { FileDrop } from 'react-file-drop';
 import './CreateTaskBase.css';
+import axios from 'axios';
 import {Button, Modal} from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
 import ituCongrats from './Congrats.svg';
+import { getToken } from '../Utils/Common';
 //https://www.npmjs.com/package/react-file-drop
 
 const NewTaskForm = () => {
+    const history = useHistory();
+    const staffDashboard = () => history.push('/admintasks');
 
     const [draftState, setDraftState] = useState(false);
 
@@ -24,6 +28,53 @@ const NewTaskForm = () => {
         fileInputRef.current.click()
     }
 
+    const taskTitle = useFormInput('');
+    const departmentSelection = useFormInput('');
+    const taskDescription = useFormInput('');
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [options, setOptions] = useState(null);
+
+    let config = {
+        headers : {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/v1/department-list', config).then(response=>{
+        setOptions(response.data);      
+    })
+    }, []);
+
+    const createTask = () => {
+        let config = {
+            headers : {
+                'Authorization': 'Bearer ' + getToken()
+            }
+        }
+
+        const reqBody = {
+                            title: taskTitle.value,
+                            department: "ADMISSIONS",
+                            description :taskDescription.value,
+                            taskType: "QUESTION",
+                            task_state: "ASSIGNED",
+                            task_priority: "MEDIUM",
+                            studentId: 62312
+                        }
+
+        axios.post('http://localhost:5000/api/v1/create-task-student', reqBody, config).then(response => {
+            setLoading(false);
+            setSubmitState(!submitState);
+        }).catch(error => {
+            setLoading(false);
+            if (error.response && error.response.status === 401) setError(error.response.data.message);
+            else if (error.response && error.response.status === 500) setError(error.message);
+            else setError("Something went wrong. Please try again later.");
+        });
+    }
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -32,24 +83,31 @@ const NewTaskForm = () => {
                         <fieldset>
                             <div className="form-group">
                                 <label htmlFor="newtask-title" className="form-label mt-4 Tms-input-label">TITLE</label>
-                                <input type="text" className="form-control Tms-input-field Tms-imput-field-text" id="newtask-title" placeholder="Type something"/>
+                                <input 
+                                    {...taskTitle}
+                                    type="text" 
+                                    className="form-control Tms-input-field Tms-imput-field-text" 
+                                    id="newtask-title" 
+                                    placeholder="Type something"
+                                />
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="inquiry-title" className="form-label mt-4 Tms-input-label">TYPE</label>
-                                <select className="form-control Tms-input-field" id="departmentselection">
-                                    <option>Select</option>
-                                    <option>Question</option>
-                                    <option>Incident</option>
-                                    <option>Problem</option>
-                                    <option>Feature Request</option>
-                                    <option>Refund</option>
-                                </select>
+                                <select {...departmentSelection} className="form-control Tms-input-field" id="departmentSelection">
+                                {options?.map(({ id, department_name }, index) => <option value={id} >{department_name}</option>)}
+                            </select>
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="newtask-description" className="form-label mt-4 Tms-input-label">DESCRIPTION</label>
-                                <textarea className="form-control Tms-input-field Tms-imput-field-text" id="newtask-description" placeholder="Type something" rows="10"/>
+                                <textarea 
+                                    {...taskDescription}
+                                    className="form-control Tms-input-field Tms-imput-field-text" 
+                                    id="newtask-description" 
+                                    placeholder="Type something" 
+                                    rows="10"
+                                />
                             </div>
                             
                             <div className="form-group">
@@ -160,7 +218,7 @@ const NewTaskForm = () => {
             <div className="row">
                 <div className="col col-md-12">
                     <div className="form-group">
-                    <Button className="btn btn-md Tms-btn-primary inquiry-submit-btn trigger" onClick={() => setSubmitState(!submitState)}> Submit </Button>
+                    <Button className="btn btn-md Tms-btn-primary inquiry-submit-btn trigger" onClick={() => createTask()}> Submit </Button>
                     <Modal dialogClassName="my-modal" show={submitState}>
                         <Modal.Body className="justify-content-center">
                             <br/><br/>
@@ -171,7 +229,7 @@ const NewTaskForm = () => {
                         </Modal.Body>
                         <Modal.Footer className="custom-modal-footer">
                             <div class="align-self-center mx-auto">
-                                <Button className="btn btn-md Tms-btn-primary" onClick={() => setSubmitState(false)}>Go to Dashboard</Button>
+                                <Button className="btn btn-md Tms-btn-primary" onClick={() => staffDashboard()} >Go to Dashboard</Button>
                             </div>
                         </Modal.Footer>
                         <br/><br/>
@@ -222,6 +280,18 @@ function CreateTaskFaculty() {
             
         </div>
     );
+}
+
+const useFormInput = initialValue => {
+    const [value, setValue] = useState(initialValue);
+   
+    const handleChange = e => {
+      setValue(e.target.value);
+    }
+    return {
+      value,
+      onChange: handleChange
+    }
 }
 
 export default CreateTaskFaculty;
